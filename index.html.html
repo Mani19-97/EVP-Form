@@ -1,0 +1,2882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Altudo · EVP Check-In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Mulish', -apple-system, BlinkMacSystemFont, sans-serif;
+    --bg: #f5f1e8;
+    --cream: #fbf8f1;
+    --surface: #ffffff;
+    --ink: #1e2a3a;
+    --ink-soft: #4a5363;
+    --ink-faint: #8a8f99;
+    --line: #e8e1d4;
+    --accent: #3b6e58;
+    --accent-tint: #e6efe9;
+    --accent-line: #c4d8c9;
+    --ok: #5a8a5e; --ok-ink: #3a6b3e; --ok-tint: #ecf2ec; --ok-line: #cbdccc;
+    --warn: #c08a3e; --warn-ink: #8a6020; --warn-tint: #f6eddd;
+    --flag: #b8623f; --flag-line: #e6c4b4; --flag-tint: #f8ebe4;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); font-family: var(--body); color: var(--ink-soft); }
+  button { font-family: var(--body); cursor: pointer; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  .hidden { display: none !important; }
+
+  /* shared header */
+  .pub-header { display: flex; align-items: center; justify-content: space-between;
+    padding: 20px clamp(20px, 5vw, 48px); border-bottom: 1px solid var(--line); background: var(--surface); }
+  .brand { display: flex; gap: 11px; align-items: center; }
+  .brand-mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent);
+    color: #fff; display: grid; place-items: center; }
+  .brand-name { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--ink); }
+  .brand-sub { font-size: 11.5px; color: var(--ink-faint); }
+  .pub-greet { font-size: 13px; color: var(--ink-faint); }
+  .link-btn { display: inline-flex; align-items: center; gap: 5px; background: transparent;
+    border: none; color: var(--ink-soft); font-size: 13.5px; padding: 4px; }
+
+  /* PUBLIC FLOW */
+  .pub-main { max-width: 720px; margin: 0 auto; padding: clamp(36px, 7vw, 72px) clamp(20px, 5vw, 36px) 80px; }
+  .eyebrow { font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 14px; }
+  .hero { font-family: var(--display); font-size: clamp(34px, 6vw, 52px); color: var(--ink);
+    margin: 0 0 18px; letter-spacing: -0.025em; line-height: 1.04; font-weight: 600; }
+  .hero-lede { font-size: 17px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 36px; max-width: 560px; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 9px; padding: 16px 28px;
+    border-radius: 99px; border: none; background: var(--ink); color: var(--cream);
+    font-size: 15px; font-weight: 600; box-shadow: 0 8px 24px rgba(30,42,58,.18); }
+  .pub-footer { font-size: 13px; color: var(--ink-faint); margin-top: 16px; }
+
+  .what-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px; margin: 0 0 36px; }
+  .what-card { display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    padding: 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+  .what-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--accent-tint);
+    color: var(--accent); display: grid; place-items: center; }
+  .what-label { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+
+  .how-card { padding: 24px; border-radius: 16px; background: var(--surface);
+    border: 1px solid var(--line); margin-bottom: 24px; }
+  .how-title { font-family: var(--display); font-size: 18px; color: var(--ink); margin-bottom: 16px; font-weight: 600; }
+  .how-step { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+  .how-step:last-child { margin-bottom: 0; }
+  .how-num { width: 26px; height: 26px; border-radius: 99px; background: var(--accent-tint);
+    color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .how-step-title { font-weight: 600; color: var(--ink); font-size: 14.5px; margin-bottom: 2px; }
+  .how-step-desc { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+
+  .privacy-note { display: flex; align-items: flex-start; gap: 9px; padding: 12px 14px;
+    border-radius: 10px; background: var(--accent-tint); color: var(--accent);
+    font-size: 12.5px; margin-bottom: 28px; line-height: 1.5; }
+
+  .already-sub { display: flex; gap: 13px; padding: 18px; border-radius: 14px;
+    background: var(--ok-tint); border: 1px solid var(--ok-line); margin-bottom: 16px; align-items: flex-start; }
+  .already-sub-title { font-weight: 600; color: var(--ok-ink); margin-bottom: 3px; font-size: 14.5px; }
+  .already-sub-text { font-size: 13px; color: var(--ok-ink); opacity: 0.85; }
+
+  /* INTRO BLOCKS (Phase 1) */
+  .intro-blocks { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .intro-block { padding: 20px 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .intro-block-head { display: flex; gap: 11px; align-items: center; margin-bottom: 8px; }
+  .intro-block-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--accent-tint);
+    color: var(--accent); display: grid; place-items: center; }
+  .intro-block-heading { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); }
+  .intro-block-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; white-space: pre-wrap; }
+
+  /* SURVEY */
+  .survey-main { max-width: 760px; margin: 0 auto; padding: clamp(28px, 5vw, 52px) clamp(20px, 5vw, 36px) 80px; }
+  .survey-top-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .survey-top-name { color: var(--ink); font-weight: 600; }
+  .survey-top-divider { color: var(--ink-faint); }
+  .survey-top-progress { color: var(--accent); font-weight: 600; }
+  .survey-title { font-family: var(--display); font-size: clamp(28px, 4.5vw, 38px);
+    color: var(--ink); margin: 0 0 12px; letter-spacing: -0.02em; font-weight: 600; }
+  .survey-lede { font-size: 14.5px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 36px; }
+  .param-stack { display: flex; flex-direction: column; gap: 28px; }
+  .param-block { padding: 26px; border-radius: 16px; background: var(--surface);
+    border: 1px solid var(--line); transition: border-color .2s; }
+  .param-block.flag { border-color: var(--flag-line); }
+  .param-head { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 22px; }
+  .param-num { font-family: var(--display); font-size: 13px; color: var(--ink-faint); font-weight: 600; }
+  .param-icon-box { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-tint);
+    color: var(--accent); display: grid; place-items: center; flex-shrink: 0; }
+  .param-icon-box.sm { width: 30px; height: 30px; border-radius: 8px; }
+  .param-title { font-family: var(--display); font-size: 22px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .param-sub { font-size: 13.5px; color: var(--ink-faint); margin-top: 3px; }
+
+  .question-block { margin-bottom: 20px; }
+  .question-block:last-child { margin-bottom: 0; }
+  .question-label { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .question-sub { font-size: 12.5px; color: var(--ink-faint); margin-bottom: 11px; }
+  .muted { color: var(--ink-faint); font-weight: 400; }
+  .req-inline { display: inline-flex; align-items: center; gap: 5px; color: var(--flag); font-weight: 600; }
+
+  .rank-row { display: flex; gap: 8px; }
+  .rank-btn { flex: 1; height: 42px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink-soft); font-weight: 600; font-size: 15px;
+    transition: all .15s; }
+  .rank-btn.sel { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .rank-btn.taken { opacity: 0.32; cursor: not-allowed; }
+
+  .sat-row { display: flex; gap: 5px; }
+  .sat-btn { flex: 1; height: 38px; border-radius: 9px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink-soft); font-weight: 600; font-size: 13px; }
+  .sat-btn.low-sel { background: var(--flag); color: #fff; border-color: var(--flag); }
+  .sat-btn.high-sel { background: var(--ok); color: #fff; border-color: var(--ok); }
+
+  .ta { width: 100%; min-height: 72px; border-radius: 10px; border: 1px solid var(--line);
+    padding: 11px 13px; font-family: var(--body); font-size: 14px; color: var(--ink);
+    resize: vertical; background: var(--surface); line-height: 1.5; }
+  .ta.req { border-color: var(--flag-line); background: var(--flag-tint); }
+
+  .err-box { padding: 14px 16px; border-radius: 12px; background: var(--flag-tint);
+    border: 1px solid var(--flag-line); margin-bottom: 28px; }
+  .err-head { display: flex; align-items: center; gap: 7px; color: var(--flag);
+    font-weight: 600; font-size: 13.5px; margin-bottom: 7px; }
+  .err-list { margin: 0; padding-left: 22px; font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+  .survey-foot { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); text-align: center; }
+  .btn-primary-lg { display: inline-flex; align-items: center; gap: 9px; padding: 15px 32px;
+    border-radius: 99px; border: none; background: var(--ink); color: var(--cream);
+    font-size: 15px; font-weight: 600; box-shadow: 0 8px 24px rgba(30,42,58,.18); }
+  .survey-foot-note { font-size: 12.5px; color: var(--ink-faint); margin-top: 10px; }
+
+  /* THANKS */
+  .thanks-check { width: 64px; height: 64px; border-radius: 99px; background: var(--ok-tint);
+    display: grid; place-items: center; margin-bottom: 24px; }
+  .summary-box { padding: 24px; border-radius: 16px; background: var(--surface);
+    border: 1px solid var(--line); margin-bottom: 24px; }
+  .summary-title { font-family: var(--display); font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 16px; }
+  .summary-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .summary-left { display: flex; align-items: center; gap: 11px; flex: 1; }
+  .summary-rank { font-family: var(--display); font-size: 13px; color: var(--ink-faint); font-weight: 600; min-width: 22px; }
+  .summary-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .summary-right { display: flex; align-items: center; gap: 10px; flex: 1; }
+  .summary-bar { flex: 1; height: 6px; background: var(--bg); border-radius: 99px; overflow: hidden; }
+  .summary-bar-fill { height: 100%; border-radius: 99px; }
+  .summary-num { font-size: 12.5px; font-weight: 600; color: var(--ink-soft); min-width: 38px; text-align: right; }
+
+  /* ADMIN */
+  .admin-shell { min-height: 100vh; background: var(--bg); }
+  .admin-header { display: flex; align-items: center; justify-content: space-between;
+    padding: 14px clamp(20px, 4vw, 36px); border-bottom: 1px solid var(--line);
+    background: var(--surface); position: sticky; top: 0; z-index: 5; flex-wrap: wrap; gap: 16px; }
+  .admin-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px;
+    border-radius: 9px; border: none; background: transparent; color: var(--ink-soft);
+    font-weight: 600; font-size: 13.5px; }
+  .nav-btn.active { background: var(--ink); color: var(--cream); }
+  .nav-badge { font-size: 11px; padding: 2px 7px; border-radius: 99px; background: var(--bg);
+    margin-left: 4px; font-weight: 700; }
+  .nav-btn.active .nav-badge { background: rgba(251,248,241,.18); color: var(--cream); }
+
+  .admin-main { max-width: 1180px; margin: 0 auto; padding: clamp(24px, 4vw, 40px); }
+  .page-head { margin-bottom: 26px; }
+  .page-title { font-family: var(--display); font-size: 30px; color: var(--ink);
+    margin: 0 0 6px; letter-spacing: -0.02em; font-weight: 600; }
+  .page-desc { font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px; margin-bottom: 22px; }
+  .kpi { padding: 20px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .kpi-icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; margin-bottom: 14px; }
+  .kpi-label { font-size: 12px; color: var(--ink-faint); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .kpi-value { font-family: var(--display); font-size: 30px; color: var(--ink);
+    font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .kpi-sub { font-size: 12.5px; color: var(--ink-faint); margin-top: 8px; }
+
+  .dash-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 22px; }
+  @media (max-width: 760px) { .dash-grid { grid-template-columns: 1fr; } }
+  .chart-card { padding: 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-head { margin-bottom: 14px; }
+  .chart-title { font-family: var(--display); font-size: 16px; color: var(--ink); font-weight: 600; }
+  .chart-sub { font-size: 12.5px; color: var(--ink-faint); margin-top: 3px; }
+
+  /* sat bars chart */
+  .sat-chart { display: flex; flex-direction: column; gap: 10px; }
+  .sat-chart-row { display: grid; grid-template-columns: 110px 1fr 50px; gap: 12px; align-items: center; }
+  .sat-chart-label { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+  .sat-chart-track { height: 22px; background: var(--bg); border-radius: 6px; overflow: hidden; position: relative; }
+  .sat-chart-fill { height: 100%; border-radius: 6px; transition: width .5s; }
+  .sat-chart-value { font-size: 13px; font-weight: 700; color: var(--ink); text-align: right; }
+
+  .concern-chart { display: flex; align-items: flex-end; gap: 12px; height: 200px; padding-top: 20px; }
+  .concern-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; }
+  .concern-bar-value { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .concern-bar { width: 100%; max-width: 50px; background: var(--flag); border-radius: 6px 6px 0 0;
+    margin-top: auto; min-height: 4px; transition: height .5s; }
+  .concern-bar-label { font-size: 11px; color: var(--ink-soft); text-align: center; line-height: 1.3; }
+
+  .status-pie-wrap { display: flex; align-items: center; gap: 24px; padding: 12px 0; flex-wrap: wrap; justify-content: center; }
+  .pie-svg { width: 140px; height: 140px; }
+  .pie-legend { display: flex; flex-direction: column; gap: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 99px; }
+  .legend-label { font-size: 13px; color: var(--ink-soft); }
+  .legend-value { font-size: 14px; font-weight: 700; color: var(--ink); margin-left: 6px; }
+
+  .section { padding: 22px; border-radius: 14px; background: var(--surface);
+    border: 1px solid var(--line); margin-bottom: 18px; }
+  .section-head { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
+  .h3 { font-family: var(--display); font-size: 17px; color: var(--ink); margin: 0; font-weight: 600; }
+
+  .attention-row { display: flex; align-items: center; gap: 14px; padding: 13px 14px;
+    border-radius: 11px; border: 1px solid var(--line); background: var(--surface);
+    width: 100%; margin-bottom: 8px; text-align: left; }
+  .attention-name { font-weight: 600; color: var(--ink); font-size: 14.5px; }
+  .attention-sub { font-size: 12.5px; color: var(--ink-faint); margin-top: 2px; }
+  .attention-tags { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  /* table */
+  .table { display: flex; flex-direction: column; }
+  .trow { display: flex; align-items: center; gap: 12px; padding: 13px 12px;
+    border-bottom: 1px solid var(--line); border-left: none; border-right: none; border-top: none;
+    background: transparent; font-size: 13.5px; text-align: left; width: 100%; }
+  .thead { font-size: 11.5px; font-weight: 700; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    border-bottom: 1.5px solid var(--line); cursor: default; }
+  .row-name { font-weight: 600; color: var(--ink); font-size: 14px; }
+  .row-sub { font-size: 12.5px; color: var(--ink-faint); margin-top: 2px; }
+
+  .tag-flag, .tag-warn, .tag-ok, .tag-mute, .task-badge {
+    display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px;
+    border-radius: 99px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .tag-flag { background: var(--flag-tint); color: var(--flag); }
+  .tag-warn { background: var(--warn-tint); color: var(--warn-ink); }
+  .tag-ok { background: var(--ok-tint); color: var(--ok-ink); }
+  .tag-mute { background: var(--bg); color: var(--ink-faint); border: 1px solid var(--line); }
+
+  /* detail */
+  .detail-list { display: flex; flex-direction: column; gap: 12px; }
+  .detail-item { display: grid; grid-template-columns: 1.2fr 1fr 2fr; gap: 18px;
+    align-items: center; padding: 18px; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--surface); }
+  .detail-item.flag { border-color: var(--flag-line); }
+  @media (max-width: 760px) { .detail-item { grid-template-columns: 1fr; } }
+  .detail-left { display: flex; align-items: center; gap: 11px; }
+  .detail-rank { font-family: var(--display); font-size: 14px; color: var(--ink-faint); font-weight: 600; min-width: 22px; }
+  .detail-name { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+  .detail-flag-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px;
+    color: var(--flag); font-weight: 600; margin-top: 2px; }
+  .detail-mid { display: flex; align-items: center; gap: 10px; }
+  .detail-right { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .detail-comment { font-size: 13px; color: var(--ink-soft); font-style: italic; line-height: 1.5; }
+
+  .btn-tag-sm { display: inline-flex; align-items: center; gap: 5px; padding: 6px 11px;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--accent); font-size: 12px; font-weight: 600; }
+  .btn-ghost-sm { display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--ink-soft); font-size: 12.5px; font-weight: 600; }
+  .btn-primary-sm { display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px;
+    border-radius: 8px; border: none; background: var(--ink); color: var(--cream);
+    font-size: 12.5px; font-weight: 600; }
+  .btn-primary-sm:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-icon { width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--flag); display: grid; place-items: center; }
+
+  /* tag form */
+  .tag-form { width: 100%; padding: 12px; border-radius: 10px;
+    background: var(--bg); border: 1px solid var(--line); }
+  .tag-form-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 8px; }
+  .tag-input { padding: 8px 11px; border-radius: 8px; border: 1px solid var(--line);
+    font-family: var(--body); font-size: 13px; color: var(--ink); background: var(--surface); }
+  .tag-textarea { width: 100%; min-height: 60px; padding: 8px 11px; border-radius: 8px;
+    border: 1px solid var(--line); font-family: var(--body); font-size: 13px;
+    color: var(--ink); background: var(--surface); resize: vertical; margin-bottom: 8px; }
+  .tag-form-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+  /* tasks */
+  .filter-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .filter-btn { padding: 8px 14px; border-radius: 99px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink-soft); font-size: 13px; font-weight: 600; }
+  .filter-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  .task-list { display: flex; flex-direction: column; gap: 12px; }
+  .task-card { padding: 18px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+  .task-top { display: flex; align-items: center; gap: 11px; margin-bottom: 14px; }
+  .task-title { font-weight: 600; color: var(--ink); font-size: 14.5px; }
+  .task-meta { font-size: 12.5px; color: var(--ink-faint); margin-top: 2px; }
+  .task-blocks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+  .task-block { padding: 10px 12px; border-radius: 9px; background: var(--bg); }
+  .task-block-label { font-size: 11px; font-weight: 700; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .task-block-text { font-size: 13.5px; color: var(--ink); line-height: 1.5; white-space: pre-wrap; }
+  .close-box { margin-top: 4px; }
+  .waiting-note { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--ink-faint); }
+
+  .empty { padding: 32px; text-align: center; color: var(--ink-faint); font-size: 13.5px; }
+
+  /* people */
+  .add-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) auto;
+    gap: 9px; align-items: center; }
+  .input { padding: 9px 12px; border-radius: 8px; border: 1px solid var(--line);
+    font-family: var(--body); font-size: 13.5px; color: var(--ink); background: var(--surface); }
+
+  /* toast */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 8px; background: var(--ink); color: var(--cream);
+    padding: 11px 20px; border-radius: 99px; font-size: 13.5px; font-weight: 500;
+    box-shadow: 0 12px 36px rgba(30,42,58,.28); z-index: 50;
+    animation: toast-in .25s ease; }
+  @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+  /* icons (inline SVG via mask trick wouldn't work; we'll use unicode + small SVGs inline) */
+  .icon { display: inline-flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast-container"></div>
+
+<script>
+/* ===================== SVG ICONS ===================== */
+const ICONS = {
+  briefcase: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+  graduation: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>',
+  users: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  heart: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+  award: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
+  target: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+  sparkles: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg>',
+  arrow_right: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+  chevron_left: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
+  check: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 11 12 14 17 9"/></svg>',
+  check_lg: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 11 12 14 17 9"/></svg>',
+  send: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',
+  warn: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  clock: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  chart: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+  inbox: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
+  user_cog: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><circle cx="19" cy="11" r="2"/></svg>',
+  user_check: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>',
+  file: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+  tag: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
+  trash: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  rotate: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>',
+  plus: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  trending: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+  lock: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+  x: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  message: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  bulb: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c0 1.3 1 2.3 2 2.3h4c1 0 2-1 2-2.3A7 7 0 0 0 12 2z"/></svg>',
+  layers: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+  smile: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>',
+  shield: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  edit: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  save: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>',
+};
+
+/* ===================== DATA ===================== */
+const PARAMS = [
+  { key: "career",   label: "Career",         icon: "briefcase",  desc: "Your path, level, and promotion opportunities" },
+  { key: "learning", label: "Learning",       icon: "graduation", desc: "Your opportunities for training and developmental feedback" },
+  { key: "people",   label: "People",         icon: "users",      desc: "The Altudo people you work with — leaders, peers and reportees" },
+  { key: "culture",  label: "Culture",        icon: "heart",      desc: "The culture and core values of Altudo and the environment they create" },
+  { key: "rewards",  label: "Rewards",        icon: "award",      desc: "Your rewards — pay, benefits and other forms of recognition" },
+  { key: "work",     label: "Clients & Work", icon: "target",     desc: "The work you do, its demands on you and its fit with you" },
+];
+
+const STORE_KEY = "evp_app_html_v3";
+const DAY = 86400000;
+
+/* ===================== EDITABLE CONTENT (Phase 1) ===================== */
+/* All employee-facing text the admin can edit lives here. State.content holds
+   the live copy; defaultContent() provides initial values & restore option. */
+function defaultContent() {
+  return {
+    intro: {
+      eyebrow: "Employee Value Proposition · 6-month check-in",
+      title: "Welcome to your EVP Check-In",
+      lede: "Twice a year, we ask every Altudean six questions about working here. Your answers shape how we improve.",
+      blocks: [
+        { id: "b_what",   icon: "bulb",    heading: "What is EVP?",                body: "EVP — Employee Value Proposition — is the package of experiences, rewards and culture you receive in exchange for your work. The six elements of our EVP are Career, Learning, People, Culture, Rewards and Clients & Work." },
+        { id: "b_purpose",icon: "target",  heading: "The purpose of this form",    body: "This check-in gives us an honest read on where we stand against each EVP element, and where we need to act. It is not a performance review — it is feedback from you to us." },
+        { id: "b_why",    icon: "chart",   heading: "Why we collect this feedback",body: "We can't improve what we don't measure. Aggregated results show leadership which areas to invest in; flagged concerns trigger direct follow-up so things get fixed, not filed." },
+        { id: "b_use",    icon: "layers",  heading: "How your inputs are used",    body: "People Operations reviews every response confidentially. Where you flag something important and below-par, we open a follow-up — directly or through your mentor — and close the loop with you." },
+        { id: "b_inforyou",icon:"smile",   heading: "What's in it for you",        body: "Direct influence on the changes we make to policies, programs and the day-to-day. Your individual responses are confidential — your manager does not see them unless you ask us to share." },
+        { id: "b_promise",icon: "shield",  heading: "Our promise",                 body: "We commit to treating your input with care, acting on it where we can, and being honest where we can't — all of which helps make Altudo a better place to work." },
+      ],
+      footerNote: "Takes about 5 minutes",
+      privacyNote: "Your responses are visible only to you and the People Operations team. They are not shared with your manager unless you ask us to.",
+      ctaLabel: "Let's start the survey",
+    },
+    survey: {
+      sectionTitle: "How are we doing — by you?",
+      sectionDescription: "For each element below: rank importance (1 = most), score satisfaction (1–10), and add a comment if you'd like. A comment becomes required when something is important to you (rank 1–4) and satisfaction is 6 or below.",
+      blocks: [],
+    },
+    identify: {
+      eyebrow: "Step 1 of 2 · Identify yourself",
+      title: "Tell us who you are.",
+      lede: "Your email is your unique identifier — we use it to recognise repeat submissions and to link any follow-up back to you.",
+      emailLabel: "Work email",
+      emailHelp: "e.g. firstname.lastname@altudo.co — used as your unique identifier.",
+      emailPlaceholder: "your.name@altudo.co",
+      nameLabel: "Full name",
+      namePlaceholder: "Your full name",
+      roleLabel: "Role / title",
+      rolePlaceholder: "e.g. Senior Consultant",
+      privacyNote: "Your responses are visible only to you and the People Operations team.",
+      ctaLabel: "Continue to the survey",
+      blocks: [],
+    },
+    thanks: {
+      title: "Thank you", // followed by ", <firstname>."
+      lede: "Your check-in is in. People Ops will review it confidentially. Where you've flagged something important and below-par, we may follow up — directly or through your mentor.",
+      privacyNote: "What you see here is your private view. Mentor or People Ops follow-ups, if any, are not shown to you here.",
+      blocks: [],
+    },
+    admin: {
+      // Password required to access the admin panel via #admin URL.
+      // Editable from the Form Editor (only affects this browser's saved state).
+      password: "altudo-evp",
+    }
+  };
+}
+
+/* ===================== STATE: URL PARAMS & IDENTITY ===================== */
+function readEmpIdFromUrl() {
+  try {
+    const url = new URL(window.location.href);
+    return url.searchParams.get("empId") || url.searchParams.get("empid") || null;
+  } catch { return null; }
+}
+function readEmailFromUrl() {
+  try {
+    const url = new URL(window.location.href);
+    return url.searchParams.get("email") || null;
+  } catch { return null; }
+}
+function findPersonByEmpId(empId) {
+  if (!empId) return null;
+  const target = String(empId).trim().toLowerCase();
+  return state.people.find(p => (p.empId || "").toLowerCase() === target) || null;
+}
+function normalizeEmail(e) { return (e || "").trim().toLowerCase(); }
+function isValidEmail(e) {
+  // Lenient real-world check: contains @, a dot in the domain, no whitespace
+  if (!e) return false;
+  const s = String(e).trim();
+  if (/\s/.test(s)) return false;
+  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s);
+}
+function findPersonByEmail(email) {
+  const n = normalizeEmail(email);
+  if (!n) return null;
+  return state.people.find(p => normalizeEmail(p.email) === n) || null;
+}
+// Extract a sensible first name from an email like "ankur.sharma@company.com" -> "Ankur"
+function nameFromEmail(email) {
+  if (!email) return "";
+  const local = String(email).split("@")[0] || "";
+  const first = local.split(/[._\-+0-9]/)[0] || local;
+  if (!first) return "";
+  return first.charAt(0).toUpperCase() + first.slice(1).toLowerCase();
+}
+
+function seedState() {
+  const now = Date.now();
+  const sub1 = {
+    id: "s1", personId: "p1", submittedAt: now - 3*DAY,
+    ranks:    { career:1, learning:2, rewards:3, work:4, people:5, culture:6 },
+    sat:      { career:4, learning:7, rewards:5, work:8, people:9, culture:8 },
+    comments: {
+      career:   "I've been at this level for two years without a clear sense of what the next step looks like.",
+      rewards:  "The last revision felt below market for my role; would like clarity on band positioning.",
+      work:     "The work is genuinely engaging — clients are demanding in a good way.",
+    },
+  };
+  const sub2 = {
+    id: "s2", personId: "p2", submittedAt: now - 8*DAY,
+    ranks:    { learning:1, work:2, people:3, career:4, culture:5, rewards:6 },
+    sat:      { learning:9, work:8, people:8, career:7, culture:7, rewards:6 },
+    comments: { learning: "The LMS access has been excellent this cycle." },
+  };
+  const sub3 = {
+    id: "s3", personId: "p5", submittedAt: now - 12*DAY,
+    ranks:    { work:1, people:2, learning:3, career:4, rewards:5, culture:6 },
+    sat:      { work:5, people:6, learning:7, career:3, rewards:7, culture:8 },
+    comments: {
+      work:     "Project complexity is good but scope creep has been a strain.",
+      people:   "Some friction with a cross-functional team — would help to clarify ownership.",
+      career:   "Lateral move opportunity isn't visible from my position.",
+    },
+  };
+  return {
+    people: [
+      { id: "p1", name: "Aarav Mehta",   role: "Senior Consultant", mentor: "Priya Nair",   email: "aarav.mehta@altudo.co",  cycleStart: now - 40*DAY },
+      { id: "p2", name: "Diya Sharma",   role: "Manager",           mentor: "Rohan Kapoor", email: "diya.sharma@altudo.co",   cycleStart: now - 30*DAY },
+      { id: "p3", name: "Kabir Singh",   role: "Architect",         mentor: "Priya Nair",   email: "kabir.singh@altudo.co",  cycleStart: now - 14*DAY },
+      { id: "p4", name: "Maya Iyer",     role: "Tech Lead",         mentor: "Sanjay Verma", email: "maya.iyer@altudo.co",   cycleStart: now - 7*DAY  },
+      { id: "p5", name: "Vikram Patel",  role: "Director",          mentor: "Anita Rao",    email: "vikram.patel@altudo.co", cycleStart: now - 20*DAY },
+    ],
+    submissions: [sub1, sub2, sub3],
+    tasks: [
+      { id: "t1", submissionId: "s1", personId: "p1", paramKey: "career",
+        originalComment: sub1.comments.career,
+        taggedTo: "Priya Nair", taggedToRole: "Mentor",
+        adminNote: "Aarav needs a clear roadmap for the next promotion. Please walk him through the framework and timeline.",
+        status: "tagged", taggedAt: now - 2*DAY, response: "", completedAt: null, adminCloseComment: "" },
+      { id: "t2", submissionId: "s3", personId: "p5", paramKey: "people",
+        originalComment: sub3.comments.people,
+        taggedTo: "Anita Rao", taggedToRole: "Mentor",
+        adminNote: "Cross-team friction — could you mediate?",
+        status: "responded", taggedAt: now - 6*DAY, respondedAt: now - 1*DAY,
+        response: "Spoke with Vikram and the other team's lead. Aligned on a shared roles doc; will review in 2 weeks.",
+        completedAt: null, adminCloseComment: "" },
+      { id: "t3", submissionId: "s1", personId: "p1", paramKey: "rewards",
+        originalComment: sub1.comments.rewards,
+        taggedTo: "Neha Desai", taggedToRole: "Compensation Lead",
+        adminNote: "Please share band positioning for senior consultant role.",
+        status: "completed", taggedAt: now - 2*DAY, respondedAt: now - 1*DAY,
+        response: "Shared comp band document and a 1:1 walkthrough is scheduled.",
+        completedAt: now - 12*60*60*1000,
+        adminCloseComment: "Closed — Aarav got the band positioning document and 1:1 walkthrough scheduled." },
+    ],
+    content: defaultContent(),
+  };
+}
+
+/* ===================== STATE ===================== */
+let state = null;
+let view = "landing";       // landing | survey | thanks | admin | tagged
+let activeUserId = "p3";
+let activeTagged = "Priya Nair";
+let adminTab = "dashboard";
+let openSubmissionId = null;
+let taskFilter = "active";
+let tagFormFor = null;      // paramKey when tagging
+let adminAuthed = false;    // reset on every page load — must re-enter password
+let adminAuthError = "";
+
+// Admin edit mode for submissions: when set, renderSubmissionDetail shows
+// editable inputs instead of read-only responses. editRanks/editSat/editComments
+// are working copies; editHistoryOpen tracks which past version(s) are expanded.
+let editingSubmissionId = null;
+let editRanks = {};
+let editSat = {};
+let editComments = {};
+let editMentorComments = {};
+let editAdminComments = {};
+let editErrors = [];
+let expandedHistoryIds = new Set();
+
+// transient form state for survey
+let formRanks = {};
+let formSat = {};
+let formComments = {};
+let formErrors = [];
+
+/* ===================== PERSISTENCE ===================== */
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    const s = raw ? JSON.parse(raw) : seedState();
+    // Migration: fill content if missing
+    if (!s.content) s.content = defaultContent();
+    else {
+      const dc = defaultContent();
+      s.content.intro = Object.assign({}, dc.intro, s.content.intro || {});
+      if (!Array.isArray(s.content.intro.blocks) || !s.content.intro.blocks.length) s.content.intro.blocks = dc.intro.blocks;
+      s.content.survey = Object.assign({}, dc.survey, s.content.survey || {});
+      if (!Array.isArray(s.content.survey.blocks)) s.content.survey.blocks = [];
+      s.content.identify = Object.assign({}, dc.identify, s.content.identify || {});
+      if (!Array.isArray(s.content.identify.blocks)) s.content.identify.blocks = [];
+      s.content.thanks = Object.assign({}, dc.thanks, s.content.thanks || {});
+      if (!Array.isArray(s.content.thanks.blocks)) s.content.thanks.blocks = [];
+      s.content.admin = Object.assign({}, dc.admin, s.content.admin || {});
+    }
+    // Migration: normalize emails on existing people
+    if (Array.isArray(s.people)) {
+      s.people.forEach(p => {
+        if (p.email) p.email = normalizeEmail(p.email);
+        // Drop legacy empId field if present
+        if (p.empId) delete p.empId;
+      });
+    }
+    // Migration: ensure every submission has a history array
+    if (Array.isArray(s.submissions)) {
+      s.submissions.forEach(sub => {
+        if (!Array.isArray(sub.history)) sub.history = [];
+        if (!sub.mentorComments || typeof sub.mentorComments !== "object") sub.mentorComments = {};
+        if (!sub.adminComments || typeof sub.adminComments !== "object") sub.adminComments = {};
+      });
+    }
+    return s;
+  } catch { return seedState(); }
+}
+function saveState() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {}
+}
+
+/* ===================== HELPERS ===================== */
+function $(sel, root) { return (root || document).querySelector(sel); }
+function el(html) { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; }
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function timeAgo(ts) {
+  if (!ts) return "";
+  const d = Math.floor((Date.now() - ts) / DAY);
+  if (d <= 0) return "today";
+  if (d === 1) return "yesterday";
+  if (d < 30) return d + " days ago";
+  return new Date(ts).toLocaleDateString();
+}
+
+/*
+ * Render a section's content blocks as HTML. Returns "" if the section has
+ * no blocks. Used on the Identify, Survey, and Thanks pages — matches the
+ * Intro page's block style so the whole form feels consistent.
+ */
+function renderBlocksHtml(blocks) {
+  if (!Array.isArray(blocks) || !blocks.length) return "";
+  return `<div class="intro-blocks">
+    ${blocks.map(b => `
+      <div class="intro-block">
+        <div class="intro-block-head">
+          <div class="intro-block-icon">${ICONS[b.icon] || ICONS.bulb}</div>
+          <div class="intro-block-heading">${esc(b.heading || "")}</div>
+        </div>
+        ${b.body ? `<div class="intro-block-body">${esc(b.body)}</div>` : ""}
+      </div>`).join("")}
+  </div>`;
+}
+function countConcerns(sub) {
+  let n = 0;
+  for (const p of PARAMS) {
+    const r = sub.ranks[p.key], s = sub.sat[p.key];
+    if (r >= 1 && r <= 4 && s <= 6) n++;
+  }
+  return n;
+}
+function hasConcerns(sub) { return countConcerns(sub) > 0; }
+function isCommentRequired(rank, sat) {
+  return rank !== undefined && rank >= 1 && rank <= 4 && sat !== undefined && sat <= 6;
+}
+
+/*
+ * A concern is "resolved" when a mentor or admin has added a follow-up comment
+ * on the parameter. This is inline resolution — it's independent of the task
+ * workflow (which uses #tagged inbox). Once resolved, the concern is not
+ * counted as "open" on the dashboard.
+ */
+function hasBackendComment(sub, key) {
+  return !!((sub.mentorComments && sub.mentorComments[key]) ||
+            (sub.adminComments && sub.adminComments[key]));
+}
+function isConcernResolved(sub, key) {
+  const r = sub.ranks[key], s = sub.sat[key];
+  if (!isCommentRequired(r, s)) return false; // not a concern in the first place
+  return hasBackendComment(sub, key);
+}
+function countOpenConcerns(sub) {
+  let n = 0;
+  for (const p of PARAMS) {
+    const r = sub.ranks[p.key], s = sub.sat[p.key];
+    if (r >= 1 && r <= 4 && s <= 6 && !hasBackendComment(sub, p.key)) n++;
+  }
+  return n;
+}
+function countResolvedConcerns(sub) {
+  let n = 0;
+  for (const p of PARAMS) {
+    if (isConcernResolved(sub, p.key)) n++;
+  }
+  return n;
+}
+
+function computeStats() {
+  const totalPeople = state.people.length;
+  const submitted = state.submissions.length;
+  const notStarted = totalPeople - submitted;
+  const completionPct = totalPeople ? Math.round((submitted / totalPeople) * 100) : 0;
+  const allSat = state.submissions.flatMap(s => Object.values(s.sat));
+  const avgSat = allSat.length ? (allSat.reduce((a,b) => a+b, 0) / allSat.length).toFixed(1) : null;
+  const openConcerns = state.submissions.reduce((acc, s) => acc + countOpenConcerns(s), 0);
+  const resolvedConcerns = state.submissions.reduce((acc, s) => acc + countResolvedConcerns(s), 0);
+  // Keep the legacy `concerns` field for anything that still references it
+  const concerns = openConcerns;
+  const openTasks = state.tasks.filter(t => t.status === "tagged").length;
+  const respondedTasks = state.tasks.filter(t => t.status === "responded").length;
+  return { totalPeople, submitted, notStarted, completionPct, avgSat, concerns, openConcerns, resolvedConcerns, openTasks, respondedTasks };
+}
+function flash(msg) {
+  const box = $("#toast-container");
+  const t = el('<div class="toast">' + ICONS.check + '<span>' + esc(msg) + '</span></div>');
+  box.appendChild(t);
+  setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity .3s"; setTimeout(() => t.remove(), 320); }, 2400);
+}
+
+/* ===================== RENDER ROOT ===================== */
+function render() {
+  const root = $("#app");
+  root.innerHTML = "";
+  if (view === "landing") root.appendChild(renderLanding());
+  else if (view === "identify") root.appendChild(renderIdentify());
+  else if (view === "survey") root.appendChild(renderSurvey());
+  else if (view === "thanks") root.appendChild(renderThanks());
+  else if (view === "admin") root.appendChild(adminAuthed ? renderAdmin() : renderAdminAuth());
+  else if (view === "tagged") root.appendChild(renderTagged());
+}
+
+/* ===================== LANDING ===================== */
+/*
+ * Identity model (post v3): self-attested via email.
+ * - Anyone with the link can open this page; no roster setup needed up front.
+ * - Clicking "Start" goes to the identify step where they enter email + name.
+ * - Email (lowercased) is the unique identifier for the submission.
+ * - If `?email=...` is in the URL it pre-fills the identify form but the user
+ *   still has to confirm. There is no hardcoded name anywhere.
+ */
+function renderLanding() {
+  const c = state.content.intro;
+  const node = el('<div></div>');
+
+  node.innerHTML = `
+    <header class="pub-header">
+      <div class="brand">
+        <div class="brand-mark">${ICONS.sparkles}</div>
+        <div><div class="brand-name">Altudo · EVP Check-In</div></div>
+      </div>
+    </header>
+    <main class="pub-main">
+      <div class="eyebrow">${esc(c.eyebrow)}</div>
+      <h1 class="hero">${esc(c.title)}</h1>
+      <p class="hero-lede">${esc(c.lede)}</p>
+      <div class="intro-blocks">
+        ${(c.blocks || []).map(b => `
+          <div class="intro-block">
+            <div class="intro-block-head">
+              <div class="intro-block-icon">${ICONS[b.icon] || ICONS.bulb}</div>
+              <div class="intro-block-heading">${esc(b.heading)}</div>
+            </div>
+            <div class="intro-block-body">${esc(b.body)}</div>
+          </div>`).join("")}
+      </div>
+      <div class="privacy-note">${ICONS.lock} ${esc(c.privacyNote)}</div>
+      <button class="hero-cta" id="start-btn">${esc(c.ctaLabel)} ${ICONS.arrow_right}</button>
+      <div class="pub-footer">${esc(c.footerNote)}</div>
+    </main>
+  `;
+  node.querySelector("#start-btn").addEventListener("click", () => {
+    view = "identify";
+    render();
+    window.scrollTo({ top: 0 });
+  });
+  return node;
+}
+
+/* ===================== IDENTIFY ===================== */
+/*
+ * One-time per-session form that captures the respondent's email (required,
+ * unique key) and name. If `?email=...` is in the URL, pre-fill it. After
+ * confirming, we either match an existing person in the roster (and offer
+ * to reuse / overwrite their previous submission) or create a new person
+ * record on the fly. The form has no defaults beyond what's in the URL —
+ * the fields are blank for new users.
+ */
+let identifyEmail = "";
+let identifyName = "";
+let identifyRole = "";
+let identifyErrors = [];
+
+function renderIdentify() {
+  // First call: prefill from URL once, then leave the fields under user control
+  if (identifyEmail === "" && identifyName === "") {
+    const urlEmail = readEmailFromUrl();
+    if (urlEmail) {
+      identifyEmail = urlEmail.trim();
+      // pre-suggest a first name guess; user can edit
+      identifyName = nameFromEmail(urlEmail);
+    }
+  }
+
+  // If we recognise the email, surface that
+  let existingPerson = isValidEmail(identifyEmail) ? findPersonByEmail(identifyEmail) : null;
+  let existingSubmission = existingPerson ? state.submissions.find(s => s.personId === existingPerson.id) : null;
+
+  // Editable content
+  const idc = state.content.identify;
+
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <header class="pub-header">
+      <button class="link-btn" id="back-btn">${ICONS.chevron_left} Back</button>
+      <div class="brand" style="gap:8px">
+        <div class="brand-mark">${ICONS.sparkles}</div>
+        <div><div class="brand-name">Altudo · EVP Check-In</div></div>
+      </div>
+    </header>
+    <main class="pub-main" style="max-width:560px">
+      <div class="eyebrow">${esc(idc.eyebrow)}</div>
+      <h1 class="hero" style="font-size:clamp(28px,4.5vw,38px)">${esc(idc.title)}</h1>
+      <p class="hero-lede" style="margin-bottom:28px">${esc(idc.lede)}</p>
+
+      ${renderBlocksHtml(idc.blocks)}
+
+      <div id="err-area"></div>
+
+      <div class="param-block" style="border:1px solid var(--line);background:var(--surface);padding:24px">
+        <div class="question-block">
+          <div class="question-label">${esc(idc.emailLabel)} *</div>
+          <div class="question-sub">${esc(idc.emailHelp)}</div>
+          <input type="email" class="input" id="i-email" placeholder="${esc(idc.emailPlaceholder)}" value="${esc(identifyEmail)}" style="font-size:15px;padding:12px 14px">
+          <div id="email-status" style="font-size:12.5px;color:var(--ink-faint);margin-top:6px;line-height:1.5"></div>
+        </div>
+
+        <div class="question-block">
+          <div class="question-label">${esc(idc.nameLabel)} *</div>
+          <input type="text" class="input" id="i-name" placeholder="${esc(idc.namePlaceholder)}" value="${esc(identifyName)}" style="font-size:15px;padding:12px 14px">
+        </div>
+
+        <div class="question-block" style="margin-bottom:0">
+          <div class="question-label">${esc(idc.roleLabel)} <span class="muted">(optional)</span></div>
+          <input type="text" class="input" id="i-role" placeholder="${esc(idc.rolePlaceholder)}" value="${esc(identifyRole || (existingPerson ? existingPerson.role || "" : ""))}" style="font-size:15px;padding:12px 14px">
+        </div>
+      </div>
+
+      <div class="privacy-note" style="margin-top:24px">${ICONS.lock} ${esc(idc.privacyNote)}</div>
+
+      <button class="hero-cta" id="continue-btn" style="width:100%;justify-content:center;margin-top:8px">${esc(idc.ctaLabel)} ${ICONS.arrow_right}</button>
+    </main>
+  `;
+
+  // Wire up
+  const emailInput = node.querySelector("#i-email");
+  const nameInput = node.querySelector("#i-name");
+  const roleInput = node.querySelector("#i-role");
+  const statusEl = node.querySelector("#email-status");
+
+  function refreshStatus() {
+    const e = emailInput.value.trim();
+    if (!e) { statusEl.textContent = ""; statusEl.style.color = "var(--ink-faint)"; return; }
+    if (!isValidEmail(e)) { statusEl.textContent = "That doesn't look like a valid email."; statusEl.style.color = "var(--flag)"; return; }
+    const p = findPersonByEmail(e);
+    if (p) {
+      const sub = state.submissions.find(s => s.personId === p.id);
+      if (sub) {
+        statusEl.innerHTML = `${ICONS.check} Recognised — you've already submitted on ${esc(new Date(sub.submittedAt).toLocaleDateString())}. Continuing will update your previous response.`;
+        statusEl.style.color = "var(--warn-ink)";
+      } else {
+        statusEl.innerHTML = `${ICONS.check} Recognised. Welcome back, ${esc(p.name)}.`;
+        statusEl.style.color = "var(--ok)";
+      }
+    } else {
+      statusEl.textContent = "We'll register you with this email.";
+      statusEl.style.color = "var(--accent)";
+    }
+  }
+  refreshStatus();
+
+  emailInput.addEventListener("input", () => {
+    const prevGuess = nameFromEmail(identifyEmail);
+    identifyEmail = emailInput.value;
+    const newGuess = nameFromEmail(emailInput.value);
+    // Update the name if it's empty, or if it still matches the guess from
+    // the previous email value (i.e. user hasn't customised it yet)
+    if (!nameInput.value || nameInput.value === prevGuess) {
+      nameInput.value = newGuess;
+      identifyName = newGuess;
+    }
+    refreshStatus();
+  });
+  nameInput.addEventListener("input", () => { identifyName = nameInput.value; });
+  roleInput.addEventListener("input", () => { identifyRole = roleInput.value; });
+
+  node.querySelector("#back-btn").addEventListener("click", () => {
+    view = "landing"; render(); window.scrollTo({ top: 0 });
+  });
+
+  node.querySelector("#continue-btn").addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    const name = nameInput.value.trim();
+    const role = roleInput.value.trim();
+    const errs = [];
+    if (!email) errs.push("Email is required.");
+    else if (!isValidEmail(email)) errs.push("That email doesn't look valid. Use a format like name@altudo.co.");
+    if (!name) errs.push("Full name is required.");
+    identifyErrors = errs;
+    if (errs.length) {
+      renderIdentifyErrors(node);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    // Match or create the person
+    let person = findPersonByEmail(email);
+    if (!person) {
+      person = { id: "p_" + Date.now(), email: normalizeEmail(email), name, role, mentor: "", cycleStart: Date.now(), selfRegistered: true };
+      state.people.push(person);
+    } else {
+      // Update name / role if they changed it
+      person.name = name;
+      if (role) person.role = role;
+      person.email = normalizeEmail(email);
+    }
+    saveState();
+    activeUserId = person.id;
+    // reset survey form, prefill if there's an existing submission
+    formRanks = {}; formSat = {}; formComments = {}; formErrors = [];
+    const existing = state.submissions.find(s => s.personId === person.id);
+    if (existing) {
+      formRanks = { ...existing.ranks };
+      formSat = { ...existing.sat };
+      formComments = { ...existing.comments };
+    }
+    view = "survey";
+    render();
+    window.scrollTo({ top: 0 });
+  });
+
+  return node;
+}
+
+function renderIdentifyErrors(scope) {
+  const a = (scope || document).querySelector("#err-area");
+  if (!a) return;
+  if (!identifyErrors.length) { a.innerHTML = ""; return; }
+  a.innerHTML = `<div class="err-box" style="margin-bottom:24px"><div class="err-head">${ICONS.warn} A couple of things to fix</div><ul class="err-list">${identifyErrors.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>`;
+}
+
+/* ===================== SURVEY ===================== */
+function renderSurvey() {
+  const me = state.people.find(p => p.id === activeUserId);
+  const rankCount = Object.keys(formRanks).length;
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <header class="pub-header">
+      <button class="link-btn" id="back-btn">${ICONS.chevron_left} Back</button>
+      <div class="survey-top-meta">
+        <span class="survey-top-name">${esc(me.name)}</span>
+        <span class="survey-top-divider">·</span>
+        <span class="survey-top-progress">${rankCount}/6 ranked</span>
+      </div>
+    </header>
+    <main class="survey-main">
+      <h1 class="survey-title">${esc(state.content.survey.sectionTitle)}</h1>
+      <p class="survey-lede">${esc(state.content.survey.sectionDescription)}</p>
+      ${renderBlocksHtml(state.content.survey.blocks)}
+      <div id="err-area"></div>
+      <div class="param-stack" id="param-stack"></div>
+      <div class="survey-foot">
+        <button class="btn-primary-lg" id="submit-btn">${ICONS.send} Submit my check-in</button>
+        <div class="survey-foot-note">Your responses go only to People Ops.</div>
+      </div>
+    </main>
+  `;
+  node.querySelector("#back-btn").addEventListener("click", () => { view = "landing"; render(); window.scrollTo({ top: 0 }); });
+  const stack = node.querySelector("#param-stack");
+  PARAMS.forEach((p, i) => stack.appendChild(renderParamBlock(p, i)));
+  if (formErrors.length) renderErrors(node);
+  node.querySelector("#submit-btn").addEventListener("click", submitSurvey);
+  return node;
+}
+
+function renderParamBlock(p, i) {
+  const usedRanks = Object.values(formRanks);
+  const r = formRanks[p.key];
+  const s = formSat[p.key];
+  const comment = formComments[p.key] || "";
+  const required = isCommentRequired(r, s);
+
+  const block = el(`<div class="param-block ${required ? 'flag' : ''}">
+    <div class="param-head">
+      <span class="param-num">${String(i+1).padStart(2,'0')}</span>
+      <div class="param-icon-box">${ICONS[p.icon]}</div>
+      <div style="flex:1">
+        <div class="param-title">${esc(p.label)}</div>
+        <div class="param-sub">${esc(p.desc)}</div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">How important is this to you right now?</div>
+      <div class="question-sub">1 is most important. Each rank can only be used once across the six elements.</div>
+      <div class="rank-row" data-rank="${p.key}">
+        ${[1,2,3,4,5,6].map(n => {
+          const taken = usedRanks.includes(n) && r !== n;
+          const sel = r === n;
+          return `<button class="rank-btn ${sel?'sel':''} ${taken?'taken':''}" data-n="${n}" ${taken?'disabled':''}>${n}</button>`;
+        }).join("")}
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">How satisfied are you with this today?</div>
+      <div class="question-sub">1 is low, 10 is high. Numbers can repeat across elements.</div>
+      <div class="sat-row" data-sat="${p.key}">
+        ${[1,2,3,4,5,6,7,8,9,10].map(n => {
+          const sel = s === n;
+          const low = n <= 6;
+          const cls = sel ? (low ? 'low-sel' : 'high-sel') : '';
+          return `<button class="sat-btn ${cls}" data-n="${n}">${n}</button>`;
+        }).join("")}
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">${required
+        ? '<span class="req-inline">'+ICONS.warn+'Tell us why — this one matters and the score is low</span>'
+        : 'Comments <span class="muted">(optional)</span>'}</div>
+      <textarea class="ta ${required?'req':''}" data-comment="${p.key}"
+        placeholder="${required?"What's going on here? What would help?":"Add context if you'd like…"}">${esc(comment)}</textarea>
+    </div>
+  </div>`);
+
+  // rank handlers
+  block.querySelectorAll(`[data-rank="${p.key}"] .rank-btn`).forEach(b => {
+    b.addEventListener("click", () => {
+      if (b.disabled) return;
+      const n = Number(b.dataset.n);
+      if (formRanks[p.key] === n) {
+        delete formRanks[p.key];
+      } else {
+        // unique rank: clear any other key holding this value
+        for (const k of Object.keys(formRanks)) if (formRanks[k] === n) delete formRanks[k];
+        formRanks[p.key] = n;
+      }
+      rerenderSurveyInPlace();
+    });
+  });
+  // sat handlers
+  block.querySelectorAll(`[data-sat="${p.key}"] .sat-btn`).forEach(b => {
+    b.addEventListener("click", () => {
+      const n = Number(b.dataset.n);
+      if (formSat[p.key] === n) delete formSat[p.key];
+      else formSat[p.key] = n;
+      rerenderSurveyInPlace();
+    });
+  });
+  // comment
+  block.querySelector(`[data-comment="${p.key}"]`).addEventListener("input", (e) => {
+    formComments[p.key] = e.target.value;
+  });
+  return block;
+}
+
+function rerenderSurveyInPlace() {
+  // re-render only the param stack + progress count to keep textarea focus where possible
+  const survey = $("#param-stack");
+  if (!survey) return;
+  survey.innerHTML = "";
+  PARAMS.forEach((p, i) => survey.appendChild(renderParamBlock(p, i)));
+  const prog = document.querySelector(".survey-top-progress");
+  if (prog) prog.textContent = `${Object.keys(formRanks).length}/6 ranked`;
+}
+
+function renderErrors(scope) {
+  const area = (scope || document).querySelector("#err-area");
+  if (!area) return;
+  if (!formErrors.length) { area.innerHTML = ""; return; }
+  area.innerHTML = `<div class="err-box">
+    <div class="err-head">${ICONS.warn} Please fix the following</div>
+    <ul class="err-list">${formErrors.map(e => `<li>${esc(e)}</li>`).join("")}</ul>
+  </div>`;
+}
+
+function validateSurvey() {
+  const errs = [];
+  if (Object.keys(formRanks).length !== 6) errs.push("Rank all six elements from 1 to 6.");
+  const set = new Set(Object.values(formRanks));
+  if (set.size !== Object.values(formRanks).length) errs.push("Each importance rank must be unique.");
+  for (const p of PARAMS) {
+    if (formSat[p.key] === undefined) errs.push(`Set a satisfaction score for ${p.label}.`);
+  }
+  for (const p of PARAMS) {
+    if (isCommentRequired(formRanks[p.key], formSat[p.key]) && !(formComments[p.key] || "").trim()) {
+      errs.push(`Tell us why for ${p.label} — it's important to you and satisfaction is low.`);
+    }
+  }
+  return errs;
+}
+
+function submitSurvey() {
+  formErrors = validateSurvey();
+  if (formErrors.length) {
+    renderErrors();
+    flash("A few things to finish first.");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+  const existing = state.submissions.find(s => s.personId === activeUserId);
+  const submission = {
+    id: existing?.id || ("s_" + Date.now()),
+    personId: activeUserId,
+    submittedAt: Date.now(),
+    ranks: { ...formRanks },
+    sat: { ...formSat },
+    comments: { ...formComments },
+  };
+  if (existing) {
+    state.submissions = state.submissions.map(s => s.id === existing.id ? submission : s);
+  } else {
+    state.submissions.push(submission);
+  }
+  saveState();
+  flash("Submitted — thank you.");
+  view = "thanks";
+  render();
+  window.scrollTo({ top: 0 });
+}
+
+/* ===================== THANKS ===================== */
+function renderThanks() {
+  const me = state.people.find(p => p.id === activeUserId);
+  const mine = state.submissions.find(s => s.personId === activeUserId);
+  if (!mine) { view = "landing"; render(); return el("<div></div>"); }
+  const ordered = [...PARAMS].sort((a, b) => (mine.ranks[a.key] || 9) - (mine.ranks[b.key] || 9));
+
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <header class="pub-header">
+      <button class="link-btn" id="home-btn">${ICONS.chevron_left} Home</button>
+    </header>
+    <main class="pub-main">
+      <div class="thanks-check" style="color: var(--ok);">${ICONS.check_lg}</div>
+      <h1 class="hero">${esc(state.content.thanks.title)}, ${esc(me.name.split(" ")[0])}.</h1>
+      <p class="hero-lede">${esc(state.content.thanks.lede)}</p>
+
+      <div style="display:flex;gap:14px;align-items:center;padding:18px 20px;border-radius:14px;background:var(--accent-tint);border:1px solid var(--accent-line);margin-bottom:24px">
+        <div style="width:44px;height:44px;border-radius:99px;background:var(--accent);color:#fff;display:grid;place-items:center;flex-shrink:0">${ICONS.user_check}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:11.5px;text-transform:uppercase;letter-spacing:0.07em;color:var(--accent);font-weight:700;margin-bottom:2px">Submitted as</div>
+          <div style="font-weight:600;color:var(--ink);font-size:15px">${esc(me.name)}</div>
+          <div style="font-size:13px;color:var(--ink-soft);word-break:break-all">${esc(me.email||"")}</div>
+          <div style="font-size:12.5px;color:var(--ink-faint);margin-top:4px">${esc(new Date(mine.submittedAt).toLocaleString())}</div>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <div class="summary-title">Your responses · for your reference</div>
+        ${ordered.map(p => {
+          const r = mine.ranks[p.key], s = mine.sat[p.key];
+          return `<div class="summary-row">
+            <div class="summary-left">
+              <span class="summary-rank">#${r}</span>
+              <span class="summary-name">${esc(p.label)}</span>
+            </div>
+            <div class="summary-right">
+              <div class="summary-bar"><div class="summary-bar-fill" style="width:${s*10}%; background:${s<=6?'var(--flag)':'var(--ok)'}"></div></div>
+              <span class="summary-num">${s}/10</span>
+            </div>
+          </div>`;
+        }).join("")}
+      </div>
+      <div class="privacy-note">${ICONS.lock} ${esc(state.content.thanks.privacyNote)}</div>
+      ${renderBlocksHtml(state.content.thanks.blocks)}
+    </main>
+  `;
+  node.querySelector("#home-btn").addEventListener("click", () => { view = "landing"; render(); window.scrollTo({ top: 0 }); });
+  return node;
+}
+
+/* ===================== ADMIN AUTH ===================== */
+/*
+ * Password gate shown before the admin view. Simple, page-session auth —
+ * reload the page and you'll be prompted again. Password lives in
+ * state.content.admin.password and is editable from the Form Editor.
+ */
+function renderAdminAuth() {
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <header class="pub-header">
+      <div class="brand">
+        <div class="brand-mark">${ICONS.sparkles}</div>
+        <div><div class="brand-name">Altudo · EVP Check-In</div></div>
+      </div>
+    </header>
+    <main class="pub-main" style="max-width:460px;padding-top:clamp(60px,10vw,120px)">
+      <div style="text-align:center;margin-bottom:36px">
+        <div style="width:56px;height:56px;border-radius:99px;background:var(--ink);color:var(--cream);display:grid;place-items:center;margin:0 auto 20px">${ICONS.lock.replace('width="13" height="13"','width="24" height="24"')}</div>
+        <div class="eyebrow">Restricted</div>
+        <h1 class="hero" style="font-size:clamp(26px,4.5vw,34px);margin-bottom:10px">Admin sign-in</h1>
+        <p class="hero-lede" style="margin-bottom:0">Enter the password to access the admin panel.</p>
+      </div>
+
+      <div class="param-block" style="border:1px solid var(--line);background:var(--surface);padding:24px">
+        <div class="question-block" style="margin-bottom:0">
+          <label class="question-label" for="admin-pw">Password</label>
+          <input type="password" class="input" id="admin-pw" autocomplete="current-password" autofocus style="font-size:15px;padding:12px 14px">
+          ${adminAuthError ? `<div style="font-size:12.5px;color:var(--flag);margin-top:8px;display:flex;align-items:center;gap:6px">${ICONS.warn} ${esc(adminAuthError)}</div>` : ""}
+        </div>
+      </div>
+
+      <button class="hero-cta" id="admin-signin" style="width:100%;justify-content:center;margin-top:20px">Sign in ${ICONS.arrow_right}</button>
+    </main>
+  `;
+
+  const pw = node.querySelector("#admin-pw");
+  const btn = node.querySelector("#admin-signin");
+
+  function attempt() {
+    const entered = pw.value;
+    const expected = state.content?.admin?.password || defaultContent().admin.password;
+    if (entered === expected) {
+      adminAuthed = true;
+      adminAuthError = "";
+      render();
+      window.scrollTo({ top: 0 });
+    } else {
+      adminAuthError = entered ? "Incorrect password." : "Password is required.";
+      render();
+      // put focus back
+      setTimeout(() => {
+        const f = document.querySelector("#admin-pw");
+        if (f) f.focus();
+      }, 0);
+    }
+  }
+
+  btn.addEventListener("click", attempt);
+  pw.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); attempt(); } });
+  return node;
+}
+
+/* ===================== ADMIN ===================== */
+function renderAdmin() {
+  const stats = computeStats();
+  const tasksTotal = stats.openTasks + stats.respondedTasks;
+  const node = el('<div class="admin-shell"></div>');
+  node.innerHTML = `
+    <header class="admin-header">
+      <div class="brand">
+        <div class="brand-mark">${ICONS.sparkles}</div>
+        <div><div class="brand-name">EVP Admin</div><div class="brand-sub">People Operations</div></div>
+      </div>
+      <nav class="admin-nav">
+        <button class="nav-btn ${adminTab==='dashboard'?'active':''}" data-tab="dashboard">${ICONS.chart} Dashboard</button>
+        <button class="nav-btn ${adminTab==='submissions'?'active':''}" data-tab="submissions">${ICONS.file} Submissions <span class="nav-badge">${state.submissions.length}</span></button>
+        <button class="nav-btn ${adminTab==='tasks'?'active':''}" data-tab="tasks">${ICONS.tag} Tasks <span class="nav-badge">${tasksTotal}</span></button>
+        <button class="nav-btn ${adminTab==='people'?'active':''}" data-tab="people">${ICONS.users} People</button>
+        <button class="nav-btn ${adminTab==='form'?'active':''}" data-tab="form">${ICONS.edit} Form Editor</button>
+      </nav>
+    </header>
+    <main class="admin-main" id="admin-main"></main>
+  `;
+  node.querySelectorAll("[data-tab]").forEach(b => {
+    b.addEventListener("click", () => { adminTab = b.dataset.tab; openSubmissionId = null; render(); window.scrollTo({ top: 0 }); });
+  });
+  const main = node.querySelector("#admin-main");
+
+  // Demo-data banner: visible whenever any seeded demo person is present
+  const demoIds = new Set(["p1","p2","p3","p4","p5"]);
+  const hasDemoData = state.people.some(p => demoIds.has(p.id));
+  if (hasDemoData) {
+    const banner = el(`<div style="background: var(--warn-tint); border: 1px solid var(--warn); border-radius: 12px; padding: 14px 18px; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+      <div style="display: flex; gap: 12px; align-items: flex-start;">
+        <div style="color: var(--warn-ink); margin-top: 2px;">${ICONS.warn}</div>
+        <div>
+          <div style="font-weight: 700; color: var(--warn-ink); font-size: 14px;">You're viewing demo data</div>
+          <div style="font-size: 13px; color: var(--ink-soft); margin-top: 2px; line-height: 1.5;">Aarav, Diya, Kabir, Maya and Vikram are sample employees. Clear them before adding your real roster.</div>
+        </div>
+      </div>
+      <button class="btn-primary-sm" id="banner-clear" style="background: var(--warn-ink);">${ICONS.trash} Clear demo data &amp; start fresh</button>
+    </div>`);
+    banner.querySelector("#banner-clear").addEventListener("click", () => {
+      if (!confirm("Clear all demo data?\n\nThis removes the 5 sample people, their submissions, and all sample tasks. After this you'll have an empty system ready for your real employees.")) return;
+      state = emptyState();
+      activeUserId = null;
+      adminTab = "people";
+      saveState();
+      flash("Demo data cleared. Add your roster below.");
+      render();
+    });
+    main.appendChild(banner);
+  }
+
+  if (adminTab === "dashboard") main.appendChild(renderDashboard(stats));
+  else if (adminTab === "submissions") main.appendChild(openSubmissionId ? renderSubmissionDetail() : renderSubmissionsList());
+  else if (adminTab === "tasks") main.appendChild(renderTasks());
+  else if (adminTab === "people") main.appendChild(renderPeople());
+  else if (adminTab === "form") main.appendChild(renderFormEditor());
+  return node;
+}
+
+/* ---------- Dashboard ---------- */
+function renderDashboard(stats) {
+  const satByParam = PARAMS.map(p => {
+    const scores = state.submissions.map(s => s.sat[p.key]).filter(Boolean);
+    const avg = scores.length ? scores.reduce((a,b) => a+b, 0) / scores.length : 0;
+    return { name: p.label, avg: Number(avg.toFixed(1)), color: avg <= 6 ? "#b8623f" : avg < 7.5 ? "#c08a3e" : "#5a8a5e" };
+  });
+
+  // Per-element breakdown: split into open vs resolved, and gather the people involved for each
+  const concernsByParam = PARAMS.map(p => {
+    let open = 0, resolved = 0;
+    const people = [];
+    for (const sub of state.submissions) {
+      const r = sub.ranks[p.key], s = sub.sat[p.key];
+      if (r >= 1 && r <= 4 && s <= 6) {
+        const person = state.people.find(pp => pp.id === sub.personId);
+        const isResolved = hasBackendComment(sub, p.key);
+        if (isResolved) resolved++; else open++;
+        people.push({
+          person, sub,
+          resolved: isResolved,
+          rank: r,
+          sat: s,
+          employeeComment: sub.comments[p.key] || null,
+          mentorComment: (sub.mentorComments && sub.mentorComments[p.key]) || null,
+          adminComment: (sub.adminComments && sub.adminComments[p.key]) || null,
+        });
+      }
+    }
+    return { key: p.key, icon: p.icon, name: p.label, open, resolved, total: open + resolved, people };
+  });
+  const maxConcernTotal = Math.max(1, ...concernsByParam.map(c => c.total));
+
+  // Per-person breakdown: for each person with any concern, count open/resolved
+  const concernsByPerson = state.people.map(person => {
+    const sub = state.submissions.find(s => s.personId === person.id);
+    if (!sub) return null;
+    const paramConcerns = [];
+    for (const p of PARAMS) {
+      const r = sub.ranks[p.key], s = sub.sat[p.key];
+      if (r >= 1 && r <= 4 && s <= 6) {
+        paramConcerns.push({ param: p, resolved: hasBackendComment(sub, p.key) });
+      }
+    }
+    if (paramConcerns.length === 0) return null;
+    return {
+      person, sub,
+      total: paramConcerns.length,
+      open: paramConcerns.filter(x => !x.resolved).length,
+      resolved: paramConcerns.filter(x => x.resolved).length,
+      openParams: paramConcerns.filter(x => !x.resolved).map(x => x.param.label),
+      resolvedParams: paramConcerns.filter(x => x.resolved).map(x => x.param.label),
+    };
+  }).filter(Boolean).sort((a, b) => b.open - a.open || b.total - a.total);
+
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <div class="page-head">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-desc">An at-a-glance view of where the organization stands this cycle.</p>
+    </div>
+    <div class="kpi-grid">
+      ${kpiHtml("Completion", stats.completionPct+"%", stats.submitted+" of "+stats.totalPeople+" submitted", "check", "ok")}
+      ${kpiHtml("Avg satisfaction", stats.avgSat ? stats.avgSat+"/10" : "—", "across all elements & people", "trending", "accent")}
+      ${kpiHtml("Open concerns", String(stats.openConcerns), stats.resolvedConcerns > 0 ? `${stats.resolvedConcerns} resolved this cycle` : "important + low satisfaction", "warn", "flag")}
+      ${kpiHtml("Tasks in flight", String(stats.openTasks+stats.respondedTasks), stats.respondedTasks+" awaiting close", "clock", "warn")}
+    </div>
+
+    <div class="dash-grid">
+      <div class="chart-card">
+        <div class="chart-head">
+          <div class="chart-title">Average satisfaction by element</div>
+          <div class="chart-sub">Lower scores need attention. Threshold for concern is 6.</div>
+        </div>
+        <div class="sat-chart">
+          ${satByParam.map(d => `
+            <div class="sat-chart-row">
+              <div class="sat-chart-label">${esc(d.name)}</div>
+              <div class="sat-chart-track"><div class="sat-chart-fill" style="width:${d.avg*10}%; background:${d.color}"></div></div>
+              <div class="sat-chart-value">${d.avg}</div>
+            </div>`).join("")}
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div class="chart-title">Concerns by element</div>
+          <div class="chart-sub">Red = open · Green = resolved via mentor/admin comment</div>
+        </div>
+        <div class="concern-chart">
+          ${concernsByParam.map(d => {
+            const totalH = maxConcernTotal ? (d.total / maxConcernTotal) * 78 : 0;
+            const openH = d.total ? (d.open / d.total) * totalH : 0;
+            const resolvedH = d.total ? (d.resolved / d.total) * totalH : 0;
+            return `
+            <div class="concern-bar-wrap">
+              <div class="concern-bar-value" style="display:flex;gap:4px;justify-content:center">
+                ${d.open > 0 ? `<span style="color:var(--flag)">${d.open}</span>` : ''}
+                ${d.open > 0 && d.resolved > 0 ? `<span style="color:var(--ink-faint)">·</span>` : ''}
+                ${d.resolved > 0 ? `<span style="color:var(--ok)">${d.resolved}</span>` : ''}
+                ${d.total === 0 ? '<span style="color:var(--ink-faint)">0</span>' : ''}
+              </div>
+              <div class="concern-bar" style="height:${totalH}%; background:transparent; display:flex; flex-direction:column-reverse; overflow:hidden">
+                <div style="height:${openH}%; background:var(--flag)"></div>
+                <div style="height:${resolvedH}%; background:var(--ok)"></div>
+              </div>
+              <div class="concern-bar-label">${esc(d.name)}</div>
+            </div>`;
+          }).join("")}
+        </div>
+        <div style="display:flex;gap:16px;justify-content:center;margin-top:10px;font-size:11.5px">
+          <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:9px;height:9px;background:var(--flag);border-radius:2px"></span>Open</span>
+          <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:9px;height:9px;background:var(--ok);border-radius:2px"></span>Resolved</span>
+        </div>
+      </div>
+
+      <div class="chart-card full">
+        <div class="chart-head">
+          <div class="chart-title">Submission status</div>
+          <div class="chart-sub">This cycle.</div>
+        </div>
+        <div class="status-pie-wrap">
+          ${renderPieSvg([
+            { value: stats.submitted, color: "#5a8a5e" },
+            { value: stats.notStarted, color: "#c5b8a5" },
+          ])}
+          <div class="pie-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:#5a8a5e"></span><span class="legend-label">Submitted</span><span class="legend-value">${stats.submitted}</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:#c5b8a5"></span><span class="legend-label">Not started</span><span class="legend-value">${stats.notStarted}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h3 class="h3">Concerns by person</h3>
+        <span style="font-size:12.5px;color:var(--ink-faint)">Click a row to open their submission</span>
+      </div>
+      <div id="by-person-list"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h3 class="h3">Concerns by element — detail</h3>
+        <span style="font-size:12.5px;color:var(--ink-faint)">Who's involved on each element, and what status</span>
+      </div>
+      <div id="by-element-detail" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Submissions needing your attention</h3></div>
+      <div id="attention-list"></div>
+    </div>
+  `;
+
+  // --- Concerns by person table ---
+  const bpList = node.querySelector("#by-person-list");
+  if (concernsByPerson.length === 0) {
+    bpList.innerHTML = '<div class="empty">No concerns raised this cycle. 🎉</div>';
+  } else {
+    const table = el(`<div class="table">
+      <div class="trow thead">
+        <div style="flex:2">Person</div>
+        <div style="flex:1">Total concerns</div>
+        <div style="flex:1">Open</div>
+        <div style="flex:1">Resolved</div>
+        <div style="flex:1.5">Action needed</div>
+        <div style="width:22px"></div>
+      </div>
+    </div>`);
+    concernsByPerson.forEach(pc => {
+      const status = pc.open > 0
+        ? `<span class="tag-flag">${ICONS.warn} Needs review</span>`
+        : `<span class="tag-ok">${ICONS.check} All resolved</span>`;
+      const row = el(`<button class="trow" style="text-align:left">
+        <div style="flex:2">
+          <div class="row-name">${esc(pc.person.name)}</div>
+          <div class="row-sub" style="font-family:monospace;font-size:11.5px">${esc(pc.person.email || "—")} · Mentor ${esc(pc.person.mentor || "—")}</div>
+        </div>
+        <div style="flex:1;font-weight:700;color:var(--ink)">${pc.total}</div>
+        <div style="flex:1">${pc.open > 0 ? `<span class="tag-flag">${pc.open}</span>` : `<span class="tag-mute">0</span>`}</div>
+        <div style="flex:1">${pc.resolved > 0 ? `<span class="tag-ok">${pc.resolved}</span>` : `<span class="tag-mute">0</span>`}</div>
+        <div style="flex:1.5">${status}</div>
+        <div style="width:22px; color:var(--ink-faint)">›</div>
+      </button>`);
+      row.addEventListener("click", () => {
+        adminTab = "submissions";
+        openSubmissionId = pc.sub.id;
+        render();
+        window.scrollTo({ top: 0 });
+      });
+      table.appendChild(row);
+    });
+    bpList.appendChild(table);
+  }
+
+  // --- Concerns by element detail ---
+  const beDetail = node.querySelector("#by-element-detail");
+  const activeElements = concernsByParam.filter(e => e.total > 0);
+  if (activeElements.length === 0) {
+    beDetail.innerHTML = '<div class="empty" style="grid-column:1/-1">No elements have concerns right now.</div>';
+  } else {
+    activeElements.forEach(el2 => {
+      const card = el(`<div style="padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px">
+        <div style="display:flex;gap:11px;align-items:center;margin-bottom:14px">
+          <div class="param-icon-box sm">${ICONS[el2.icon]}</div>
+          <div style="flex:1">
+            <div style="font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink)">${esc(el2.name)}</div>
+            <div style="font-size:12.5px;color:var(--ink-faint)">
+              ${el2.open > 0 ? `<span style="color:var(--flag);font-weight:600">${el2.open} open</span>` : ''}
+              ${el2.open > 0 && el2.resolved > 0 ? ' · ' : ''}
+              ${el2.resolved > 0 ? `<span style="color:var(--ok);font-weight:600">${el2.resolved} resolved</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div data-people-list style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>`);
+      const list = card.querySelector("[data-people-list]");
+      el2.people
+        .sort((a, b) => (a.resolved ? 1 : 0) - (b.resolved ? 1 : 0))
+        .forEach(entry => {
+          const row = el(`<button class="trow" style="padding:10px 12px;border:1px solid ${entry.resolved ? 'var(--ok-line)' : 'var(--flag-line)'};border-radius:10px;background:${entry.resolved ? 'var(--ok-tint)' : 'var(--flag-tint)'};display:flex;gap:10px;align-items:center;text-align:left;width:100%;cursor:pointer">
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:600;font-size:13px;color:var(--ink)">${esc(entry.person?.name || "—")}</div>
+              <div style="font-size:11.5px;color:var(--ink-faint)">rank #${entry.rank} · sat ${entry.sat}/10</div>
+            </div>
+            <span class="${entry.resolved ? 'tag-ok' : 'tag-flag'}" style="flex-shrink:0">${entry.resolved ? ICONS.check + ' Resolved' : ICONS.warn + ' Needs action'}</span>
+          </button>`);
+          row.addEventListener("click", () => {
+            adminTab = "submissions";
+            openSubmissionId = entry.sub.id;
+            render();
+            window.scrollTo({ top: 0 });
+          });
+          list.appendChild(row);
+        });
+      beDetail.appendChild(card);
+    });
+  }
+
+  // --- Existing attention list ---
+  const attList = node.querySelector("#attention-list");
+  const items = state.submissions.filter(s => countOpenConcerns(s) > 0);
+  if (items.length === 0) {
+    attList.innerHTML = '<div class="empty">No open concerns right now.</div>';
+  } else {
+    items.forEach(sub => {
+      const person = state.people.find(p => p.id === sub.personId);
+      const concernCount = countOpenConcerns(sub);
+      const open = state.tasks.filter(t => t.submissionId === sub.id && t.status !== "completed").length;
+      const row = el(`<button class="attention-row">
+        <div style="flex:1; text-align:left">
+          <div class="attention-name">${esc(person?.name || "")}</div>
+          <div class="attention-sub">${esc(person?.role || "")} · Submitted ${timeAgo(sub.submittedAt)}</div>
+        </div>
+        <div class="attention-tags">
+          <span class="tag-flag">${ICONS.warn} ${concernCount} open concern${concernCount>1?'s':''}</span>
+          ${open > 0 ? `<span class="tag-warn">${ICONS.clock} ${open} open</span>` : ""}
+        </div>
+      </button>`);
+      row.addEventListener("click", () => { adminTab = "submissions"; openSubmissionId = sub.id; render(); window.scrollTo({ top: 0 }); });
+      attList.appendChild(row);
+    });
+  }
+  return node;
+}
+
+function kpiHtml(label, value, sub, iconKey, accent) {
+  const colors = {
+    ok: { bg: "var(--ok-tint)", fg: "var(--ok)" },
+    flag: { bg: "var(--flag-tint)", fg: "var(--flag)" },
+    warn: { bg: "var(--warn-tint)", fg: "var(--warn-ink)" },
+    accent: { bg: "var(--accent-tint)", fg: "var(--accent)" },
+  };
+  const c = colors[accent];
+  return `<div class="kpi">
+    <div class="kpi-icon" style="background:${c.bg}; color:${c.fg}">${ICONS[iconKey]}</div>
+    <div class="kpi-label">${esc(label)}</div>
+    <div class="kpi-value">${esc(value)}</div>
+    <div class="kpi-sub">${esc(sub)}</div>
+  </div>`;
+}
+
+function renderPieSvg(data) {
+  const total = data.reduce((a, b) => a + b.value, 0);
+  if (total === 0) return `<svg class="pie-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="var(--bg)" /></svg>`;
+  let cumulative = 0;
+  const slices = data.map(d => {
+    const start = cumulative / total * Math.PI * 2 - Math.PI / 2;
+    cumulative += d.value;
+    const end = cumulative / total * Math.PI * 2 - Math.PI / 2;
+    if (d.value === 0) return "";
+    const large = end - start > Math.PI ? 1 : 0;
+    const cx = 50, cy = 50, r = 40, ri = 24;
+    const x1 = cx + r * Math.cos(start), y1 = cy + r * Math.sin(start);
+    const x2 = cx + r * Math.cos(end), y2 = cy + r * Math.sin(end);
+    const x3 = cx + ri * Math.cos(end), y3 = cy + ri * Math.sin(end);
+    const x4 = cx + ri * Math.cos(start), y4 = cy + ri * Math.sin(start);
+    if (data.length === 1 || data.filter(x => x.value > 0).length === 1) {
+      return `<circle cx="50" cy="50" r="40" fill="${d.color}" /><circle cx="50" cy="50" r="24" fill="var(--surface)" />`;
+    }
+    return `<path d="M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${ri} ${ri} 0 ${large} 0 ${x4} ${y4} Z" fill="${d.color}" stroke="var(--surface)" stroke-width="2"/>`;
+  }).join("");
+  return `<svg class="pie-svg" viewBox="0 0 100 100">${slices}</svg>`;
+}
+
+/* ---------- Submissions list ---------- */
+function renderSubmissionsList() {
+  const submissions = [...state.submissions].sort((a, b) => b.submittedAt - a.submittedAt);
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <div class="page-head">
+      <h1 class="page-title">Submissions</h1>
+      <p class="page-desc">All employee check-ins this cycle. Concerns are flagged automatically.</p>
+    </div>
+    <div class="table">
+      <div class="trow thead">
+        <div style="flex:2">Person</div>
+        <div style="flex:1.2">Submitted</div>
+        <div style="flex:1">Avg sat</div>
+        <div style="flex:1.2">Concerns</div>
+        <div style="flex:1">Tasks</div>
+        <div style="width:30px"></div>
+      </div>
+      <div id="rows"></div>
+    </div>
+  `;
+  const rows = node.querySelector("#rows");
+  if (submissions.length === 0) {
+    rows.innerHTML = '<div class="empty">No submissions yet.</div>';
+    return node;
+  }
+  submissions.forEach(sub => {
+    const person = state.people.find(p => p.id === sub.personId);
+    const avg = (Object.values(sub.sat).reduce((a,b)=>a+b,0)/6).toFixed(1);
+    const openC = countOpenConcerns(sub);
+    const resolvedC = countResolvedConcerns(sub);
+    const tasks = state.tasks.filter(t => t.submissionId === sub.id);
+    const openTasks = tasks.filter(t => t.status !== "completed").length;
+    const row = el(`<button class="trow">
+      <div style="flex:2; text-align:left">
+        <div class="row-name">${esc(person?.name || "")}</div>
+        <div class="row-sub" style="font-family:monospace;font-size:11.5px;color:var(--ink-soft)">${esc(person?.email || "—")}</div>
+      </div>
+      <div style="flex:1.2; color:var(--ink-faint); font-size:13px">${timeAgo(sub.submittedAt)}</div>
+      <div style="flex:1; font-weight:600">${avg}/10</div>
+      <div style="flex:1.2;display:flex;gap:6px;flex-wrap:wrap">
+        ${openC > 0 ? `<span class="tag-flag">${openC} open</span>` : ''}
+        ${resolvedC > 0 ? `<span class="tag-ok">${resolvedC} resolved</span>` : ''}
+        ${openC === 0 && resolvedC === 0 ? '<span class="tag-mute">0</span>' : ''}
+      </div>
+      <div style="flex:1">${tasks.length === 0 ? '<span class="tag-mute">—</span>' : openTasks > 0 ? `<span class="tag-warn">${openTasks} open</span>` : '<span class="tag-ok">All closed</span>'}</div>
+      <div style="width:30px; text-align:right; color:var(--ink-faint)">›</div>
+    </button>`);
+    row.addEventListener("click", () => { openSubmissionId = sub.id; render(); window.scrollTo({ top: 0 }); });
+    rows.appendChild(row);
+  });
+  return node;
+}
+
+/* ---------- Submission detail ---------- */
+function renderSubmissionDetail() {
+  const sub = state.submissions.find(s => s.id === openSubmissionId);
+  const person = state.people.find(p => p.id === sub?.personId);
+  if (!sub || !person) return el('<div></div>');
+  const isEditing = editingSubmissionId === sub.id;
+  const ordered = [...PARAMS].sort((a, b) => (sub.ranks[a.key] || 9) - (sub.ranks[b.key] || 9));
+  const history = Array.isArray(sub.history) ? sub.history : [];
+  const lastEditedAt = sub.lastEditedAt || null;
+
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <button class="link-btn" id="back-list">${ICONS.chevron_left} All submissions</button>
+    <div class="page-head" style="margin-top:12px">
+      <h1 class="page-title">${esc(person.name)}</h1>
+      <p class="page-desc" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+        <span style="font-family:monospace;font-size:12.5px;color:var(--ink)">${esc(person.email || "—")}</span>
+        <span>·</span>
+        <span>${esc(person.role || "")}</span>
+        <span>·</span>
+        <span>Mentor ${esc(person.mentor || "—")}</span>
+        <span>·</span>
+        <span>Submitted ${timeAgo(sub.submittedAt)}</span>
+        ${lastEditedAt ? `<span>·</span><span style="color:var(--warn-ink);font-weight:600">Last edited ${timeAgo(lastEditedAt)}</span>` : ""}
+      </p>
+    </div>
+    <div class="section">
+      <div class="section-head">
+        <h3 class="h3">${isEditing ? "Editing current response" : "Current response · ordered by importance"}</h3>
+        <div style="display:flex;gap:8px">
+          ${isEditing ? `
+            <button class="btn-ghost-sm" id="cancel-edit">${ICONS.x} Cancel</button>
+            <button class="btn-primary-sm" id="save-edit">${ICONS.check} Save changes</button>
+          ` : `
+            <button class="btn-ghost-sm" id="edit-btn">${ICONS.edit || ICONS.rotate} Edit response</button>
+            <button class="btn-ghost-sm" id="rewrite-btn">${ICONS.rotate} Send back for rewrite</button>
+          `}
+        </div>
+      </div>
+      ${isEditing && editErrors.length ? `
+        <div class="err-box" style="margin-bottom:16px">
+          <div class="err-head">${ICONS.warn} A couple of things to fix</div>
+          <ul class="err-list">${editErrors.map(e => `<li>${esc(e)}</li>`).join("")}</ul>
+        </div>` : ""}
+      <div class="detail-list" id="detail-list"></div>
+      ${isEditing ? `
+        <div style="margin-top:20px;padding:16px;border:1px dashed var(--line);border-radius:10px;background:var(--bg)">
+          <label class="question-label" style="display:block;margin-bottom:6px">Optional note about this edit</label>
+          <textarea class="ta" id="edit-reason" placeholder="e.g. Aarav clarified his Career satisfaction score in a follow-up call"></textarea>
+        </div>
+      ` : ""}
+    </div>
+
+    ${!isEditing && (history.length > 0) ? `
+      <div class="section">
+        <div class="section-head">
+          <h3 class="h3">Response history <span style="font-weight:400;color:var(--ink-faint);font-size:13px">(${history.length} previous version${history.length===1?'':'s'})</span></h3>
+        </div>
+        <div id="history-list" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+    ` : ""}
+  `;
+  node.querySelector("#back-list").addEventListener("click", () => {
+    editingSubmissionId = null;
+    openSubmissionId = null;
+    render();
+    window.scrollTo({ top: 0 });
+  });
+
+  if (!isEditing) {
+    node.querySelector("#rewrite-btn").addEventListener("click", () => {
+      if (!confirm("Send this submission back for rewrite? It will be cleared, along with any edit history.")) return;
+      state.submissions = state.submissions.filter(s => s.id !== sub.id);
+      state.tasks = state.tasks.filter(t => t.submissionId !== sub.id);
+      saveState();
+      flash("Submission cleared.");
+      openSubmissionId = null;
+      render();
+    });
+    node.querySelector("#edit-btn").addEventListener("click", () => {
+      // Seed edit buffers with current values
+      editingSubmissionId = sub.id;
+      editRanks = { ...sub.ranks };
+      editSat = { ...sub.sat };
+      editComments = { ...sub.comments };
+      editMentorComments = { ...(sub.mentorComments || {}) };
+      editAdminComments = { ...(sub.adminComments || {}) };
+      editErrors = [];
+      render();
+      window.scrollTo({ top: 0 });
+    });
+  } else {
+    node.querySelector("#cancel-edit").addEventListener("click", () => {
+      editingSubmissionId = null;
+      editRanks = {}; editSat = {}; editComments = {}; editMentorComments = {}; editAdminComments = {}; editErrors = [];
+      render();
+    });
+    node.querySelector("#save-edit").addEventListener("click", () => {
+      // Validate: unique ranks 1-6 across params
+      const rankVals = PARAMS.map(p => editRanks[p.key]);
+      const missing = PARAMS.filter(p => !editRanks[p.key] || !editSat[p.key]);
+      const errs = [];
+      if (missing.length) errs.push(`Every element needs a rank and satisfaction score. Missing: ${missing.map(p=>p.label).join(", ")}.`);
+      const seen = new Set();
+      for (const p of PARAMS) {
+        const r = editRanks[p.key];
+        if (r && seen.has(r)) errs.push(`Rank ${r} is used more than once — each rank 1–6 must appear exactly once.`);
+        if (r) seen.add(r);
+      }
+      // Comments required when rank <= 4 and sat <= 6
+      for (const p of PARAMS) {
+        const r = editRanks[p.key], s = editSat[p.key];
+        if (r && s && isCommentRequired(r, s)) {
+          const c = (editComments[p.key] || "").trim();
+          if (!c) errs.push(`${p.label} — employee comment required (important and low satisfaction).`);
+        }
+      }
+      if (errs.length) { editErrors = [...new Set(errs)]; render(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+
+      // Snapshot previous version into history (includes mentor/admin comments)
+      const reason = (node.querySelector("#edit-reason")?.value || "").trim();
+      sub.history = Array.isArray(sub.history) ? sub.history : [];
+      sub.history.push({
+        capturedAt: Date.now(),
+        wasCurrentUntil: Date.now(),
+        ranks: { ...sub.ranks },
+        sat: { ...sub.sat },
+        comments: { ...sub.comments },
+        mentorComments: { ...(sub.mentorComments || {}) },
+        adminComments: { ...(sub.adminComments || {}) },
+        supersededReason: reason || null,
+        editedBy: "Admin",
+      });
+      // Apply new values
+      sub.ranks = { ...editRanks };
+      sub.sat = { ...editSat };
+      sub.comments = { ...editComments };
+      // Persist non-empty mentor/admin comments only
+      sub.mentorComments = {};
+      sub.adminComments = {};
+      for (const p of PARAMS) {
+        const m = (editMentorComments[p.key] || "").trim();
+        const a = (editAdminComments[p.key] || "").trim();
+        if (m) sub.mentorComments[p.key] = m;
+        if (a) sub.adminComments[p.key] = a;
+      }
+      sub.lastEditedAt = Date.now();
+
+      // How many concerns became resolved by this save
+      const newlyResolvedCount = PARAMS.filter(p => isConcernResolved(sub, p.key)).length;
+
+      editingSubmissionId = null;
+      editRanks = {}; editSat = {}; editComments = {}; editMentorComments = {}; editAdminComments = {}; editErrors = [];
+      saveState();
+      if (newlyResolvedCount > 0) {
+        flash(`Response updated. ${newlyResolvedCount} concern${newlyResolvedCount===1?'':'s'} marked resolved.`);
+      } else {
+        flash("Response updated. Previous version saved in history.");
+      }
+      render();
+      window.scrollTo({ top: 0 });
+    });
+  }
+
+  const list = node.querySelector("#detail-list");
+  ordered.forEach(p => list.appendChild(isEditing ? renderEditRow(sub, person, p) : renderDetailRow(sub, person, p)));
+
+  if (!isEditing && history.length > 0) {
+    const hl = node.querySelector("#history-list");
+    // Newest history entries first
+    [...history].reverse().forEach((h, i) => hl.appendChild(renderHistoryEntry(h, history.length - i)));
+  }
+
+  return node;
+}
+
+/*
+ * A single expandable history entry showing a past version of the response.
+ * Header is always visible; the response detail is behind a toggle.
+ */
+function renderHistoryEntry(entry, versionNum) {
+  const entryId = `history-${entry.capturedAt}`;
+  const isExpanded = expandedHistoryIds.has(entryId);
+  const wrap = el(`<div style="border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden">
+    <button class="trow" style="padding:14px 16px;border:none;background:transparent;text-align:left;display:flex;gap:14px;align-items:center;width:100%;cursor:pointer">
+      <div style="flex:1">
+        <div class="row-name">Version ${versionNum} · superseded ${timeAgo(entry.capturedAt)}</div>
+        <div class="row-sub" style="margin-top:2px">
+          ${entry.editedBy ? esc(entry.editedBy) + " · " : ""}${entry.supersededReason ? esc(entry.supersededReason) : "no note recorded"}
+        </div>
+      </div>
+      <span style="color:var(--ink-faint);font-size:20px;line-height:1">${isExpanded ? '▾' : '▸'}</span>
+    </button>
+    <div class="history-body" style="${isExpanded ? '' : 'display:none;'}padding:8px 16px 16px"></div>
+  </div>`);
+  wrap.querySelector(".trow").addEventListener("click", () => {
+    if (isExpanded) expandedHistoryIds.delete(entryId);
+    else expandedHistoryIds.add(entryId);
+    render();
+  });
+  if (isExpanded) {
+    const body = wrap.querySelector(".history-body");
+    const ordered = [...PARAMS].sort((a, b) => (entry.ranks[a.key] || 9) - (entry.ranks[b.key] || 9));
+    body.innerHTML = `<div class="detail-list"></div>`;
+    const list = body.querySelector(".detail-list");
+    ordered.forEach(p => {
+      const r = entry.ranks[p.key], s = entry.sat[p.key], c = entry.comments[p.key];
+      const mc = entry.mentorComments && entry.mentorComments[p.key];
+      const ac = entry.adminComments && entry.adminComments[p.key];
+      const wasConcern = r && s && isCommentRequired(r, s);
+      const wasResolved = wasConcern && (mc || ac);
+      const item = el(`<div class="detail-item ${wasConcern && !wasResolved ?'flag':''}" style="padding:14px 16px">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <span class="detail-rank">#${r || "—"}</span>
+            <div class="param-icon-box sm">${ICONS[p.icon]}</div>
+            <div>
+              <div class="detail-name">${esc(p.label)}</div>
+              ${wasResolved ? `<div style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ok-ink);font-weight:600;margin-top:2px">${ICONS.check} Was resolved</div>` : ""}
+            </div>
+          </div>
+          <div class="detail-mid">
+            <div class="summary-bar"><div class="summary-bar-fill" style="width:${(s||0)*10}%;background:${s<=6?'var(--flag)':'var(--ok)'}"></div></div>
+            <span class="summary-num">${s || "—"}/10</span>
+          </div>
+          <div class="detail-right">
+            ${c ? `<div class="detail-comment"><span style="font-size:11px;font-weight:700;color:var(--ink-faint);text-transform:uppercase">Employee</span><br>"${esc(c)}"</div>` : `<span class="muted" style="font-size:12.5px">(no employee comment)</span>`}
+            ${mc ? `<div class="detail-comment" style="color:var(--accent);background:var(--accent-tint);padding:8px 10px;border-radius:8px;font-style:normal;margin-top:6px"><span style="font-size:11px;font-weight:700;text-transform:uppercase">Mentor</span><br>${esc(mc)}</div>` : ""}
+            ${ac ? `<div class="detail-comment" style="color:var(--warn-ink);background:var(--warn-tint);padding:8px 10px;border-radius:8px;font-style:normal;margin-top:6px"><span style="font-size:11px;font-weight:700;text-transform:uppercase">Admin</span><br>${esc(ac)}</div>` : ""}
+          </div>
+        </div>
+      </div>`);
+      list.appendChild(item);
+    });
+  }
+  return wrap;
+}
+
+/*
+ * Editable row for a single parameter. Uses a rank select (1..6), a sat select
+ * (1..10), and a comment textarea. Uniqueness of ranks and conditional comment
+ * requirement are validated on save, not while typing.
+ */
+function renderEditRow(sub, person, p) {
+  const r = editRanks[p.key];
+  const s = editSat[p.key];
+  const c = editComments[p.key] || "";
+  const mc = editMentorComments[p.key] || "";
+  const ac = editAdminComments[p.key] || "";
+  const isRequired = r && s && isCommentRequired(r, s);
+  const willResolve = isRequired && ((mc || "").trim() || (ac || "").trim());
+
+  const item = el(`<div class="detail-item ${isRequired && !willResolve ? 'flag' : ''}" style="padding:18px">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+      <div class="param-icon-box sm">${ICONS[p.icon]}</div>
+      <div style="flex:1">
+        <div class="detail-name">${esc(p.label)}</div>
+        ${isRequired && !willResolve ? `<div class="detail-flag-tag" style="margin-top:2px">${ICONS.warn} Important + low · needs follow-up</div>` : ""}
+        ${willResolve ? `<div style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ok-ink);font-weight:600;margin-top:2px">${ICONS.check} Resolved by follow-up comment</div>` : ""}
+      </div>
+      <div style="display:flex;gap:16px;align-items:center">
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:11.5px;color:var(--ink-faint);font-weight:600">Rank</span>
+          <select class="input" data-rank="${p.key}" style="padding:5px 8px;font-size:12.5px;width:auto">
+            <option value="">—</option>
+            ${[1,2,3,4,5,6].map(n => `<option value="${n}" ${r===n?'selected':''}>${n}</option>`).join("")}
+          </select>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:11.5px;color:var(--ink-faint);font-weight:600">Sat</span>
+          <select class="input" data-sat="${p.key}" style="padding:5px 8px;font-size:12.5px;width:auto">
+            <option value="">—</option>
+            ${Array.from({length:10},(_,i)=>i+1).map(n => `<option value="${n}" ${s===n?'selected':''}>${n}</option>`).join("")}
+          </select>
+          <span style="font-size:12.5px;color:var(--ink-faint)">/ 10</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <label class="question-label" style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+          ${ICONS.user_check || ICONS.check} Employee comment${isRequired ? ' *' : ' (optional)'}
+        </label>
+        <textarea class="ta ${isRequired ? 'req' : ''}" data-comment="${p.key}" placeholder="${isRequired ? "Employee comment required — important and low satisfaction" : "Employee's comment"}">${esc(c)}</textarea>
+      </div>
+      <div>
+        <label class="question-label" style="display:flex;align-items:center;gap:6px;margin-bottom:4px;color:var(--accent)">
+          ${ICONS.message || ICONS.user_cog} Mentor / manager comment <span class="muted">(optional — adding this marks the concern resolved)</span>
+        </label>
+        <textarea class="ta" data-mentor-comment="${p.key}" placeholder="What did ${esc(person.mentor || 'the mentor')} say? What action did they take?" style="border-color:var(--accent-line);background:${mc?'var(--accent-tint)':'var(--surface)'}">${esc(mc)}</textarea>
+      </div>
+      <div>
+        <label class="question-label" style="display:flex;align-items:center;gap:6px;margin-bottom:4px;color:var(--warn-ink)">
+          ${ICONS.shield || ICONS.user_cog} Admin comment <span class="muted">(optional — adding this marks the concern resolved)</span>
+        </label>
+        <textarea class="ta" data-admin-comment="${p.key}" placeholder="Your note as the People Ops admin" style="border-color:var(--warn-tint);background:${ac?'var(--warn-tint)':'var(--surface)'}">${esc(ac)}</textarea>
+      </div>
+    </div>
+  </div>`);
+  item.querySelector(`[data-rank="${p.key}"]`).addEventListener("change", e => {
+    const v = parseInt(e.target.value, 10);
+    if (Number.isNaN(v)) delete editRanks[p.key]; else editRanks[p.key] = v;
+    render();
+  });
+  item.querySelector(`[data-sat="${p.key}"]`).addEventListener("change", e => {
+    const v = parseInt(e.target.value, 10);
+    if (Number.isNaN(v)) delete editSat[p.key]; else editSat[p.key] = v;
+    render();
+  });
+  item.querySelector(`[data-comment="${p.key}"]`).addEventListener("input", e => {
+    editComments[p.key] = e.target.value;
+  });
+  // For mentor/admin comments: re-render on blur so the resolved-badge/highlight updates
+  const mentorTa = item.querySelector(`[data-mentor-comment="${p.key}"]`);
+  mentorTa.addEventListener("input", e => { editMentorComments[p.key] = e.target.value; });
+  mentorTa.addEventListener("blur", () => render());
+  const adminTa = item.querySelector(`[data-admin-comment="${p.key}"]`);
+  adminTa.addEventListener("input", e => { editAdminComments[p.key] = e.target.value; });
+  adminTa.addEventListener("blur", () => render());
+  return item;
+}
+
+function renderDetailRow(sub, person, p) {
+  const r = sub.ranks[p.key], s = sub.sat[p.key];
+  const comment = sub.comments[p.key];
+  const mentorComment = sub.mentorComments && sub.mentorComments[p.key];
+  const adminComment = sub.adminComments && sub.adminComments[p.key];
+  const isConcern = r >= 1 && r <= 4 && s <= 6;
+  const resolved = isConcern && !!(mentorComment || adminComment);
+  const task = state.tasks.find(t => t.submissionId === sub.id && t.paramKey === p.key);
+
+  const row = el(`<div class="detail-item ${isConcern && !resolved ? 'flag' : ''}">
+    <div class="detail-left">
+      <span class="detail-rank">#${r}</span>
+      <div class="param-icon-box sm">${ICONS[p.icon]}</div>
+      <div>
+        <div class="detail-name">${esc(p.label)}</div>
+        ${isConcern && !resolved ? `<div class="detail-flag-tag">${ICONS.warn} Important + low</div>` : ""}
+        ${resolved ? `<div style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ok-ink);font-weight:600;margin-top:2px">${ICONS.check} Resolved</div>` : ""}
+      </div>
+    </div>
+    <div class="detail-mid">
+      <div class="summary-bar"><div class="summary-bar-fill" style="width:${s*10}%; background:${s<=6?'var(--flag)':'var(--ok)'}"></div></div>
+      <span class="summary-num">${s}/10</span>
+    </div>
+    <div class="detail-right">
+      ${comment ? `<div class="detail-comment"><span style="font-size:11px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.04em">Employee</span><br>"${esc(comment)}"</div>` : ""}
+      ${mentorComment ? `<div class="detail-comment" style="color:var(--accent);background:var(--accent-tint);padding:8px 10px;border-radius:8px;font-style:normal"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Mentor · ${esc(person.mentor || 'mentor')}</span><br>${esc(mentorComment)}</div>` : ""}
+      ${adminComment ? `<div class="detail-comment" style="color:var(--warn-ink);background:var(--warn-tint);padding:8px 10px;border-radius:8px;font-style:normal"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Admin</span><br>${esc(adminComment)}</div>` : ""}
+      <div data-action></div>
+    </div>
+  </div>`);
+
+  const slot = row.querySelector('[data-action]');
+  if (task) {
+    slot.appendChild(renderTaskBadge(task));
+  } else if ((comment || isConcern) && !resolved) {
+    if (tagFormFor === p.key) {
+      slot.appendChild(renderTagForm(sub, person, p.key));
+    } else {
+      const btn = el(`<button class="btn-tag-sm">${ICONS.tag} Tag for follow-up</button>`);
+      btn.addEventListener("click", () => { tagFormFor = p.key; render(); });
+      slot.appendChild(btn);
+    }
+  }
+  return row;
+}
+
+function renderTaskBadge(task) {
+  const map = {
+    tagged:    { bg: "var(--warn-tint)",   fg: "var(--warn-ink)", label: `With ${task.taggedTo}` },
+    responded: { bg: "var(--accent-tint)", fg: "var(--accent)",   label: `${task.taggedTo} responded` },
+    completed: { bg: "var(--ok-tint)",     fg: "var(--ok)",       label: "Completed" },
+  };
+  const c = map[task.status];
+  return el(`<span class="task-badge" style="background:${c.bg}; color:${c.fg}">${esc(c.label)}</span>`);
+}
+
+function renderTagForm(sub, person, paramKey) {
+  const param = PARAMS.find(p => p.key === paramKey);
+  const sat = sub.sat[paramKey];
+  const rank = sub.ranks[paramKey];
+  const employeeComment = sub.comments[paramKey] || "";
+
+  // Try to prefill the email if the mentor's name matches someone in the roster
+  let defaultEmail = "";
+  if (person.mentor) {
+    const mentorPerson = state.people.find(p => (p.name || "").toLowerCase() === person.mentor.toLowerCase());
+    if (mentorPerson && mentorPerson.email) defaultEmail = mentorPerson.email;
+  }
+
+  // Unique datalist ID per param so multiple forms don't collide
+  const rolesDatalistId = "tag-roles-" + paramKey;
+
+  const wrap = el(`<div class="tag-form">
+    <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;margin-bottom:8px">
+      <input class="tag-input" type="email" id="tag-email" placeholder="Email address *" value="${esc(defaultEmail)}" autocomplete="off" />
+      <input class="tag-input" id="tag-to" placeholder="Name *" value="${esc(person.mentor || "")}" autocomplete="off" />
+      <div>
+        <input class="tag-input" list="${rolesDatalistId}" id="tag-role" placeholder="Role" value="Mentor" autocomplete="off" style="width:100%" />
+        <datalist id="${rolesDatalistId}">
+          <option>Mentor</option>
+          <option>Manager</option>
+          <option>Function Head</option>
+          <option>HR Partner</option>
+          <option>Compensation Lead</option>
+          <option>Skip Manager</option>
+          <option>Peer</option>
+        </datalist>
+      </div>
+    </div>
+    <textarea class="tag-textarea" id="tag-note" placeholder="What should this person do? (this text will be included in the email)"></textarea>
+    <div class="tag-form-actions">
+      <button class="btn-ghost-sm" id="tag-cancel">Cancel</button>
+      <button class="btn-primary-sm" id="tag-confirm">${ICONS.send} Send email &amp; tag</button>
+    </div>
+  </div>`);
+
+  wrap.querySelector("#tag-cancel").addEventListener("click", () => { tagFormFor = null; render(); });
+
+  wrap.querySelector("#tag-confirm").addEventListener("click", () => {
+    const email = wrap.querySelector("#tag-email").value.trim();
+    const to = wrap.querySelector("#tag-to").value.trim();
+    const role = wrap.querySelector("#tag-role").value.trim() || "Other";
+    const note = wrap.querySelector("#tag-note").value.trim();
+
+    // Validation
+    if (!email) { flash("Add the person's email — that's what triggers the follow-up."); return; }
+    if (!isValidEmail(email)) { flash("That email doesn't look valid."); return; }
+    if (!to) { flash("Add the person's name."); return; }
+    if (!note) { flash("Add a note — what should this person do?"); return; }
+
+    // Save the task locally first (so even if the mail client fails, the task is recorded)
+    state.tasks.push({
+      id: "t_" + Date.now(),
+      submissionId: sub.id, personId: person.id, paramKey,
+      originalComment: employeeComment,
+      taggedTo: to, taggedToEmail: email, taggedToRole: role,
+      adminNote: note,
+      status: "tagged", taggedAt: Date.now(),
+      response: "", completedAt: null, adminCloseComment: "",
+    });
+    saveState();
+
+    // Compose and open the email in the user's default mail client
+    openTagEmail({ to, toEmail: email, role, note, person, param, rank, sat, employeeComment });
+
+    flash(`Task saved for ${to}. Opening your mail app…`);
+    tagFormFor = null;
+    // Small delay so the flash renders and mail client has time to open before re-render
+    setTimeout(() => render(), 200);
+  });
+
+  return wrap;
+}
+
+/*
+ * Build a mailto: link with the tag-follow-up context pre-composed and trigger
+ * the user's default mail client. Uses a hidden anchor with target="_blank" so
+ * it doesn't navigate the current page.
+ */
+function openTagEmail({ to, toEmail, role, note, person, param, rank, sat, employeeComment }) {
+  const subject = `EVP Follow-up: ${person.name} · ${param.label}`;
+  const lines = [
+    `Hi ${to},`,
+    ``,
+    `I'm reaching out because ${person.name} (${person.email || person.role || "employee"}) flagged "${param.label}" in their recent EVP check-in — they ranked it importance #${rank} and rated their satisfaction ${sat}/10.`,
+  ];
+  if (employeeComment) {
+    lines.push(``);
+    lines.push(`In their own words:`);
+    lines.push(`"${employeeComment}"`);
+  }
+  lines.push(``);
+  lines.push(`What we'd like from you as their ${role}:`);
+  lines.push(note);
+  lines.push(``);
+  lines.push(`Please reply with what came out of your conversation so we can close the loop.`);
+  lines.push(``);
+  lines.push(`Thanks,`);
+  lines.push(`People Operations · Altudo`);
+
+  const body = lines.join("\n");
+  const url = `mailto:${encodeURIComponent(toEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // Use an anchor so browser handles the mailto handoff to the OS
+  const a = document.createElement("a");
+  a.href = url;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+/* ---------- Tasks tab ---------- */
+function renderTasks() {
+  const tasks = [...state.tasks].sort((a,b) => (b.taggedAt||0)-(a.taggedAt||0));
+  const filtered = tasks.filter(t => {
+    if (taskFilter === "active") return t.status !== "completed";
+    if (taskFilter === "done") return t.status === "completed";
+    return true;
+  });
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <div class="page-head">
+      <h1 class="page-title">Tasks</h1>
+      <p class="page-desc">All concerns tagged to mentors or other roles. Close them with a resolution note when done.</p>
+    </div>
+    <div class="filter-row" id="filters">
+      <button class="filter-btn ${taskFilter==='active'?'active':''}" data-f="active">Active (${tasks.filter(t=>t.status!=='completed').length})</button>
+      <button class="filter-btn ${taskFilter==='done'?'active':''}" data-f="done">Completed (${tasks.filter(t=>t.status==='completed').length})</button>
+      <button class="filter-btn ${taskFilter==='all'?'active':''}" data-f="all">All (${tasks.length})</button>
+    </div>
+    <div class="task-list" id="task-list"></div>
+  `;
+  node.querySelectorAll("#filters .filter-btn").forEach(b => {
+    b.addEventListener("click", () => { taskFilter = b.dataset.f; render(); });
+  });
+  const list = node.querySelector("#task-list");
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty">No tasks here.</div>';
+  } else {
+    filtered.forEach(t => list.appendChild(renderTaskCard(t, "admin")));
+  }
+  return node;
+}
+
+function renderTaskCard(task, mode) {
+  const person = state.people.find(p => p.id === task.personId);
+  const param = PARAMS.find(p => p.key === task.paramKey);
+  const node = el(`<div class="task-card">
+    <div class="task-top">
+      <div class="param-icon-box sm">${ICONS[param.icon]}</div>
+      <div style="flex:1">
+        <div class="task-title">${esc(person?.name)} · ${esc(param?.label)}</div>
+        <div class="task-meta">${mode === 'mentor' ? '' : `Tagged to ${esc(task.taggedTo)}${task.taggedToEmail ? ` <span style="font-family:monospace;color:var(--ink-faint)">&lt;${esc(task.taggedToEmail)}&gt;</span>` : ""} (${esc(task.taggedToRole)}) · `}${timeAgo(task.taggedAt)}</div>
+      </div>
+      <div data-badge></div>
+    </div>
+    <div class="task-blocks">
+      ${task.originalComment ? `<div class="task-block"><div class="task-block-label">From the employee</div><div class="task-block-text">"${esc(task.originalComment)}"</div></div>` : ""}
+      <div class="task-block"><div class="task-block-label">${mode==='mentor'?'People Ops ask':'Your ask to '+esc(task.taggedTo)}</div><div class="task-block-text">${esc(task.adminNote)}</div></div>
+      ${task.response ? `<div class="task-block"><div class="task-block-label">${mode==='mentor'?'Your response':esc(task.taggedTo)+"'s response"}</div><div class="task-block-text">${esc(task.response)}</div></div>` : ""}
+      ${task.adminCloseComment ? `<div class="task-block"><div class="task-block-label">Closure note</div><div class="task-block-text">${esc(task.adminCloseComment)}</div></div>` : ""}
+    </div>
+    <div data-action></div>
+  </div>`);
+  node.querySelector('[data-badge]').appendChild(renderTaskBadge(task));
+  const slot = node.querySelector('[data-action]');
+
+  if (mode === "admin") {
+    if (task.status === "responded") {
+      const wrap = el(`<div>
+        <button class="btn-primary-sm" data-open>${ICONS.check} Mark complete</button>
+      </div>`);
+      wrap.querySelector("[data-open]").addEventListener("click", () => {
+        const note = prompt("Closure note — what was the outcome?");
+        if (note && note.trim()) {
+          state.tasks = state.tasks.map(t => t.id === task.id ? { ...t, status: "completed", adminCloseComment: note.trim(), completedAt: Date.now() } : t);
+          saveState();
+          flash("Task closed.");
+          render();
+        }
+      });
+      slot.appendChild(wrap);
+    } else if (task.status === "tagged") {
+      slot.innerHTML = `<div class="waiting-note">${ICONS.clock} Waiting on ${esc(task.taggedTo)} to respond.</div>`;
+    }
+  } else if (mode === "mentor" && task.status === "tagged") {
+    const wrap = el(`<div class="close-box">
+      <textarea class="ta" id="resp-${task.id}" placeholder="How did you address this? What's the outcome or next step?"></textarea>
+      <div class="tag-form-actions" style="margin-top:8px">
+        <button class="btn-primary-sm" data-send>${ICONS.send} Send response</button>
+      </div>
+    </div>`);
+    wrap.querySelector("[data-send]").addEventListener("click", () => {
+      const v = wrap.querySelector(`#resp-${task.id}`).value.trim();
+      if (!v) return;
+      state.tasks = state.tasks.map(t => t.id === task.id ? { ...t, status: "responded", response: v, respondedAt: Date.now() } : t);
+      saveState();
+      flash("Response sent to People Ops.");
+      render();
+    });
+    slot.appendChild(wrap);
+  }
+  return node;
+}
+
+/* ---------- People tab ---------- */
+function emptyState() {
+  return { people: [], submissions: [], tasks: [], content: defaultContent() };
+}
+
+function parseCSV(text) {
+  // Robust CSV parser: handles quoted fields, commas inside quotes, escaped quotes,
+  // and CRLF / LF line endings. Returns array of arrays.
+  const rows = [];
+  let row = [], field = "", inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i], next = text[i+1];
+    if (inQuotes) {
+      if (c === '"' && next === '"') { field += '"'; i++; }
+      else if (c === '"') { inQuotes = false; }
+      else { field += c; }
+    } else {
+      if (c === '"') { inQuotes = true; }
+      else if (c === ',') { row.push(field); field = ""; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && next === '\n') i++;
+        row.push(field); rows.push(row); row = []; field = "";
+      } else { field += c; }
+    }
+  }
+  if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+  return rows.filter(r => r.some(c => c && c.trim().length));
+}
+
+function importPeopleFromText(text) {
+  const rows = parseCSV(text);
+  if (rows.length === 0) return { added: 0, skipped: 0, errors: ["No rows found."] };
+
+  // detect header row
+  const first = rows[0].map(c => c.trim().toLowerCase());
+  const looksLikeHeader = first.some(c => ["email","name","full name","role","title","mentor"].includes(c));
+  let headers, dataRows;
+  if (looksLikeHeader) {
+    headers = first;
+    dataRows = rows.slice(1);
+  } else {
+    // assume order: email, name, role, mentor
+    headers = ["email","name","role","mentor"];
+    dataRows = rows;
+  }
+
+  const idx = {
+    email: headers.findIndex(h => h === "email"),
+    name: headers.findIndex(h => h === "name" || h === "full name"),
+    role: headers.findIndex(h => h === "role" || h === "title"),
+    mentor: headers.findIndex(h => h === "mentor"),
+  };
+  if (idx.email === -1) {
+    return { added: 0, skipped: 0, errors: ['Missing "email" column. Required columns: email, name. Optional: role, mentor.'] };
+  }
+  if (idx.name === -1) {
+    return { added: 0, skipped: 0, errors: ['Missing "name" column. Required columns: email, name. Optional: role, mentor.'] };
+  }
+
+  const existingEmails = new Set(state.people.map(p => normalizeEmail(p.email)).filter(Boolean));
+  const errors = [];
+  const newPeople = [];
+  dataRows.forEach((r, i) => {
+    const lineNo = i + (looksLikeHeader ? 2 : 1);
+    const email = (r[idx.email] || "").trim();
+    const name = (r[idx.name] || "").trim();
+    if (!email) { errors.push(`Row ${lineNo}: missing email`); return; }
+    if (!isValidEmail(email)) { errors.push(`Row ${lineNo}: "${email}" doesn't look like a valid email, skipped`); return; }
+    if (!name) { errors.push(`Row ${lineNo}: missing name`); return; }
+    const normEmail = normalizeEmail(email);
+    if (existingEmails.has(normEmail)) { errors.push(`Row ${lineNo}: email "${email}" already exists, skipped`); return; }
+    const role = idx.role >= 0 ? (r[idx.role] || "").trim() : "";
+    const mentor = idx.mentor >= 0 ? (r[idx.mentor] || "").trim() : "";
+    existingEmails.add(normEmail);
+    newPeople.push({
+      id: "p_" + Date.now() + "_" + i,
+      email: normEmail, name, role, mentor,
+      cycleStart: Date.now()
+    });
+  });
+  return { added: newPeople.length, skipped: errors.length, errors, newPeople };
+}
+
+function downloadTemplateCSV() {
+  const csv = "email,name,role,mentor\n" +
+    "aarav.mehta@altudo.co,Aarav Mehta,Senior Consultant,Priya Nair\n" +
+    "diya.sharma@altudo.co,Diya Sharma,Manager,Rohan Kapoor\n";
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "evp_roster_template.csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function renderPeople() {
+  const node = el('<div></div>');
+  const totalSubmitted = state.people.filter(p => state.submissions.find(s => s.personId === p.id)).length;
+  node.innerHTML = `
+    <div class="page-head">
+      <h1 class="page-title">People</h1>
+      <p class="page-desc">Each respondent is identified by their <strong>email address</strong>. You can pre-load your roster below to track who has and hasn't submitted, but anyone with the survey link can also fill it in themselves (their email becomes their identifier on submission).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h3 class="h3">Share the survey link</h3>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin:0 0 12px;line-height:1.5">
+        Send the same link to everyone — recipients fill in their email when they open it.
+      </p>
+      <div style="display:flex;gap:10px;align-items:stretch">
+        <input class="input" id="share-link" value="${esc(buildSurveyLink())}" readonly style="flex:1;font-family:monospace;font-size:12.5px">
+        <button class="btn-primary-sm" id="copy-share">${ICONS.file} Copy link</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h3 class="h3">Bulk upload from CSV</h3>
+        <button class="btn-ghost-sm" id="template-btn">${ICONS.file} Download CSV template</button>
+      </div>
+      <p style="font-size: 13px; color: var(--ink-soft); margin: 0 0 14px; line-height: 1.5;">
+        Required columns: <strong>email</strong>, <strong>name</strong>. Optional columns: <strong>role</strong>, <strong>mentor</strong>.
+        First row should be the header. Duplicates (same email) are automatically skipped.
+      </p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div>
+          <label class="question-label" style="display: block; margin-bottom: 8px;">Option 1 — Upload a .csv file</label>
+          <input type="file" id="csv-file" accept=".csv,text/csv" class="input" style="width: 100%;" />
+        </div>
+        <div>
+          <label class="question-label" style="display: block; margin-bottom: 8px;">Option 2 — Paste CSV text</label>
+          <textarea class="ta" id="csv-text" style="min-height: 60px;" placeholder="email,name,role,mentor&#10;anjali.singh@altudo.co,Anjali Singh,Manager,Rohan Kapoor"></textarea>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button class="btn-primary-sm" id="import-btn">${ICONS.plus} Import roster</button>
+        <span id="import-status" style="font-size: 12.5px; color: var(--ink-faint);"></span>
+      </div>
+      <div id="import-errors"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Add one person</h3></div>
+      <div class="add-grid" style="grid-template-columns: 2fr 1.5fr 1.2fr 1.2fr auto;">
+        <input class="input" id="add-email" placeholder="Email * (unique identifier)" type="email" />
+        <input class="input" id="add-name" placeholder="Full name *" />
+        <input class="input" id="add-role" placeholder="Role" />
+        <input class="input" id="add-mentor" placeholder="Mentor" />
+        <button class="btn-primary-sm" id="add-btn">${ICONS.plus} Add</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head">
+        <h3 class="h3">Roster (${state.people.length}) · ${totalSubmitted} submitted</h3>
+        ${state.people.length > 0 ? `<button class="btn-ghost-sm" id="clear-roster" style="color: var(--flag);">${ICONS.trash} Clear entire roster</button>` : ''}
+      </div>
+      <div class="table">
+        <div class="trow thead">
+          <div style="flex:2.2">Email</div>
+          <div style="flex:1.6">Name</div>
+          <div style="flex:1.2">Role</div>
+          <div style="flex:1.2">Mentor</div>
+          <div style="flex:1.1">Status</div>
+          <div style="width:36px"></div>
+        </div>
+        <div id="roster"></div>
+      </div>
+    </div>
+  `;
+
+  // Share link
+  node.querySelector("#copy-share").addEventListener("click", () => {
+    copyToClipboard(node.querySelector("#share-link").value);
+    flash("Survey link copied — paste it into your email.");
+  });
+
+  node.querySelector("#template-btn").addEventListener("click", downloadTemplateCSV);
+
+  node.querySelector("#csv-file").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const text = await file.text();
+    node.querySelector("#csv-text").value = text;
+    flash(`Loaded ${file.name} — click "Import roster" to add.`);
+  });
+
+  node.querySelector("#import-btn").addEventListener("click", () => {
+    const text = node.querySelector("#csv-text").value.trim();
+    if (!text) { flash("Paste CSV text or upload a file first."); return; }
+    const result = importPeopleFromText(text);
+    const errDiv = node.querySelector("#import-errors");
+    const statusEl = node.querySelector("#import-status");
+    if (result.newPeople && result.newPeople.length) {
+      state.people = [...state.people, ...result.newPeople];
+      saveState();
+    }
+    statusEl.textContent = `Added ${result.added}${result.skipped ? `, skipped ${result.skipped}` : ""}.`;
+    statusEl.style.color = result.added > 0 ? "var(--ok)" : "var(--flag)";
+    if (result.errors && result.errors.length) {
+      errDiv.innerHTML = `<div class="err-box" style="margin-top: 12px;">
+        <div class="err-head">${ICONS.warn} ${result.errors.length} ${result.errors.length === 1 ? 'note' : 'notes'}</div>
+        <ul class="err-list">${result.errors.map(e => `<li>${esc(e)}</li>`).join("")}</ul>
+      </div>`;
+    } else {
+      errDiv.innerHTML = "";
+    }
+    if (result.added > 0) {
+      flash(`Imported ${result.added} ${result.added === 1 ? "person" : "people"}.`);
+      setTimeout(render, 1500);
+    }
+  });
+
+  const clearBtn = node.querySelector("#clear-roster");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      if (!confirm(`Clear the entire roster?\n\nThis removes all ${state.people.length} people and any submissions or tasks linked to them. This cannot be undone.`)) return;
+      state = emptyState();
+      saveState();
+      flash("Roster cleared.");
+      render();
+    });
+  }
+  node.querySelector("#add-btn").addEventListener("click", () => {
+    const email = node.querySelector("#add-email").value.trim();
+    const name = node.querySelector("#add-name").value.trim();
+    if (!email || !name) { flash("Email and Name are required."); return; }
+    if (!isValidEmail(email)) { flash("That doesn't look like a valid email."); return; }
+    if (findPersonByEmail(email)) { flash("Someone with that email is already in the roster."); return; }
+    const role = node.querySelector("#add-role").value.trim();
+    const mentor = node.querySelector("#add-mentor").value.trim();
+    state.people.push({ id: "p_" + Date.now(), email: normalizeEmail(email), name, role, mentor, cycleStart: Date.now() });
+    saveState();
+    flash("Person added.");
+    render();
+  });
+
+  const roster = node.querySelector("#roster");
+  if (state.people.length === 0) {
+    roster.innerHTML = `<div style="padding:32px 16px;text-align:center;color:var(--ink-faint);font-size:13.5px">No one in the roster yet. Add people above, or just share the link and let respondents self-register on submission.</div>`;
+  } else {
+    state.people.forEach(p => {
+      const submitted = state.submissions.find(s => s.personId === p.id);
+      const isSelf = p.selfRegistered;
+      const row = el(`<div class="trow">
+        <div style="flex:2.2; text-align:left; font-family: monospace; font-size:12.5px; color:var(--ink); word-break:break-all">${esc(p.email || "—")}</div>
+        <div style="flex:1.6; text-align:left; font-weight:600; color:var(--ink)">${esc(p.name)}${isSelf?` <span class="tag-mute" style="font-size:10.5px;margin-left:6px">self-registered</span>`:""}</div>
+        <div style="flex:1.2; text-align:left; color:var(--ink-soft)">${esc(p.role||"")}</div>
+        <div style="flex:1.2; text-align:left; color:var(--ink-soft)">${esc(p.mentor||"")}</div>
+        <div style="flex:1.1; text-align:left">${submitted ? '<span class="tag-ok">Submitted</span>' : '<span class="tag-mute">Pending</span>'}</div>
+        <div style="width:36px"><button class="btn-icon" data-id="${p.id}" title="Remove">${ICONS.trash}</button></div>
+      </div>`);
+      row.querySelector("[data-id]").addEventListener("click", () => {
+        if (!confirm(`Remove ${p.name}? This will also delete their submission and tasks.`)) return;
+        state.people = state.people.filter(x => x.id !== p.id);
+        state.submissions = state.submissions.filter(s => s.personId !== p.id);
+        state.tasks = state.tasks.filter(t => t.personId !== p.id);
+        saveState();
+        flash("Removed.");
+        render();
+      });
+      roster.appendChild(row);
+    });
+  }
+  return node;
+}
+
+function buildSurveyLink(email) {
+  try {
+    const url = new URL(window.location.href);
+    url.search = "";
+    if (email) url.searchParams.set("email", email);
+    return url.toString();
+  } catch {
+    return email ? "?email=" + encodeURIComponent(email) : "(local file)";
+  }
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); } catch {}
+  document.body.removeChild(ta);
+}
+
+/* ===================== FORM EDITOR (Phase 1) ===================== */
+function renderFormEditor() {
+  const node = el('<div></div>');
+  const c = state.content;
+  node.innerHTML = `
+    <div class="page-head">
+      <h1 class="page-title">Form Editor</h1>
+      <p class="page-desc">Edit the text employees see — the intro page, the survey section title, and the thank-you message. Changes save automatically.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Intro page</h3>
+        <button class="btn-ghost-sm" id="reset-intro" style="color: var(--flag);">${ICONS.rotate} Reset to default</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <label class="question-label">Eyebrow line<input class="input" data-fc="intro.eyebrow" value="${esc(c.intro.eyebrow)}"></label>
+        <label class="question-label">Title<input class="input" data-fc="intro.title" value="${esc(c.intro.title)}"></label>
+        <label class="question-label">Subtitle / lede<textarea class="ta" data-fc="intro.lede">${esc(c.intro.lede)}</textarea></label>
+        <label class="question-label">Privacy note<textarea class="ta" data-fc="intro.privacyNote">${esc(c.intro.privacyNote)}</textarea></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label class="question-label">CTA button label<input class="input" data-fc="intro.ctaLabel" value="${esc(c.intro.ctaLabel)}"></label>
+          <label class="question-label">Footer note<input class="input" data-fc="intro.footerNote" value="${esc(c.intro.footerNote)}"></label>
+        </div>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Intro content blocks</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">These are the cards on the intro page. Edit the heading and body; the icon can be any name from: bulb, target, chart, layers, smile, shield, sparkles, lock, briefcase, graduation, users, heart, award, message.</p>
+        <div id="blocks-area"></div>
+        <button class="btn-ghost-sm" id="add-block" style="margin-top:8px">${ICONS.plus} Add a block</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h3 class="h3">Identify page (&ldquo;Tell us who you are&rdquo;)</h3>
+        <button class="btn-ghost-sm" id="reset-identify" style="color: var(--flag);">${ICONS.rotate} Reset to default</button>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 12px;line-height:1.5">Shown between the intro page and the survey. The respondent enters their email + name here — the email is what identifies them and links their submission back to the People roster.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <label class="question-label">Eyebrow line<input class="input" data-fc="identify.eyebrow" value="${esc(c.identify.eyebrow)}"></label>
+        <label class="question-label">Title<input class="input" data-fc="identify.title" value="${esc(c.identify.title)}"></label>
+        <label class="question-label">Subtitle / lede<textarea class="ta" data-fc="identify.lede">${esc(c.identify.lede)}</textarea></label>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label class="question-label">Email field label<input class="input" data-fc="identify.emailLabel" value="${esc(c.identify.emailLabel)}"></label>
+          <label class="question-label">Email placeholder<input class="input" data-fc="identify.emailPlaceholder" value="${esc(c.identify.emailPlaceholder)}"></label>
+        </div>
+        <label class="question-label">Email help text (shown under the label)<textarea class="ta" data-fc="identify.emailHelp">${esc(c.identify.emailHelp)}</textarea></label>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label class="question-label">Full name field label<input class="input" data-fc="identify.nameLabel" value="${esc(c.identify.nameLabel)}"></label>
+          <label class="question-label">Full name placeholder<input class="input" data-fc="identify.namePlaceholder" value="${esc(c.identify.namePlaceholder)}"></label>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label class="question-label">Role field label<input class="input" data-fc="identify.roleLabel" value="${esc(c.identify.roleLabel)}"></label>
+          <label class="question-label">Role placeholder<input class="input" data-fc="identify.rolePlaceholder" value="${esc(c.identify.rolePlaceholder)}"></label>
+        </div>
+
+        <label class="question-label">Privacy note<textarea class="ta" data-fc="identify.privacyNote">${esc(c.identify.privacyNote)}</textarea></label>
+        <label class="question-label">Continue button label<input class="input" data-fc="identify.ctaLabel" value="${esc(c.identify.ctaLabel)}"></label>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Identify content blocks</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">Optional cards shown between the lede and the email form. Same icon library as intro blocks.</p>
+        <div id="identify-blocks-area"></div>
+        <button class="btn-ghost-sm" id="identify-add-block" style="margin-top:8px">${ICONS.plus} Add a block</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Survey section</h3></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <label class="question-label">Section title<input class="input" data-fc="survey.sectionTitle" value="${esc(c.survey.sectionTitle)}"></label>
+        <label class="question-label">Section description / instructions<textarea class="ta" data-fc="survey.sectionDescription">${esc(c.survey.sectionDescription)}</textarea></label>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Survey content blocks</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">Optional cards shown between the survey description and the 6 EVP parameter cards. Note: this doesn't let you add or remove parameters — those are structural.</p>
+        <div id="survey-blocks-area"></div>
+        <button class="btn-ghost-sm" id="survey-add-block" style="margin-top:8px">${ICONS.plus} Add a block</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Thank-you page</h3></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <label class="question-label">Greeting (followed by ", &lt;first name&gt;.")<input class="input" data-fc="thanks.title" value="${esc(c.thanks.title)}"></label>
+        <label class="question-label">Message<textarea class="ta" data-fc="thanks.lede">${esc(c.thanks.lede)}</textarea></label>
+        <label class="question-label">Privacy note<textarea class="ta" data-fc="thanks.privacyNote">${esc(c.thanks.privacyNote)}</textarea></label>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Thank-you content blocks</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">Optional cards shown at the bottom of the thank-you page. Good for "What happens next", "How to reach People Ops", etc.</p>
+        <div id="thanks-blocks-area"></div>
+        <button class="btn-ghost-sm" id="thanks-add-block" style="margin-top:8px">${ICONS.plus} Add a block</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Admin password</h3></div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 12px;line-height:1.5">Required to open the admin panel via the <code>#admin</code> URL. Change it here — saved on click-out, like other fields.</p>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="password" class="input" data-fc="admin.password" id="admin-pw-editor" value="${esc(c.admin?.password || "")}" autocomplete="new-password" style="flex:1;font-family:monospace">
+        <button type="button" class="btn-ghost-sm" id="admin-pw-show">Show</button>
+      </div>
+    </div>
+
+    <div style="font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:14px">Changes save the moment you click out of a field.</div>
+  `;
+
+  // Wire field-bind: any element with data-fc="path.to.value"
+  node.querySelectorAll("[data-fc]").forEach(input => {
+    input.addEventListener("blur", () => {
+      const path = input.dataset.fc.split(".");
+      let obj = state.content;
+      for (let i = 0; i < path.length - 1; i++) obj = obj[path[i]];
+      obj[path[path.length - 1]] = input.value;
+      saveState();
+      flash("Saved.");
+    });
+  });
+
+  // Reset intro
+  node.querySelector("#reset-intro").addEventListener("click", () => {
+    if (!confirm("Reset the intro page text and blocks to the default? Your existing edits will be lost.")) return;
+    state.content.intro = defaultContent().intro;
+    saveState();
+    flash("Intro reset.");
+    render();
+  });
+
+  // Reset identify page
+  node.querySelector("#reset-identify").addEventListener("click", () => {
+    if (!confirm("Reset the identify page text to the default? Your existing edits will be lost.")) return;
+    state.content.identify = defaultContent().identify;
+    saveState();
+    flash("Identify page reset.");
+    render();
+  });
+
+  // Admin password show/hide toggle
+  const pwShow = node.querySelector("#admin-pw-show");
+  const pwEditor = node.querySelector("#admin-pw-editor");
+  if (pwShow && pwEditor) {
+    pwShow.addEventListener("click", () => {
+      const showing = pwEditor.type === "text";
+      pwEditor.type = showing ? "password" : "text";
+      pwShow.textContent = showing ? "Show" : "Hide";
+    });
+  }
+
+  // Render blocks (intro)
+  wireBlockEditor(node, "intro",    "blocks-area",          "add-block",          "the intro page");
+  wireBlockEditor(node, "identify", "identify-blocks-area", "identify-add-block", "the identify page");
+  wireBlockEditor(node, "survey",   "survey-blocks-area",   "survey-add-block",   "the survey page");
+  wireBlockEditor(node, "thanks",   "thanks-blocks-area",   "thanks-add-block",   "the thank-you page");
+
+  return node;
+}
+
+/*
+ * Reusable block editor wiring. Given a section key (intro/identify/survey/thanks)
+ * and DOM IDs for the render area + add button, wires everything: row rendering,
+ * inputs, up/down, delete, add. Called once per section from renderFormEditor.
+ */
+function wireBlockEditor(node, sectionKey, areaId, addBtnId, sectionLabel) {
+  const blocksArea = node.querySelector("#" + areaId);
+  if (!blocksArea) return;
+
+  function refreshBlocks() {
+    const blocks = state.content[sectionKey].blocks || [];
+    blocksArea.innerHTML = "";
+    if (!blocks.length) {
+      blocksArea.innerHTML = `<div style="padding:14px;color:var(--ink-faint);font-size:12.5px;text-align:center;background:var(--bg);border-radius:8px;border:1px dashed var(--line)">No blocks yet. Click "Add a block" below to create one.</div>`;
+      return;
+    }
+    blocks.forEach((block, idx) => {
+      const row = el(`<div style="padding:14px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:8px">
+        <div style="display:grid;grid-template-columns:110px 1fr auto auto auto;gap:10px;align-items:start">
+          <input class="input" data-bk="icon" data-i="${idx}" value="${esc(block.icon || "")}" placeholder="icon">
+          <input class="input" data-bk="heading" data-i="${idx}" value="${esc(block.heading || "")}" placeholder="Heading">
+          <button class="btn-icon" data-up="${idx}" ${idx===0?'disabled style="opacity:.4"':''} title="Move up">▲</button>
+          <button class="btn-icon" data-down="${idx}" ${idx===blocks.length-1?'disabled style="opacity:.4"':''} title="Move down">▼</button>
+          <button class="btn-icon danger" data-rm="${idx}" title="Remove">${ICONS.trash}</button>
+        </div>
+        <textarea class="ta" data-bk="body" data-i="${idx}" style="margin-top:8px" placeholder="Body text">${esc(block.body || "")}</textarea>
+      </div>`);
+      row.querySelectorAll("[data-bk]").forEach(inp => {
+        inp.addEventListener("blur", () => {
+          const i = Number(inp.dataset.i);
+          state.content[sectionKey].blocks[i][inp.dataset.bk] = inp.value;
+          saveState();
+          flash("Saved.");
+        });
+      });
+      row.querySelector(`[data-up="${idx}"]`).addEventListener("click", (e) => {
+        if (e.currentTarget.disabled) return;
+        const i = idx;
+        const arr = state.content[sectionKey].blocks;
+        [arr[i-1], arr[i]] = [arr[i], arr[i-1]];
+        saveState(); refreshBlocks();
+      });
+      row.querySelector(`[data-down="${idx}"]`).addEventListener("click", (e) => {
+        if (e.currentTarget.disabled) return;
+        const i = idx;
+        const arr = state.content[sectionKey].blocks;
+        [arr[i+1], arr[i]] = [arr[i], arr[i+1]];
+        saveState(); refreshBlocks();
+      });
+      row.querySelector(`[data-rm="${idx}"]`).addEventListener("click", () => {
+        if (!confirm(`Remove this block from ${sectionLabel}?`)) return;
+        state.content[sectionKey].blocks.splice(idx, 1);
+        saveState(); refreshBlocks(); flash("Block removed.");
+      });
+      blocksArea.appendChild(row);
+    });
+  }
+  refreshBlocks();
+
+  const addBtn = node.querySelector("#" + addBtnId);
+  if (addBtn) {
+    addBtn.addEventListener("click", () => {
+      if (!Array.isArray(state.content[sectionKey].blocks)) state.content[sectionKey].blocks = [];
+      state.content[sectionKey].blocks.push({ id: "b_" + Date.now(), icon: "bulb", heading: "New block", body: "Add your content here." });
+      saveState(); refreshBlocks();
+      const last = blocksArea.lastChild;
+      if (last && last.scrollIntoView) last.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+}
+
+/* ===================== TAGGED INBOX ===================== */
+function renderTagged() {
+  const myTasks = state.tasks.filter(t => t.taggedTo === activeTagged);
+  const open = myTasks.filter(t => t.status === "tagged");
+  const responded = myTasks.filter(t => t.status === "responded");
+  const closed = myTasks.filter(t => t.status === "completed");
+
+  const node = el('<div class="admin-shell"></div>');
+  node.innerHTML = `
+    <header class="admin-header">
+      <div class="brand">
+        <div class="brand-mark">${ICONS.user_cog}</div>
+        <div><div class="brand-name">${esc(activeTagged)}</div><div class="brand-sub">Tagged inbox</div></div>
+      </div>
+    </header>
+    <main class="admin-main">
+      <div class="page-head">
+        <h1 class="page-title">Your inbox</h1>
+        <p class="page-desc">Items People Ops has asked you to look into.</p>
+      </div>
+      <div id="inbox-area"></div>
+    </main>
+  `;
+  const area = node.querySelector("#inbox-area");
+  if (myTasks.length === 0) {
+    area.innerHTML = '<div class="section"><div class="empty">No items have been tagged to you.</div></div>';
+    return node;
+  }
+  if (open.length) area.appendChild(inboxSection("Awaiting your response", open, "mentor"));
+  if (responded.length) area.appendChild(inboxSection("With People Ops to close", responded, "view"));
+  if (closed.length) area.appendChild(inboxSection("Recently closed", closed.slice(0, 5), "view"));
+  return node;
+}
+function inboxSection(title, items, mode) {
+  const wrap = el(`<div class="section">
+    <div class="section-head"><h3 class="h3">${esc(title)} (${items.length})</h3></div>
+    <div class="task-list" data-list></div>
+  </div>`);
+  const list = wrap.querySelector("[data-list]");
+  items.forEach(t => list.appendChild(renderTaskCard(t, mode)));
+  return wrap;
+}
+
+/* ===================== INIT ===================== */
+state = loadState();
+saveState();
+
+// Identity model: self-attested via email. There is no URL-based auto-identify
+// any more — the employee opens the form (anyone with the link can), and the
+// app asks them to confirm their email + name on the identify step.
+// The optional `?email=...` URL parameter only pre-fills the identify form;
+// the user still has to confirm it.
+activeUserId = null;
+
+/*
+ * Admin access is via URL hash. Adding `#admin` to the end of the URL opens
+ * the admin panel. Adding `#tagged` opens the mentor's tagged inbox. Anything
+ * else (or nothing) shows the employee-facing form. This keeps the admin
+ * surface hidden from casual visitors while giving People Ops a reliable
+ * bookmark-able entry point.
+ */
+function readHashView() {
+  const h = (window.location.hash || "").replace(/^#/, "").toLowerCase();
+  if (h === "admin") return "admin";
+  if (h === "tagged") return "tagged";
+  return null;
+}
+function applyHashRoute() {
+  const target = readHashView();
+  if (target === "admin") {
+    view = "admin";
+    if (!adminTab) adminTab = "dashboard";
+  } else if (target === "tagged") {
+    view = "tagged";
+  } else if (view === "admin" || view === "tagged") {
+    // Hash was cleared while on an admin/tagged view — send back to landing
+    view = "landing";
+    activeUserId = null;
+    identifyEmail = ""; identifyName = ""; identifyRole = ""; identifyErrors = [];
+    // Sign out of admin whenever we leave the admin view so re-entering #admin
+    // in the same tab prompts for the password again.
+    adminAuthed = false;
+    adminAuthError = "";
+  }
+  render();
+}
+
+window.addEventListener("hashchange", applyHashRoute);
+applyHashRoute();
+</script>
+</body>
+</html>
