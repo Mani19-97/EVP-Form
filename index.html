@@ -1130,6 +1130,33 @@ function submitSurvey() {
     state.submissions.push(submission);
   }
   saveState();
+  // Send to Power Automate → Excel
+      (function(){
+        const url = "https://defaultb9d69197ce1f49079545b307af2335.e9.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/12/workflows/b1f4b403884d45f38122aad78e397231/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zz93rkDEG3vvuXgDmqiOuQHSaEahiEeyCS1ZotSYzlo";
+        const me = state.people.find(p => p.id === activeUserId);
+        const payload = {
+          submittedAt: new Date(submission.submittedAt).toISOString(),
+          email: (me && me.email) || "",
+          name: (me && me.name) || "",
+          role: (me && me.role) || "",
+          mentor: (me && me.mentor) || "",
+          career:   {rank: submission.ranks.career   || 0, sat: submission.sat.career   || 0, comment: submission.comments.career   || ""},
+          learning: {rank: submission.ranks.learning || 0, sat: submission.sat.learning || 0, comment: submission.comments.learning || ""},
+          people:   {rank: submission.ranks.people   || 0, sat: submission.sat.people   || 0, comment: submission.comments.people   || ""},
+          culture:  {rank: submission.ranks.culture  || 0, sat: submission.sat.culture  || 0, comment: submission.comments.culture  || ""},
+          rewards:  {rank: submission.ranks.rewards  || 0, sat: submission.sat.rewards  || 0, comment: submission.comments.rewards  || ""},
+          work:     {rank: submission.ranks.work     || 0, sat: submission.sat.work     || 0, comment: submission.comments.work     || ""},
+        };
+        try {
+          fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "text/plain;charset=UTF-8"},
+            body: JSON.stringify(payload),
+            mode: "no-cors",
+            keepalive: true,
+          }).catch(e => console.warn("Power Automate sync failed:", e.message));
+        } catch (e) { console.warn("Power Automate sync error:", e.message); }
+      })();
   flash("Submitted — thank you.");
   view = "thanks";
   render();
