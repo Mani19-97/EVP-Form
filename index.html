@@ -94,55 +94,81 @@
   .intro-block-heading { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); }
   .intro-block-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; white-space: pre-wrap; }
 
-  /* JAHANVI'S CONTENT: Six EVP Pillars, How-to, and Example table */
-  .jh-section { margin-bottom: 32px; }
-  .jh-eyebrow { font-size: 11.5px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase;
-    letter-spacing: 0.09em; margin-bottom: 14px; }
-  .jh-pills { display: flex; flex-wrap: wrap; gap: 10px; }
-  .jh-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px 10px 14px;
+  /* PILLARS section (intro page) */
+  .pillars-section { margin: 8px 0 28px; }
+  .pillars-label { font-size: 11.5px; font-weight: 700; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 14px; }
+  .pillars-list { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pillar-chip { display: inline-flex; align-items: center; gap: 9px; padding: 10px 18px 10px 14px;
     border-radius: 99px; background: var(--surface); border: 1px solid var(--line);
     font-family: var(--body); font-size: 14px; color: var(--ink); font-weight: 500; }
-  .jh-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
-    flex-shrink: 0; }
+  .pillar-chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0; }
 
-  .jh-howto { padding: 24px 26px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
-  .jh-howto-title { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--ink);
+  /* IDENTIFY page — field with helper + example */
+  .idfield-help { font-size: 13px; color: var(--ink-soft); margin: 4px 0 6px; }
+  .idfield-example { font-size: 12.5px; color: var(--ink-faint); margin: 4px 0 8px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .idfield-example-chip { display: inline-block; padding: 3px 10px;
+    background: var(--warn-tint); color: var(--warn-ink); border: 1px solid var(--warn-line);
+    border-radius: 6px; font-size: 12px; font-weight: 500; font-family: var(--body); }
+
+  /* SURVEY: how-to card + example table */
+  .howto-card { padding: 24px 26px; border-radius: 14px; background: var(--surface);
+    border: 1px solid var(--line); margin-bottom: 22px; }
+  .howto-title { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--ink);
     margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-  .jh-q { margin-bottom: 20px; }
-  .jh-q:last-child { margin-bottom: 0; }
-  .jh-q-head { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; }
-  .jh-q-tag { display: inline-flex; align-items: center; justify-content: center; padding: 3px 10px;
-    background: var(--accent-tint); color: var(--accent); border-radius: 6px;
-    font-size: 12px; font-weight: 700; font-family: var(--body); }
-  .jh-q-title { font-weight: 600; font-size: 15.5px; color: var(--ink); }
-  .jh-q-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin-left: 42px; }
-  .jh-q-body strong { color: var(--ink); font-weight: 700; }
+  .howto-q { margin-bottom: 20px; }
+  .howto-q:last-child { margin-bottom: 0; }
+  .howto-q-head { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; }
+  .howto-q-tag { display: inline-flex; align-items: center; justify-content: center;
+    padding: 3px 10px; background: var(--accent-tint); color: var(--accent);
+    border-radius: 6px; font-size: 12px; font-weight: 700; font-family: var(--body); }
+  .howto-q-title { font-weight: 600; font-size: 15.5px; color: var(--ink); }
+  .howto-q-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin-left: 42px; }
+  .howto-q-body strong { color: var(--ink); font-weight: 700; }
 
-  .jh-example-wrap { padding: 22px 24px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); }
-  .jh-example-title { font-size: 11.5px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase;
-    letter-spacing: 0.09em; margin-bottom: 12px; }
-  .jh-example-table { border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  .example-wrap { padding: 22px 24px; border-radius: 14px; background: var(--bg);
+    border: 1px solid var(--line); margin-bottom: 14px; }
+  .example-label { font-size: 11.5px; font-weight: 700; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 12px; }
+  .example-table { border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
     background: var(--surface); }
-  .jh-example-row { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 2fr;
+  .example-row { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 2fr;
     gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); align-items: start; }
-  .jh-example-row:last-child { border-bottom: none; }
-  .jh-example-head { background: var(--bg); font-size: 13px; font-weight: 600; color: var(--ink); }
-  .jh-example-row.jh-flag { background: var(--flag-tint); }
-  .jh-example-cell { font-size: 13.5px; color: var(--ink); line-height: 1.5; }
-  .jh-example-num { font-weight: 600; font-size: 15px; }
-  .jh-example-mute { color: var(--ink-faint); font-size: 13px; }
-  .jh-required-tag { display: inline-block; margin-top: 6px; padding: 3px 10px;
+  .example-row:last-child { border-bottom: none; }
+  .example-head { background: var(--bg); font-size: 13px; font-weight: 600; color: var(--ink); }
+  .example-row.example-flag { background: var(--flag-tint); }
+  .example-cell { font-size: 13.5px; color: var(--ink); line-height: 1.5; }
+  .example-num { font-weight: 600; font-size: 15px; }
+  .example-mute { color: var(--ink-faint); font-size: 13px; }
+  .example-req-tag { display: inline-block; margin-top: 6px; padding: 3px 10px;
     background: var(--flag-tint); color: var(--flag); border: 1px solid var(--flag-line);
     border-radius: 6px; font-size: 11.5px; font-weight: 600; }
-  @media (max-width: 600px) {
-    .jh-example-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 16px; }
-    .jh-example-head { display: none; }
-    .jh-example-cell::before { content: attr(data-label); display: block;
+  .example-footer-note { font-size: 13.5px; color: var(--ink-soft); text-align: left;
+    margin: 14px 0 24px; line-height: 1.6; }
+  @media (max-width: 640px) {
+    .example-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 16px; }
+    .example-head { display: none; }
+    .example-cell::before { content: attr(data-label); display: block;
       font-size: 11px; font-weight: 700; color: var(--ink-faint);
       text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
   }
-  .jh-final-note { font-size: 13.5px; color: var(--ink-soft); text-align: center;
-    margin-top: 14px; line-height: 1.6; }
+
+  /* Pillar cards on survey — Jahanvi's numbered header layout */
+  .pillar-head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 20px; }
+  .pillar-head-num { font-family: var(--display); font-size: 15px; font-weight: 500;
+    color: var(--ink-faint); padding-top: 6px; min-width: 28px; }
+  .pillar-head-body { flex: 1; }
+  .pillar-head-title-row { display: flex; gap: 11px; align-items: center; margin-bottom: 4px; }
+  .pillar-head-name { font-family: var(--display); font-weight: 600; font-size: 22px;
+    color: var(--ink); line-height: 1.2; }
+  .pillar-head-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin-top: 4px; }
+  .pillar-q-label { font-weight: 600; font-size: 14.5px; color: var(--ink); margin: 22px 0 4px; }
+  .pillar-q-sub { font-size: 12.5px; color: var(--ink-faint); margin-bottom: 10px; }
+  .survey-closing-note { text-align: center; margin: 30px auto 20px; max-width: 620px;
+    padding: 0 20px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.65;
+    border-top: 1px solid var(--line); padding-top: 24px; }
 
   /* SURVEY */
   .survey-main { max-width: 760px; margin: 0 auto; padding: clamp(28px, 5vw, 52px) clamp(20px, 5vw, 36px) 80px; }
@@ -451,38 +477,87 @@ function defaultContent() {
   return {
     intro: {
       eyebrow: "Employee Value Proposition · 6-month check-in",
-      title: "Welcome to your EVP Check-In",
-      lede: "Twice a year, we ask every Altudean six questions about working here. Your answers shape how we improve.",
-      blocks: [
-        { id: "b_what",   icon: "bulb",    heading: "What is EVP?",                body: "EVP — Employee Value Proposition — is the package of experiences, rewards and culture you receive in exchange for your work. The six elements of our EVP are Career, Learning, People, Culture, Rewards and Clients & Work." },
-        { id: "b_purpose",icon: "target",  heading: "The purpose of this form",    body: "This check-in gives us an honest read on where we stand against each EVP element, and where we need to act. It is not a performance review — it is feedback from you to us." },
-        { id: "b_why",    icon: "chart",   heading: "Why we collect this feedback",body: "We can't improve what we don't measure. Aggregated results show leadership which areas to invest in; flagged concerns trigger direct follow-up so things get fixed, not filed." },
-        { id: "b_use",    icon: "layers",  heading: "How your inputs are used",    body: "People Operations reviews every response confidentially. Where you flag something important and below-par, we open a follow-up — directly or through your mentor — and close the loop with you." },
-        { id: "b_inforyou",icon:"smile",   heading: "What's in it for you",        body: "Direct influence on the changes we make to policies, programs and the day-to-day. Your individual responses are confidential — your manager does not see them unless you ask us to share." },
-        { id: "b_promise",icon: "shield",  heading: "Our promise",                 body: "We commit to treating your input with care, acting on it where we can, and being honest where we can't — all of which helps make Altudo a better place to work." },
+      title: "Welcome",
+      lede: "Building a great workplace starts with listening. This check-in is your opportunity to share your experience at Altudo across the things that matter most. Your honest feedback helps us understand what's working, where we need to improve, and what we should focus on next. This is not a performance review — it's simply an opportunity for you to tell us how we're doing as an employer.",
+      pillarsLabel: "The Six EVP Pillars",
+      pillars: [
+        "Career Opportunities",
+        "Learning & Development",
+        "People",
+        "Culture",
+        "Rewards & Recognition",
+        "Clients & Meaningful Work",
       ],
-      footerNote: "Takes about 5 minutes",
+      blocks: [
+        { id: "b_what",        icon: "bulb",   heading: "What is the Employee Value Proposition (EVP)?", body: "Our EVP is the overall experience of working at Altudo. It reflects everything you receive in return for your contribution — from career growth and learning opportunities to the people you work with, the culture you experience, the recognition you receive, and the work you do. It's built around the six pillars shown above." },
+        { id: "b_why",         icon: "target", heading: "Why are we doing this check-in?",              body: "We want to understand your experience and track how we're progressing against each of our EVP pillars. Your feedback helps us celebrate what's working well, identify areas that need improvement, prioritize the initiatives that matter most to our people, and measure the impact of the changes we make over time." },
+        { id: "b_use",         icon: "layers", heading: "How will your feedback be used?",              body: "Every response is reviewed confidentially by the People Operations team. We analyze trends across the organization to improve our policies, programs and employee experience. If you raise a concern that requires follow-up, we'll reach out — directly or through your mentor — to better understand the situation and work toward a resolution." },
+        { id: "b_privacy",     icon: "shield", heading: "Your privacy matters",                         body: "Your individual responses are confidential and are only accessible to the People Operations team. Your manager will not have access to your responses unless you specifically request that they be shared." },
+        { id: "b_commitment",  icon: "heart",  heading: "Our commitment",                               body: "We believe feedback only creates value when it leads to action. We are committed to listening carefully, acting wherever possible, and being transparent about what we can and can't change. Your feedback helps us keep building an even better Altudo for everyone." },
+      ],
       privacyNote: "Your responses are visible only to you and the People Operations team. They are not shared with your manager unless you ask us to.",
       ctaLabel: "Let's start the survey",
-    },
-    survey: {
-      sectionTitle: "How are we doing — by you?",
-      sectionDescription: "For each element below: rank importance (1 = most), score satisfaction (1–10), and add a comment if you'd like. A comment becomes required when something is important to you (rank 1–4) and satisfaction is 6 or below.",
-      blocks: [],
+      footerNote: "Takes about 5 minutes — your voice matters",
     },
     identify: {
-      eyebrow: "Step 1 of 2 · Identify yourself",
-      title: "Tell us who you are.",
-      lede: "Your email is your unique identifier — we use it to recognise repeat submissions and to link any follow-up back to you.",
+      eyebrow: "Step 1 of 2 · About you.",
+      title: "Before we begin, tell us about you.",
+      lede: "We use your work email as a unique identifier so we can track progress over time and follow up if you've asked for support.",
       emailLabel: "Work email",
-      emailHelp: "e.g. firstname.lastname@altudo.co — used as your unique identifier.",
-      emailPlaceholder: "your.name@altudo.co",
+      emailHelp: "We'll use your Altudo email as your unique identifier for this check-in.",
+      emailExample: "firstname.lastname@altudo.co",
+      emailPlaceholder: "firstname.lastname@altudo.co",
       nameLabel: "Full name",
+      nameHelp: "Please enter your full name.",
+      nameExample: "",
       namePlaceholder: "Your full name",
       roleLabel: "Role / title",
-      rolePlaceholder: "e.g. Senior Consultant",
+      roleHelp: "Your current role at Altudo.",
+      roleExample: "Senior Consultant",
+      rolePlaceholder: "Senior Consultant",
       privacyNote: "Your responses are visible only to you and the People Operations team.",
       ctaLabel: "Continue to the survey",
+      blocks: [],
+    },
+    survey: {
+      eyebrow: "Step 2 of 2 · Share your experience",
+      sectionTitle: "Share your experience",
+      sectionDescription: "Your feedback helps us understand what matters most to you and where we can make Altudo an even better place to work. For each of the six Employee Value Proposition (EVP) pillars, you'll answer three simple questions about your experience.",
+      howto: {
+        title: "How to complete this check-in",
+        q1title: "How important is this to you right now?",
+        q1body: "Rank each EVP pillar from **1 to 6** based on how important it is to you today — **1 = most important, 6 = least important**. Each rank can only be used once across all six pillars.",
+        q2title: "How satisfied are you with this today?",
+        q2body: "Rate your current satisfaction on a scale of **1 to 10** — **1 = very dissatisfied, 10 = extremely satisfied**. You may use the same score for multiple pillars.",
+        q3title: "Is there anything you'd like to share?",
+        q3body: "Use the comment box to add context, suggestions, or examples. A comment becomes **required** when you rank a pillar **1, 2, 3, or 4** (it's important to you) **and** your satisfaction score is **6 or below**. This helps us see what's affecting your experience and where to focus.",
+      },
+      exampleLabel: "Example",
+      exampleFooter: "You'll complete these three questions for each of the six EVP pillars below.",
+      exampleRows: [
+        { pillar: "Career Opportunities",     imp: 1, sat: 5, comment: "I'd like more clarity on career progression and promotion opportunities.",            required: true  },
+        { pillar: "Learning & Development",   imp: 2, sat: 8, comment: "No comment needed.",                                                                  required: false },
+        { pillar: "People",                   imp: 3, sat: 9, comment: "No comment needed.",                                                                  required: false },
+        { pillar: "Culture",                  imp: 4, sat: 6, comment: "More opportunities for cross-team collaboration would improve my experience.",        required: true  },
+        { pillar: "Rewards & Recognition",    imp: 5, sat: 7, comment: "No comment needed.",                                                                  required: false },
+        { pillar: "Clients & Meaningful Work",imp: 6, sat: 8, comment: "No comment needed.",                                                                  required: false },
+      ],
+      // Employee-facing pillar name + one-line description per PARAMS key. Admin
+      // views keep using the short PARAMS.label for compactness.
+      pillarInfo: {
+        career:   { name: "Career Opportunities",     description: "Your career path, growth opportunities, role progression, and promotion experience." },
+        learning: { name: "Learning & Development",   description: "Your opportunities to learn new skills, receive feedback, and grow professionally." },
+        people:   { name: "People",                   description: "Your experience working with leaders, managers, peers, and team members." },
+        culture:  { name: "Culture",                  description: "The values, behaviours, work environment, and sense of belonging you experience at Altudo." },
+        rewards:  { name: "Rewards & Recognition",    description: "Your compensation, benefits, recognition, and appreciation for your contributions." },
+        work:     { name: "Clients & Meaningful Work",description: "The work you do, the clients you support, your workload, and how meaningful and engaging your work feels." },
+      },
+      importanceLegend: "1 = most important, 6 = least important. Each rank can only be used once across the six pillars.",
+      satisfactionLegend: "1 = very dissatisfied, 10 = extremely satisfied. Scores can repeat across pillars.",
+      commentLabel: "Any comments or suggestions?",
+      commentPlaceholder: "Add context, suggestions, or an example if you'd like…",
+      closingNote: "There are no right or wrong answers. Please answer honestly based on your experience today. Every response helps us understand what's working, where we need to improve, and how we can continue making Altudo a better place to work.",
+      submitLabel: "Submit my check-in",
       blocks: [],
     },
     thanks: {
@@ -649,8 +724,22 @@ function loadState() {
       const dc = defaultContent();
       s.content.intro = Object.assign({}, dc.intro, s.content.intro || {});
       if (!Array.isArray(s.content.intro.blocks) || !s.content.intro.blocks.length) s.content.intro.blocks = dc.intro.blocks;
+      if (!Array.isArray(s.content.intro.pillars) || !s.content.intro.pillars.length) s.content.intro.pillars = dc.intro.pillars;
+      if (!s.content.intro.pillarsLabel) s.content.intro.pillarsLabel = dc.intro.pillarsLabel;
       s.content.survey = Object.assign({}, dc.survey, s.content.survey || {});
       if (!Array.isArray(s.content.survey.blocks)) s.content.survey.blocks = [];
+      // Nested survey defaults
+      if (!s.content.survey.howto || typeof s.content.survey.howto !== "object") s.content.survey.howto = dc.survey.howto;
+      else s.content.survey.howto = Object.assign({}, dc.survey.howto, s.content.survey.howto);
+      if (!Array.isArray(s.content.survey.exampleRows) || !s.content.survey.exampleRows.length) s.content.survey.exampleRows = dc.survey.exampleRows;
+      if (!s.content.survey.pillarInfo || typeof s.content.survey.pillarInfo !== "object") s.content.survey.pillarInfo = dc.survey.pillarInfo;
+      else {
+        // Backfill any missing pillar entries
+        Object.keys(dc.survey.pillarInfo).forEach(k => {
+          if (!s.content.survey.pillarInfo[k]) s.content.survey.pillarInfo[k] = dc.survey.pillarInfo[k];
+          else s.content.survey.pillarInfo[k] = Object.assign({}, dc.survey.pillarInfo[k], s.content.survey.pillarInfo[k]);
+        });
+      }
       s.content.identify = Object.assign({}, dc.identify, s.content.identify || {});
       if (!Array.isArray(s.content.identify.blocks)) s.content.identify.blocks = [];
       s.content.thanks = Object.assign({}, dc.thanks, s.content.thanks || {});
@@ -687,6 +776,16 @@ function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   }[c]));
+}
+/*
+ * Escape text, then convert **bold** markers into <strong> tags. Used for the
+ * Q1/Q2/Q3 body text in the survey how-to card, where People Ops wants to
+ * emphasise phrases like "1 to 6" and "1 = most important" without giving
+ * users a full rich-text editor. Safe against HTML injection because it
+ * escapes first, then rewrites only the delimiter pattern.
+ */
+function escBold(s) {
+  return esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 }
 function timeAgo(ts) {
   if (!ts) return "";
@@ -806,6 +905,15 @@ function renderLanding() {
   const c = state.content.intro;
   const node = el('<div></div>');
 
+  const pillarsHtml = Array.isArray(c.pillars) && c.pillars.length ? `
+    <div class="pillars-section">
+      <div class="pillars-label">${esc(c.pillarsLabel || "The six EVP pillars")}</div>
+      <div class="pillars-list">
+        ${c.pillars.map(p => `<span class="pillar-chip">${esc(p)}</span>`).join("")}
+      </div>
+    </div>
+  ` : "";
+
   node.innerHTML = `
     <header class="pub-header">
       <div class="brand">
@@ -817,6 +925,9 @@ function renderLanding() {
       <div class="eyebrow">${esc(c.eyebrow)}</div>
       <h1 class="hero">${esc(c.title)}</h1>
       <p class="hero-lede">${esc(c.lede)}</p>
+
+      ${pillarsHtml}
+
       <div class="intro-blocks">
         ${(c.blocks || []).map(b => `
           <div class="intro-block">
@@ -828,115 +939,6 @@ function renderLanding() {
           </div>`).join("")}
       </div>
 
-      <!-- ===== JAHANVI'S CONTENT: SIX EVP PILLARS ===== -->
-      <div class="jh-section">
-        <div class="jh-eyebrow">The Six EVP Pillars</div>
-        <div class="jh-pills">
-          <span class="jh-pill">Career Opportunities</span>
-          <span class="jh-pill">Learning &amp; Development</span>
-          <span class="jh-pill">People</span>
-          <span class="jh-pill">Culture</span>
-          <span class="jh-pill">Rewards &amp; Recognition</span>
-          <span class="jh-pill">Clients &amp; Meaningful Work</span>
-        </div>
-      </div>
-
-      <!-- ===== JAHANVI'S CONTENT: HOW TO COMPLETE ===== -->
-      <div class="jh-section">
-        <div class="jh-howto">
-          <h2 class="jh-howto-title">How to complete this check-in</h2>
-
-          <div class="jh-q">
-            <div class="jh-q-head">
-              <span class="jh-q-tag">Q1</span>
-              <span class="jh-q-title">How important is this to you right now?</span>
-            </div>
-            <div class="jh-q-body">
-              Rank each EVP pillar from <strong>1 to 6</strong> based on how important it is to you today — <strong>1 = most important, 6 = least important</strong>. Each rank can only be used once across all six pillars.
-            </div>
-          </div>
-
-          <div class="jh-q">
-            <div class="jh-q-head">
-              <span class="jh-q-tag">Q2</span>
-              <span class="jh-q-title">How satisfied are you with this today?</span>
-            </div>
-            <div class="jh-q-body">
-              Rate your current satisfaction on a scale of <strong>1 to 10</strong> — <strong>1 = very dissatisfied, 10 = extremely satisfied</strong>. You may use the same score for multiple pillars.
-            </div>
-          </div>
-
-          <div class="jh-q">
-            <div class="jh-q-head">
-              <span class="jh-q-tag">Q3</span>
-              <span class="jh-q-title">Is there anything you'd like to share?</span>
-            </div>
-            <div class="jh-q-body">
-              Use the comment box to add context, suggestions, or examples. A comment becomes <strong>required</strong> when you rank a pillar <strong>1, 2, 3, or 4</strong> (it's important to you) <strong>and</strong> your satisfaction score is <strong>6 or below</strong>. This helps us see what's affecting your experience and where to focus.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== JAHANVI'S CONTENT: EXAMPLE TABLE ===== -->
-      <div class="jh-section">
-        <div class="jh-example-wrap">
-          <div class="jh-example-title">Example</div>
-          <div class="jh-example-table">
-            <div class="jh-example-row jh-example-head">
-              <div class="jh-example-cell">EVP Pillar</div>
-              <div class="jh-example-cell">Importance</div>
-              <div class="jh-example-cell">Satisfaction</div>
-              <div class="jh-example-cell">Comment</div>
-            </div>
-            <div class="jh-example-row jh-flag">
-              <div class="jh-example-cell" data-label="EVP Pillar">Career Opportunities</div>
-              <div class="jh-example-cell jh-example-num" data-label="Importance">1</div>
-              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">5</div>
-              <div class="jh-example-cell" data-label="Comment">
-                I'd like more clarity on career progression and promotion opportunities.
-                <div class="jh-required-tag">Comment required</div>
-              </div>
-            </div>
-            <div class="jh-example-row">
-              <div class="jh-example-cell" data-label="EVP Pillar">Learning &amp; Development</div>
-              <div class="jh-example-cell jh-example-num" data-label="Importance">2</div>
-              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">8</div>
-              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
-            </div>
-            <div class="jh-example-row">
-              <div class="jh-example-cell" data-label="EVP Pillar">People</div>
-              <div class="jh-example-cell jh-example-num" data-label="Importance">3</div>
-              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">9</div>
-              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
-            </div>
-            <div class="jh-example-row jh-flag">
-              <div class="jh-example-cell" data-label="EVP Pillar">Culture</div>
-              <div class="jh-example-cell jh-example-num" data-label="Importance">4</div>
-              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">6</div>
-              <div class="jh-example-cell" data-label="Comment">
-                More opportunities for cross-team collaboration would improve my experience.
-                <div class="jh-required-tag">Comment required</div>
-              </div>
-            </div>
-            <div class="jh-example-row">
-              <div class="jh-example-cell" data-label="EVP Pillar">Rewards &amp; Recognition</div>
-              <div class="jh-example-cell jh-example-num" data-label="Importance">5</div>
-              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">7</div>
-              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
-            </div>
-            <div class="jh-example-row">
-              <div class="jh-example-cell" data-label="EVP Pillar">Clients &amp; Meaningful Work</div>
-              <div class="jh-example-cell jh-example-num" data-label="Importance">6</div>
-              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">8</div>
-              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
-            </div>
-          </div>
-        </div>
-        <p class="jh-final-note">You'll complete these three questions for each of the six EVP pillars below.</p>
-      </div>
-
-      <div class="privacy-note">${ICONS.lock} ${esc(c.privacyNote)}</div>
       <button class="hero-cta" id="start-btn">${esc(c.ctaLabel)} ${ICONS.arrow_right}</button>
       <div class="pub-footer">${esc(c.footerNote)}</div>
     </main>
@@ -1002,18 +1004,23 @@ function renderIdentify() {
       <div class="param-block" style="border:1px solid var(--line);background:var(--surface);padding:24px">
         <div class="question-block">
           <div class="question-label">${esc(idc.emailLabel)} *</div>
-          <div class="question-sub">${esc(idc.emailHelp)}</div>
+          ${idc.emailHelp ? `<div class="idfield-help">${esc(idc.emailHelp)}</div>` : ""}
+          ${idc.emailExample ? `<div class="idfield-example">Example: <span class="idfield-example-chip">${esc(idc.emailExample)}</span></div>` : ""}
           <input type="email" class="input" id="i-email" placeholder="${esc(idc.emailPlaceholder)}" value="${esc(identifyEmail)}" style="font-size:15px;padding:12px 14px">
           <div id="email-status" style="font-size:12.5px;color:var(--ink-faint);margin-top:6px;line-height:1.5"></div>
         </div>
 
         <div class="question-block">
           <div class="question-label">${esc(idc.nameLabel)} *</div>
+          ${idc.nameHelp ? `<div class="idfield-help">${esc(idc.nameHelp)}</div>` : ""}
+          ${idc.nameExample ? `<div class="idfield-example">Example: <span class="idfield-example-chip">${esc(idc.nameExample)}</span></div>` : ""}
           <input type="text" class="input" id="i-name" placeholder="${esc(idc.namePlaceholder)}" value="${esc(identifyName)}" style="font-size:15px;padding:12px 14px">
         </div>
 
         <div class="question-block" style="margin-bottom:0">
           <div class="question-label">${esc(idc.roleLabel)} <span class="muted">(optional)</span></div>
+          ${idc.roleHelp ? `<div class="idfield-help">${esc(idc.roleHelp)}</div>` : ""}
+          ${idc.roleExample ? `<div class="idfield-example">Example: <span class="idfield-example-chip">${esc(idc.roleExample)}</span></div>` : ""}
           <input type="text" class="input" id="i-role" placeholder="${esc(idc.rolePlaceholder)}" value="${esc(identifyRole || (existingPerson ? existingPerson.role || "" : ""))}" style="font-size:15px;padding:12px 14px">
         </div>
       </div>
@@ -1124,6 +1131,53 @@ function renderIdentifyErrors(scope) {
 function renderSurvey() {
   const me = state.people.find(p => p.id === activeUserId);
   const rankCount = Object.keys(formRanks).length;
+  const c = state.content.survey;
+  const howto = c.howto || {};
+  const exampleRows = Array.isArray(c.exampleRows) ? c.exampleRows : [];
+
+  const exampleTableHtml = exampleRows.length ? `
+    <div class="example-wrap">
+      <div class="example-label">${esc(c.exampleLabel || "Example")}</div>
+      <div class="example-table">
+        <div class="example-row example-head">
+          <div class="example-cell">EVP Pillar</div>
+          <div class="example-cell">Importance</div>
+          <div class="example-cell">Satisfaction</div>
+          <div class="example-cell">Comment</div>
+        </div>
+        ${exampleRows.map(row => `
+          <div class="example-row ${row.required ? 'example-flag' : ''}">
+            <div class="example-cell" data-label="EVP Pillar">${esc(row.pillar)}</div>
+            <div class="example-cell example-num" data-label="Importance">${esc(row.imp)}</div>
+            <div class="example-cell example-num" data-label="Satisfaction">${esc(row.sat)}</div>
+            <div class="example-cell ${!row.required ? 'example-mute' : ''}" data-label="Comment">
+              ${esc(row.comment || "")}
+              ${row.required ? '<div class="example-req-tag">Comment required</div>' : ''}
+            </div>
+          </div>`).join("")}
+      </div>
+    </div>
+    ${c.exampleFooter ? `<p class="example-footer-note">${esc(c.exampleFooter)}</p>` : ""}
+  ` : "";
+
+  const howtoHtml = howto.title ? `
+    <div class="howto-card">
+      <h2 class="howto-title">${esc(howto.title)}</h2>
+      <div class="howto-q">
+        <div class="howto-q-head"><span class="howto-q-tag">Q1</span><span class="howto-q-title">${esc(howto.q1title || "")}</span></div>
+        <div class="howto-q-body">${escBold(howto.q1body || "")}</div>
+      </div>
+      <div class="howto-q">
+        <div class="howto-q-head"><span class="howto-q-tag">Q2</span><span class="howto-q-title">${esc(howto.q2title || "")}</span></div>
+        <div class="howto-q-body">${escBold(howto.q2body || "")}</div>
+      </div>
+      <div class="howto-q">
+        <div class="howto-q-head"><span class="howto-q-tag">Q3</span><span class="howto-q-title">${esc(howto.q3title || "")}</span></div>
+        <div class="howto-q-body">${escBold(howto.q3body || "")}</div>
+      </div>
+    </div>
+  ` : "";
+
   const node = el('<div></div>');
   node.innerHTML = `
     <header class="pub-header">
@@ -1135,13 +1189,17 @@ function renderSurvey() {
       </div>
     </header>
     <main class="survey-main">
-      <h1 class="survey-title">${esc(state.content.survey.sectionTitle)}</h1>
-      <p class="survey-lede">${esc(state.content.survey.sectionDescription)}</p>
-      ${renderBlocksHtml(state.content.survey.blocks)}
+      ${c.eyebrow ? `<div class="eyebrow" style="margin-bottom:12px">${esc(c.eyebrow)}</div>` : ""}
+      <h1 class="survey-title">${esc(c.sectionTitle)}</h1>
+      <p class="survey-lede">${esc(c.sectionDescription)}</p>
+      ${howtoHtml}
+      ${exampleTableHtml}
+      ${renderBlocksHtml(c.blocks)}
       <div id="err-area"></div>
       <div class="param-stack" id="param-stack"></div>
+      ${c.closingNote ? `<div class="survey-closing-note">${esc(c.closingNote)}</div>` : ""}
       <div class="survey-foot">
-        <button class="btn-primary-lg" id="submit-btn">${ICONS.send} Submit my check-in</button>
+        <button class="btn-primary-lg" id="submit-btn">${ICONS.send} ${esc(c.submitLabel || "Submit my check-in")}</button>
         <div class="survey-foot-note">Your responses go only to People Ops.</div>
       </div>
     </main>
@@ -1160,20 +1218,32 @@ function renderParamBlock(p, i) {
   const s = formSat[p.key];
   const comment = formComments[p.key] || "";
   const required = isCommentRequired(r, s);
+  // Look up employee-facing pillar name + description from editable content;
+  // fall back to PARAMS.label + PARAMS.desc if state hasn't been migrated yet.
+  const surveyC = state.content.survey || {};
+  const pInfo = (surveyC.pillarInfo && surveyC.pillarInfo[p.key]) || {};
+  const displayName = pInfo.name || p.label;
+  const displayDesc = pInfo.description || p.desc || "";
+  const importanceLegend = surveyC.importanceLegend || "1 is most important. Each rank can only be used once across the six pillars.";
+  const satisfactionLegend = surveyC.satisfactionLegend || "1 is low, 10 is high. Numbers can repeat across pillars.";
+  const commentLabel = surveyC.commentLabel || "Any comments or suggestions?";
+  const commentPlaceholder = surveyC.commentPlaceholder || "Add context, suggestions, or an example if you'd like…";
 
   const block = el(`<div class="param-block ${required ? 'flag' : ''}">
-    <div class="param-head">
-      <span class="param-num">${String(i+1).padStart(2,'0')}</span>
-      <div class="param-icon-box">${ICONS[p.icon]}</div>
-      <div style="flex:1">
-        <div class="param-title">${esc(p.label)}</div>
-        <div class="param-sub">${esc(p.desc)}</div>
+    <div class="pillar-head">
+      <div class="pillar-head-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="pillar-head-body">
+        <div class="pillar-head-title-row">
+          <div class="param-icon-box">${ICONS[p.icon]}</div>
+          <div class="pillar-head-name">${esc(displayName)}</div>
+        </div>
+        ${displayDesc ? `<div class="pillar-head-desc">${esc(displayDesc)}</div>` : ""}
       </div>
     </div>
 
     <div class="question-block">
       <div class="question-label">How important is this to you right now?</div>
-      <div class="question-sub">1 is most important. Each rank can only be used once across the six elements.</div>
+      <div class="question-sub">${esc(importanceLegend)}</div>
       <div class="rank-row" data-rank="${p.key}">
         ${[1,2,3,4,5,6].map(n => {
           const taken = usedRanks.includes(n) && r !== n;
@@ -1185,7 +1255,7 @@ function renderParamBlock(p, i) {
 
     <div class="question-block">
       <div class="question-label">How satisfied are you with this today?</div>
-      <div class="question-sub">1 is low, 10 is high. Numbers can repeat across elements.</div>
+      <div class="question-sub">${esc(satisfactionLegend)}</div>
       <div class="sat-row" data-sat="${p.key}">
         ${[1,2,3,4,5,6,7,8,9,10].map(n => {
           const sel = s === n;
@@ -1199,9 +1269,9 @@ function renderParamBlock(p, i) {
     <div class="question-block">
       <div class="question-label">${required
         ? '<span class="req-inline">'+ICONS.warn+'Tell us why — this one matters and the score is low</span>'
-        : 'Comments <span class="muted">(optional)</span>'}</div>
+        : esc(commentLabel) + ' <span class="muted">(optional)</span>'}</div>
       <textarea class="ta ${required?'req':''}" data-comment="${p.key}"
-        placeholder="${required?"What's going on here? What would help?":"Add context if you'd like…"}">${esc(comment)}</textarea>
+        placeholder="${required?"What's going on here? What would help?":esc(commentPlaceholder)}">${esc(comment)}</textarea>
     </div>
   </div>`);
 
@@ -2802,6 +2872,14 @@ function renderFormEditor() {
       </div>
 
       <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Six EVP Pillars section</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">Pill labels shown between the intro lede and the info blocks. The section heading is editable; add / edit / remove / reorder the pill names below.</p>
+        <label class="question-label" style="display:block;margin-bottom:10px">Section heading<input class="input" data-fc="intro.pillarsLabel" value="${esc(c.intro.pillarsLabel || "")}"></label>
+        <div id="pillars-list-area"></div>
+        <button class="btn-ghost-sm" id="add-pillar" style="margin-top:8px">${ICONS.plus} Add a pillar</button>
+      </div>
+
+      <div style="margin-top:24px">
         <div class="section-head"><h3 class="h3" style="font-size:15px">Intro content blocks</h3></div>
         <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">These are the cards on the intro page. Edit the heading and body; the icon can be any name from: bulb, target, chart, layers, smile, shield, sparkles, lock, briefcase, graduation, users, heart, award, message.</p>
         <div id="blocks-area"></div>
@@ -2811,7 +2889,7 @@ function renderFormEditor() {
 
     <div class="section">
       <div class="section-head">
-        <h3 class="h3">Identify page (&ldquo;Tell us who you are&rdquo;)</h3>
+        <h3 class="h3">Identify page (&ldquo;About you&rdquo;)</h3>
         <button class="btn-ghost-sm" id="reset-identify" style="color: var(--flag);">${ICONS.rotate} Reset to default</button>
       </div>
       <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 12px;line-height:1.5">Shown between the intro page and the survey. The respondent enters their email + name here — the email is what identifies them and links their submission back to the People roster.</p>
@@ -2820,20 +2898,34 @@ function renderFormEditor() {
         <label class="question-label">Title<input class="input" data-fc="identify.title" value="${esc(c.identify.title)}"></label>
         <label class="question-label">Subtitle / lede<textarea class="ta" data-fc="identify.lede">${esc(c.identify.lede)}</textarea></label>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <label class="question-label">Email field label<input class="input" data-fc="identify.emailLabel" value="${esc(c.identify.emailLabel)}"></label>
-          <label class="question-label">Email placeholder<input class="input" data-fc="identify.emailPlaceholder" value="${esc(c.identify.emailPlaceholder)}"></label>
+        <div style="padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">
+          <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:10px">Work email field</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+            <label class="question-label">Field label<input class="input" data-fc="identify.emailLabel" value="${esc(c.identify.emailLabel)}"></label>
+            <label class="question-label">Placeholder<input class="input" data-fc="identify.emailPlaceholder" value="${esc(c.identify.emailPlaceholder)}"></label>
+          </div>
+          <label class="question-label" style="display:block;margin-bottom:8px">Helper text (shown under the label)<textarea class="ta" data-fc="identify.emailHelp">${esc(c.identify.emailHelp||"")}</textarea></label>
+          <label class="question-label" style="display:block">Example chip (leave blank to hide)<input class="input" data-fc="identify.emailExample" value="${esc(c.identify.emailExample||"")}"></label>
         </div>
-        <label class="question-label">Email help text (shown under the label)<textarea class="ta" data-fc="identify.emailHelp">${esc(c.identify.emailHelp)}</textarea></label>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <label class="question-label">Full name field label<input class="input" data-fc="identify.nameLabel" value="${esc(c.identify.nameLabel)}"></label>
-          <label class="question-label">Full name placeholder<input class="input" data-fc="identify.namePlaceholder" value="${esc(c.identify.namePlaceholder)}"></label>
+        <div style="padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">
+          <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:10px">Full name field</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+            <label class="question-label">Field label<input class="input" data-fc="identify.nameLabel" value="${esc(c.identify.nameLabel)}"></label>
+            <label class="question-label">Placeholder<input class="input" data-fc="identify.namePlaceholder" value="${esc(c.identify.namePlaceholder)}"></label>
+          </div>
+          <label class="question-label" style="display:block;margin-bottom:8px">Helper text<textarea class="ta" data-fc="identify.nameHelp">${esc(c.identify.nameHelp||"")}</textarea></label>
+          <label class="question-label" style="display:block">Example chip (leave blank to hide)<input class="input" data-fc="identify.nameExample" value="${esc(c.identify.nameExample||"")}"></label>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <label class="question-label">Role field label<input class="input" data-fc="identify.roleLabel" value="${esc(c.identify.roleLabel)}"></label>
-          <label class="question-label">Role placeholder<input class="input" data-fc="identify.rolePlaceholder" value="${esc(c.identify.rolePlaceholder)}"></label>
+        <div style="padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">
+          <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:10px">Role / title field (optional for the user)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+            <label class="question-label">Field label<input class="input" data-fc="identify.roleLabel" value="${esc(c.identify.roleLabel)}"></label>
+            <label class="question-label">Placeholder<input class="input" data-fc="identify.rolePlaceholder" value="${esc(c.identify.rolePlaceholder)}"></label>
+          </div>
+          <label class="question-label" style="display:block;margin-bottom:8px">Helper text<textarea class="ta" data-fc="identify.roleHelp">${esc(c.identify.roleHelp||"")}</textarea></label>
+          <label class="question-label" style="display:block">Example chip<input class="input" data-fc="identify.roleExample" value="${esc(c.identify.roleExample||"")}"></label>
         </div>
 
         <label class="question-label">Privacy note<textarea class="ta" data-fc="identify.privacyNote">${esc(c.identify.privacyNote)}</textarea></label>
@@ -2849,15 +2941,85 @@ function renderFormEditor() {
     </div>
 
     <div class="section">
-      <div class="section-head"><h3 class="h3">Survey section</h3></div>
+      <div class="section-head"><h3 class="h3">Survey page (&ldquo;Share your experience&rdquo;)</h3></div>
       <div style="display:flex;flex-direction:column;gap:12px">
+        <label class="question-label">Eyebrow line<input class="input" data-fc="survey.eyebrow" value="${esc(c.survey.eyebrow||"")}"></label>
         <label class="question-label">Section title<input class="input" data-fc="survey.sectionTitle" value="${esc(c.survey.sectionTitle)}"></label>
-        <label class="question-label">Section description / instructions<textarea class="ta" data-fc="survey.sectionDescription">${esc(c.survey.sectionDescription)}</textarea></label>
+        <label class="question-label">Section description / lede<textarea class="ta" data-fc="survey.sectionDescription">${esc(c.survey.sectionDescription)}</textarea></label>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">"How to complete" card</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">The explainer card shown above the six pillar questions. Use <code>**bold**</code> around phrases to emphasise them.</p>
+        <label class="question-label" style="display:block;margin-bottom:10px">Card title<input class="input" data-fc="survey.howto.title" value="${esc(c.survey.howto?.title||"")}"></label>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600;font-size:12.5px;color:var(--accent);margin-bottom:8px">Q1</div>
+            <label class="question-label" style="display:block;margin-bottom:6px">Q1 title<input class="input" data-fc="survey.howto.q1title" value="${esc(c.survey.howto?.q1title||"")}"></label>
+            <label class="question-label" style="display:block">Q1 body <span class="muted" style="font-weight:400">(supports **bold**)</span><textarea class="ta" data-fc="survey.howto.q1body">${esc(c.survey.howto?.q1body||"")}</textarea></label>
+          </div>
+          <div style="padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600;font-size:12.5px;color:var(--accent);margin-bottom:8px">Q2</div>
+            <label class="question-label" style="display:block;margin-bottom:6px">Q2 title<input class="input" data-fc="survey.howto.q2title" value="${esc(c.survey.howto?.q2title||"")}"></label>
+            <label class="question-label" style="display:block">Q2 body <span class="muted" style="font-weight:400">(supports **bold**)</span><textarea class="ta" data-fc="survey.howto.q2body">${esc(c.survey.howto?.q2body||"")}</textarea></label>
+          </div>
+          <div style="padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600;font-size:12.5px;color:var(--accent);margin-bottom:8px">Q3</div>
+            <label class="question-label" style="display:block;margin-bottom:6px">Q3 title<input class="input" data-fc="survey.howto.q3title" value="${esc(c.survey.howto?.q3title||"")}"></label>
+            <label class="question-label" style="display:block">Q3 body <span class="muted" style="font-weight:400">(supports **bold**)</span><textarea class="ta" data-fc="survey.howto.q3body">${esc(c.survey.howto?.q3body||"")}</textarea></label>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Example table</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">The illustrative table shown above the six pillar questions. Add / edit / reorder / remove rows.</p>
+        <label class="question-label" style="display:block;margin-bottom:10px">Table label<input class="input" data-fc="survey.exampleLabel" value="${esc(c.survey.exampleLabel||"")}"></label>
+        <div id="example-rows-area"></div>
+        <button class="btn-ghost-sm" id="add-example-row" style="margin-top:8px">${ICONS.plus} Add a row</button>
+        <label class="question-label" style="display:block;margin-top:14px">Footer line under the table<textarea class="ta" data-fc="survey.exampleFooter">${esc(c.survey.exampleFooter||"")}</textarea></label>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Pillar names &amp; descriptions</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">The name and one-line description shown at the top of each pillar's card. You can't add or remove pillars — the six are structural. But you can rename each one and rewrite the description.</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          ${PARAMS.map(p => `
+            <div style="padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--line)">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-faint);margin-bottom:8px">Pillar: ${esc(p.label)}</div>
+              <div style="display:grid;grid-template-columns:1fr;gap:8px">
+                <label class="question-label">Display name (shown on survey)<input class="input" data-fc="survey.pillarInfo.${p.key}.name" value="${esc(c.survey.pillarInfo?.[p.key]?.name||"")}"></label>
+                <label class="question-label">Description<textarea class="ta" data-fc="survey.pillarInfo.${p.key}.description" style="min-height:56px">${esc(c.survey.pillarInfo?.[p.key]?.description||"")}</textarea></label>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Question labels &amp; legends</h3></div>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">Text shown under each of the three questions inside every pillar card.</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label class="question-label">Importance legend (under Q1)<textarea class="ta" data-fc="survey.importanceLegend" style="min-height:56px">${esc(c.survey.importanceLegend||"")}</textarea></label>
+          <label class="question-label">Satisfaction legend (under Q2)<textarea class="ta" data-fc="survey.satisfactionLegend" style="min-height:56px">${esc(c.survey.satisfactionLegend||"")}</textarea></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label class="question-label">Comment label<input class="input" data-fc="survey.commentLabel" value="${esc(c.survey.commentLabel||"")}"></label>
+            <label class="question-label">Comment placeholder<input class="input" data-fc="survey.commentPlaceholder" value="${esc(c.survey.commentPlaceholder||"")}"></label>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="section-head"><h3 class="h3" style="font-size:15px">Closing note &amp; submit button</h3></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label class="question-label">Closing note (shown below the six pillars, above submit)<textarea class="ta" data-fc="survey.closingNote">${esc(c.survey.closingNote||"")}</textarea></label>
+          <label class="question-label">Submit button label<input class="input" data-fc="survey.submitLabel" value="${esc(c.survey.submitLabel||"")}"></label>
+        </div>
       </div>
 
       <div style="margin-top:24px">
         <div class="section-head"><h3 class="h3" style="font-size:15px">Survey content blocks</h3></div>
-        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">Optional cards shown between the survey description and the 6 EVP parameter cards. Note: this doesn't let you add or remove parameters — those are structural.</p>
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 10px">Optional extra cards shown between the description and the pillar questions. Same style as intro blocks.</p>
         <div id="survey-blocks-area"></div>
         <button class="btn-ghost-sm" id="survey-add-block" style="margin-top:8px">${ICONS.plus} Add a block</button>
       </div>
@@ -2999,6 +3161,8 @@ function renderFormEditor() {
   wireBlockEditor(node, "identify", "identify-blocks-area", "identify-add-block", "the identify page");
   wireBlockEditor(node, "survey",   "survey-blocks-area",   "survey-add-block",   "the survey page");
   wireBlockEditor(node, "thanks",   "thanks-blocks-area",   "thanks-add-block",   "the thank-you page");
+  wirePillarsListEditor(node);
+  wireExampleRowsEditor(node);
 
   return node;
 }
@@ -3072,6 +3236,133 @@ function wireBlockEditor(node, sectionKey, areaId, addBtnId, sectionLabel) {
       if (last && last.scrollIntoView) last.scrollIntoView({ behavior: "smooth", block: "center" });
     });
   }
+}
+
+/*
+ * Pillar list editor for the intro page. Each row lets People Ops edit a
+ * single pill label with move-up / move-down / remove controls, and there's
+ * an "Add a pillar" button below. Modifies state.content.intro.pillars in
+ * place and persists via saveState on every change.
+ */
+function wirePillarsListEditor(node) {
+  const area = node.querySelector("#pillars-list-area");
+  if (!area) return;
+  function refresh() {
+    const pills = state.content.intro.pillars || [];
+    area.innerHTML = "";
+    if (!pills.length) {
+      area.innerHTML = `<div style="padding:14px;color:var(--ink-faint);font-size:12.5px;text-align:center;background:var(--bg);border-radius:8px;border:1px dashed var(--line)">No pillars yet. Click "Add a pillar" to create one.</div>`;
+      return;
+    }
+    pills.forEach((label, idx) => {
+      const row = el(`<div style="padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--line);margin-bottom:8px;display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center">
+        <input class="input" value="${esc(label)}" placeholder="Pillar name">
+        <button class="btn-icon" data-up="${idx}" ${idx===0?'disabled style="opacity:.4"':''} title="Move up">▲</button>
+        <button class="btn-icon" data-down="${idx}" ${idx===pills.length-1?'disabled style="opacity:.4"':''} title="Move down">▼</button>
+        <button class="btn-icon danger" data-rm="${idx}" title="Remove">${ICONS.trash}</button>
+      </div>`);
+      row.querySelector("input").addEventListener("blur", (e) => {
+        state.content.intro.pillars[idx] = e.target.value;
+        saveState(); flash("Saved.");
+      });
+      row.querySelector(`[data-up="${idx}"]`).addEventListener("click", (e) => {
+        if (e.currentTarget.disabled) return;
+        const arr = state.content.intro.pillars;
+        [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
+        saveState(); refresh();
+      });
+      row.querySelector(`[data-down="${idx}"]`).addEventListener("click", (e) => {
+        if (e.currentTarget.disabled) return;
+        const arr = state.content.intro.pillars;
+        [arr[idx+1], arr[idx]] = [arr[idx], arr[idx+1]];
+        saveState(); refresh();
+      });
+      row.querySelector(`[data-rm="${idx}"]`).addEventListener("click", () => {
+        if (!confirm(`Remove "${state.content.intro.pillars[idx]}" from the pillar list?`)) return;
+        state.content.intro.pillars.splice(idx, 1);
+        saveState(); refresh(); flash("Pillar removed.");
+      });
+      area.appendChild(row);
+    });
+  }
+  refresh();
+  const addBtn = node.querySelector("#add-pillar");
+  if (addBtn) addBtn.addEventListener("click", () => {
+    if (!Array.isArray(state.content.intro.pillars)) state.content.intro.pillars = [];
+    state.content.intro.pillars.push("New pillar");
+    saveState(); refresh();
+  });
+}
+
+/*
+ * Editor for the "Example" table shown on the survey page. Each row has four
+ * columns (pillar name, importance, satisfaction, comment) plus a "Comment
+ * required" toggle that pink-highlights that row on the employee view. Same
+ * add/move/remove pattern as the pillar editor.
+ */
+function wireExampleRowsEditor(node) {
+  const area = node.querySelector("#example-rows-area");
+  if (!area) return;
+  function refresh() {
+    const rows = (state.content.survey && state.content.survey.exampleRows) || [];
+    area.innerHTML = "";
+    if (!rows.length) {
+      area.innerHTML = `<div style="padding:14px;color:var(--ink-faint);font-size:12.5px;text-align:center;background:var(--bg);border-radius:8px;border:1px dashed var(--line)">No example rows yet.</div>`;
+      return;
+    }
+    rows.forEach((row, idx) => {
+      const rowEl = el(`<div style="padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--line);margin-bottom:8px">
+        <div style="display:grid;grid-template-columns:2fr 0.7fr 0.7fr auto auto auto;gap:8px;align-items:center;margin-bottom:8px">
+          <input class="input" data-col="pillar"  value="${esc(row.pillar||"")}" placeholder="Pillar name">
+          <input class="input" data-col="imp"     value="${esc(row.imp||"")}"    placeholder="Imp">
+          <input class="input" data-col="sat"     value="${esc(row.sat||"")}"    placeholder="Sat">
+          <button class="btn-icon" data-up="${idx}"   ${idx===0?'disabled style="opacity:.4"':''} title="Move up">▲</button>
+          <button class="btn-icon" data-down="${idx}" ${idx===rows.length-1?'disabled style="opacity:.4"':''} title="Move down">▼</button>
+          <button class="btn-icon danger" data-rm="${idx}" title="Remove">${ICONS.trash}</button>
+        </div>
+        <textarea class="ta" data-col="comment" style="min-height:50px" placeholder="Comment text">${esc(row.comment||"")}</textarea>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:12.5px;color:var(--ink-soft);cursor:pointer">
+          <input type="checkbox" data-col="required" ${row.required?'checked':''} style="cursor:pointer">
+          Highlight this row as "Comment required"
+        </label>
+      </div>`);
+      rowEl.querySelectorAll("[data-col]").forEach(inp => {
+        inp.addEventListener(inp.type === "checkbox" ? "change" : "blur", (e) => {
+          const col = e.target.dataset.col;
+          const val = e.target.type === "checkbox" ? e.target.checked
+                    : (col === "imp" || col === "sat") ? Number(e.target.value) || 0
+                    : e.target.value;
+          state.content.survey.exampleRows[idx][col] = val;
+          saveState(); flash("Saved.");
+        });
+      });
+      rowEl.querySelector(`[data-up="${idx}"]`).addEventListener("click", (e) => {
+        if (e.currentTarget.disabled) return;
+        const arr = state.content.survey.exampleRows;
+        [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
+        saveState(); refresh();
+      });
+      rowEl.querySelector(`[data-down="${idx}"]`).addEventListener("click", (e) => {
+        if (e.currentTarget.disabled) return;
+        const arr = state.content.survey.exampleRows;
+        [arr[idx+1], arr[idx]] = [arr[idx], arr[idx+1]];
+        saveState(); refresh();
+      });
+      rowEl.querySelector(`[data-rm="${idx}"]`).addEventListener("click", () => {
+        if (!confirm("Remove this example row?")) return;
+        state.content.survey.exampleRows.splice(idx, 1);
+        saveState(); refresh(); flash("Row removed.");
+      });
+      area.appendChild(rowEl);
+    });
+  }
+  refresh();
+  const addBtn = node.querySelector("#add-example-row");
+  if (addBtn) addBtn.addEventListener("click", () => {
+    if (!Array.isArray(state.content.survey.exampleRows)) state.content.survey.exampleRows = [];
+    state.content.survey.exampleRows.push({ pillar: "New pillar", imp: 1, sat: 5, comment: "", required: false });
+    saveState(); refresh();
+  });
 }
 
 /* ===================== TAGGED INBOX ===================== */
