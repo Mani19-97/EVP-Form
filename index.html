@@ -94,6 +94,56 @@
   .intro-block-heading { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); }
   .intro-block-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; white-space: pre-wrap; }
 
+  /* JAHANVI'S CONTENT: Six EVP Pillars, How-to, and Example table */
+  .jh-section { margin-bottom: 32px; }
+  .jh-eyebrow { font-size: 11.5px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase;
+    letter-spacing: 0.09em; margin-bottom: 14px; }
+  .jh-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .jh-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px 10px 14px;
+    border-radius: 99px; background: var(--surface); border: 1px solid var(--line);
+    font-family: var(--body); font-size: 14px; color: var(--ink); font-weight: 500; }
+  .jh-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    flex-shrink: 0; }
+
+  .jh-howto { padding: 24px 26px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .jh-howto-title { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--ink);
+    margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .jh-q { margin-bottom: 20px; }
+  .jh-q:last-child { margin-bottom: 0; }
+  .jh-q-head { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; }
+  .jh-q-tag { display: inline-flex; align-items: center; justify-content: center; padding: 3px 10px;
+    background: var(--accent-tint); color: var(--accent); border-radius: 6px;
+    font-size: 12px; font-weight: 700; font-family: var(--body); }
+  .jh-q-title { font-weight: 600; font-size: 15.5px; color: var(--ink); }
+  .jh-q-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin-left: 42px; }
+  .jh-q-body strong { color: var(--ink); font-weight: 700; }
+
+  .jh-example-wrap { padding: 22px 24px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); }
+  .jh-example-title { font-size: 11.5px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase;
+    letter-spacing: 0.09em; margin-bottom: 12px; }
+  .jh-example-table { border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    background: var(--surface); }
+  .jh-example-row { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 2fr;
+    gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); align-items: start; }
+  .jh-example-row:last-child { border-bottom: none; }
+  .jh-example-head { background: var(--bg); font-size: 13px; font-weight: 600; color: var(--ink); }
+  .jh-example-row.jh-flag { background: var(--flag-tint); }
+  .jh-example-cell { font-size: 13.5px; color: var(--ink); line-height: 1.5; }
+  .jh-example-num { font-weight: 600; font-size: 15px; }
+  .jh-example-mute { color: var(--ink-faint); font-size: 13px; }
+  .jh-required-tag { display: inline-block; margin-top: 6px; padding: 3px 10px;
+    background: var(--flag-tint); color: var(--flag); border: 1px solid var(--flag-line);
+    border-radius: 6px; font-size: 11.5px; font-weight: 600; }
+  @media (max-width: 600px) {
+    .jh-example-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 16px; }
+    .jh-example-head { display: none; }
+    .jh-example-cell::before { content: attr(data-label); display: block;
+      font-size: 11px; font-weight: 700; color: var(--ink-faint);
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+  }
+  .jh-final-note { font-size: 13.5px; color: var(--ink-soft); text-align: center;
+    margin-top: 14px; line-height: 1.6; }
+
   /* SURVEY */
   .survey-main { max-width: 760px; margin: 0 auto; padding: clamp(28px, 5vw, 52px) clamp(20px, 5vw, 36px) 80px; }
   .survey-top-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; }
@@ -445,6 +495,12 @@ function defaultContent() {
       // Password required to access the admin panel via #admin URL.
       // Editable from the Form Editor (only affects this browser's saved state).
       password: "altudo-evp",
+      // Power Automate HTTP trigger URL. When set, each form submission is
+      // POSTed to this URL as JSON in the shape { submittedAt, email, name,
+      // role, mentor, career:{rank,sat,comment}, learning:{...}, ... }.
+      // Failures are logged but never block the form — localStorage still saves.
+      // Set to empty string to disable.
+      powerAutomateUrl: "https://defaultb9d69197ce1f49079545b307af2335.e9.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/12/workflows/b1f4b403884d45f38122aad78e397231/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zz93rkDEG3vvuXgDmqiOuQHSaEahiEeyCS1ZotSYzlo",
     }
   };
 }
@@ -771,6 +827,115 @@ function renderLanding() {
             <div class="intro-block-body">${esc(b.body)}</div>
           </div>`).join("")}
       </div>
+
+      <!-- ===== JAHANVI'S CONTENT: SIX EVP PILLARS ===== -->
+      <div class="jh-section">
+        <div class="jh-eyebrow">The Six EVP Pillars</div>
+        <div class="jh-pills">
+          <span class="jh-pill">Career Opportunities</span>
+          <span class="jh-pill">Learning &amp; Development</span>
+          <span class="jh-pill">People</span>
+          <span class="jh-pill">Culture</span>
+          <span class="jh-pill">Rewards &amp; Recognition</span>
+          <span class="jh-pill">Clients &amp; Meaningful Work</span>
+        </div>
+      </div>
+
+      <!-- ===== JAHANVI'S CONTENT: HOW TO COMPLETE ===== -->
+      <div class="jh-section">
+        <div class="jh-howto">
+          <h2 class="jh-howto-title">How to complete this check-in</h2>
+
+          <div class="jh-q">
+            <div class="jh-q-head">
+              <span class="jh-q-tag">Q1</span>
+              <span class="jh-q-title">How important is this to you right now?</span>
+            </div>
+            <div class="jh-q-body">
+              Rank each EVP pillar from <strong>1 to 6</strong> based on how important it is to you today — <strong>1 = most important, 6 = least important</strong>. Each rank can only be used once across all six pillars.
+            </div>
+          </div>
+
+          <div class="jh-q">
+            <div class="jh-q-head">
+              <span class="jh-q-tag">Q2</span>
+              <span class="jh-q-title">How satisfied are you with this today?</span>
+            </div>
+            <div class="jh-q-body">
+              Rate your current satisfaction on a scale of <strong>1 to 10</strong> — <strong>1 = very dissatisfied, 10 = extremely satisfied</strong>. You may use the same score for multiple pillars.
+            </div>
+          </div>
+
+          <div class="jh-q">
+            <div class="jh-q-head">
+              <span class="jh-q-tag">Q3</span>
+              <span class="jh-q-title">Is there anything you'd like to share?</span>
+            </div>
+            <div class="jh-q-body">
+              Use the comment box to add context, suggestions, or examples. A comment becomes <strong>required</strong> when you rank a pillar <strong>1, 2, 3, or 4</strong> (it's important to you) <strong>and</strong> your satisfaction score is <strong>6 or below</strong>. This helps us see what's affecting your experience and where to focus.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== JAHANVI'S CONTENT: EXAMPLE TABLE ===== -->
+      <div class="jh-section">
+        <div class="jh-example-wrap">
+          <div class="jh-example-title">Example</div>
+          <div class="jh-example-table">
+            <div class="jh-example-row jh-example-head">
+              <div class="jh-example-cell">EVP Pillar</div>
+              <div class="jh-example-cell">Importance</div>
+              <div class="jh-example-cell">Satisfaction</div>
+              <div class="jh-example-cell">Comment</div>
+            </div>
+            <div class="jh-example-row jh-flag">
+              <div class="jh-example-cell" data-label="EVP Pillar">Career Opportunities</div>
+              <div class="jh-example-cell jh-example-num" data-label="Importance">1</div>
+              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">5</div>
+              <div class="jh-example-cell" data-label="Comment">
+                I'd like more clarity on career progression and promotion opportunities.
+                <div class="jh-required-tag">Comment required</div>
+              </div>
+            </div>
+            <div class="jh-example-row">
+              <div class="jh-example-cell" data-label="EVP Pillar">Learning &amp; Development</div>
+              <div class="jh-example-cell jh-example-num" data-label="Importance">2</div>
+              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">8</div>
+              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
+            </div>
+            <div class="jh-example-row">
+              <div class="jh-example-cell" data-label="EVP Pillar">People</div>
+              <div class="jh-example-cell jh-example-num" data-label="Importance">3</div>
+              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">9</div>
+              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
+            </div>
+            <div class="jh-example-row jh-flag">
+              <div class="jh-example-cell" data-label="EVP Pillar">Culture</div>
+              <div class="jh-example-cell jh-example-num" data-label="Importance">4</div>
+              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">6</div>
+              <div class="jh-example-cell" data-label="Comment">
+                More opportunities for cross-team collaboration would improve my experience.
+                <div class="jh-required-tag">Comment required</div>
+              </div>
+            </div>
+            <div class="jh-example-row">
+              <div class="jh-example-cell" data-label="EVP Pillar">Rewards &amp; Recognition</div>
+              <div class="jh-example-cell jh-example-num" data-label="Importance">5</div>
+              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">7</div>
+              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
+            </div>
+            <div class="jh-example-row">
+              <div class="jh-example-cell" data-label="EVP Pillar">Clients &amp; Meaningful Work</div>
+              <div class="jh-example-cell jh-example-num" data-label="Importance">6</div>
+              <div class="jh-example-cell jh-example-num" data-label="Satisfaction">8</div>
+              <div class="jh-example-cell jh-example-mute" data-label="Comment">No comment needed.</div>
+            </div>
+          </div>
+        </div>
+        <p class="jh-final-note">You'll complete these three questions for each of the six EVP pillars below.</p>
+      </div>
+
       <div class="privacy-note">${ICONS.lock} ${esc(c.privacyNote)}</div>
       <button class="hero-cta" id="start-btn">${esc(c.ctaLabel)} ${ICONS.arrow_right}</button>
       <div class="pub-footer">${esc(c.footerNote)}</div>
@@ -1130,37 +1295,69 @@ function submitSurvey() {
     state.submissions.push(submission);
   }
   saveState();
-  // Send to Power Automate → Excel
-      (function(){
-        const url = "https://defaultb9d69197ce1f49079545b307af2335.e9.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/12/workflows/b1f4b403884d45f38122aad78e397231/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zz93rkDEG3vvuXgDmqiOuQHSaEahiEeyCS1ZotSYzlo";
-        const me = state.people.find(p => p.id === activeUserId);
-        const payload = {
-          submittedAt: new Date(submission.submittedAt).toISOString(),
-          email: (me && me.email) || "",
-          name: (me && me.name) || "",
-          role: (me && me.role) || "",
-          mentor: (me && me.mentor) || "",
-          career:   {rank: submission.ranks.career   || 0, sat: submission.sat.career   || 0, comment: submission.comments.career   || ""},
-          learning: {rank: submission.ranks.learning || 0, sat: submission.sat.learning || 0, comment: submission.comments.learning || ""},
-          people:   {rank: submission.ranks.people   || 0, sat: submission.sat.people   || 0, comment: submission.comments.people   || ""},
-          culture:  {rank: submission.ranks.culture  || 0, sat: submission.sat.culture  || 0, comment: submission.comments.culture  || ""},
-          rewards:  {rank: submission.ranks.rewards  || 0, sat: submission.sat.rewards  || 0, comment: submission.comments.rewards  || ""},
-          work:     {rank: submission.ranks.work     || 0, sat: submission.sat.work     || 0, comment: submission.comments.work     || ""},
-        };
-        try {
-          fetch(url, {
-            method: "POST",
-            headers: {"Content-Type": "text/plain;charset=UTF-8"},
-            body: JSON.stringify(payload),
-            mode: "no-cors",
-            keepalive: true,
-          }).catch(e => console.warn("Power Automate sync failed:", e.message));
-        } catch (e) { console.warn("Power Automate sync error:", e.message); }
-      })();
+
+  // Fire-and-forget: sync to Power Automate → Excel. Never blocks the form or
+  // shows an error to the employee; failures are only logged to the console.
+  const me = state.people.find(p => p.id === activeUserId);
+  sendSubmissionToPowerAutomate(submission, me);
+
   flash("Submitted — thank you.");
   view = "thanks";
   render();
   window.scrollTo({ top: 0 });
+}
+
+/*
+ * POST the submission to the Power Automate HTTP trigger, which appends a row
+ * to the linked Excel file. Payload matches the schema Power Automate expects:
+ *   { submittedAt, email, name, role, mentor,
+ *     career: { rank, sat, comment }, learning: {...}, people: {...},
+ *     culture: {...}, rewards: {...}, work: {...} }
+ * Runs asynchronously and swallows all errors — the localStorage save is the
+ * source of truth; Power Automate is a mirror.
+ */
+function sendSubmissionToPowerAutomate(submission, person) {
+  const url = (state.content && state.content.admin && state.content.admin.powerAutomateUrl) || "";
+  if (!url) return; // sync disabled
+  const paramKeys = ["career","learning","people","culture","rewards","work"];
+  const paramPayload = {};
+  for (const k of paramKeys) {
+    paramPayload[k] = {
+      rank: submission.ranks[k] || 0,
+      sat: submission.sat[k] || 0,
+      comment: submission.comments[k] || "",
+    };
+  }
+  const payload = {
+    submittedAt: new Date(submission.submittedAt).toISOString(),
+    email: (person && person.email) || "",
+    name: (person && person.name) || "",
+    role: (person && person.role) || "",
+    mentor: (person && person.mentor) || "",
+    ...paramPayload,
+  };
+  try {
+    fetch(url, {
+      method: "POST",
+      // CORS gotcha: Power Automate HTTP triggers don't respond to preflight
+      // OPTIONS requests, so the browser would block a "normal" JSON POST.
+      // Using text/plain avoids the preflight (it's a "simple" header), and
+      // Power Automate parses the JSON body regardless of Content-Type.
+      // mode:'no-cors' means we can't read the response, but this is
+      // fire-and-forget — the flow still runs and appends the row to Excel.
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify(payload),
+      mode: "no-cors",
+      keepalive: true,
+    }).then(r => {
+      // With mode:'no-cors' the response is always "opaque" (status 0). We
+      // can't tell success from failure here — checking the Excel is the
+      // real test.
+      if (r.status && r.status >= 400) console.warn("Power Automate returned status", r.status);
+    }).catch(e => console.warn("Power Automate sync failed:", e.message));
+  } catch (e) {
+    console.warn("Power Automate sync error:", e.message);
+  }
 }
 
 /* ===================== THANKS ===================== */
@@ -2691,6 +2888,19 @@ function renderFormEditor() {
       </div>
     </div>
 
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Power Automate sync</h3></div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 12px;line-height:1.5">
+        HTTP trigger URL from your Power Automate flow. When set, every form submission is also sent to this URL, which appends a row to the linked Excel file.
+        Leave blank to disable sync (submissions still save locally). Paste the full URL including the <code>?api-version=…&amp;sig=…</code> query string.
+      </p>
+      <textarea class="ta" data-fc="admin.powerAutomateUrl" id="pa-url-editor" placeholder="https://prod-XX.westus.logic.azure.com/workflows/…" style="min-height:70px;font-family:monospace;font-size:12px;word-break:break-all">${esc(c.admin?.powerAutomateUrl || "")}</textarea>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
+        <button type="button" class="btn-ghost-sm" id="pa-test-btn">${ICONS.check || ""} Send test row</button>
+        <span id="pa-test-status" style="font-size:12.5px;color:var(--ink-faint)"></span>
+      </div>
+    </div>
+
     <div style="font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:14px">Changes save the moment you click out of a field.</div>
   `;
 
@@ -2732,6 +2942,55 @@ function renderFormEditor() {
       const showing = pwEditor.type === "text";
       pwEditor.type = showing ? "password" : "text";
       pwShow.textContent = showing ? "Show" : "Hide";
+    });
+  }
+
+  // Power Automate test button — sends a fake submission with sample values
+  // so you can verify the URL / mapping / Excel connection without waiting
+  // for a real employee to fill out the form.
+  const paTestBtn = node.querySelector("#pa-test-btn");
+  const paStatus = node.querySelector("#pa-test-status");
+  if (paTestBtn && paStatus) {
+    paTestBtn.addEventListener("click", async () => {
+      const url = (node.querySelector("#pa-url-editor")?.value || "").trim();
+      if (!url) {
+        paStatus.textContent = "Enter a URL first.";
+        paStatus.style.color = "var(--flag)";
+        return;
+      }
+      paStatus.textContent = "Sending test row…";
+      paStatus.style.color = "var(--ink-faint)";
+      const payload = {
+        submittedAt: new Date().toISOString(),
+        email: "test@altudo.co",
+        name: "Test Submission",
+        role: "Test",
+        mentor: "—",
+        career:   { rank: 1, sat: 5, comment: "test career comment" },
+        learning: { rank: 2, sat: 7, comment: "" },
+        people:   { rank: 3, sat: 8, comment: "" },
+        culture:  { rank: 4, sat: 8, comment: "" },
+        rewards:  { rank: 5, sat: 6, comment: "test rewards comment" },
+        work:     { rank: 6, sat: 7, comment: "" },
+      };
+      try {
+        const r = await fetch(url, {
+          method: "POST",
+          // Same CORS workaround as the real submission path — see comment
+          // in sendSubmissionToPowerAutomate().
+          headers: { "Content-Type": "text/plain;charset=UTF-8" },
+          body: JSON.stringify(payload),
+          mode: "no-cors",
+        });
+        // With mode:'no-cors' r.status is always 0 and r.ok is always false —
+        // we can't tell success from failure at the network level. So we
+        // assume the flow received it and tell the user to check Excel.
+        paStatus.textContent = "Test row sent. Check your Excel in ~30 seconds — if a row appears, everything's wired up correctly.";
+        paStatus.style.color = "var(--ok)";
+      } catch (e) {
+        paStatus.textContent = "Network error — " + (e.message || "unknown");
+        paStatus.style.color = "var(--flag)";
+      }
     });
   }
 
