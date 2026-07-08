@@ -411,6 +411,62 @@
     animation: toast-in .25s ease; }
   @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
+  /* ---------- Development plans ---------- */
+  .plan-person-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+    border-radius: 12px; border: 1px solid var(--line); background: var(--surface);
+    width: 100%; margin-bottom: 10px; text-align: left; transition: border-color .15s, box-shadow .15s; }
+  .plan-person-row:hover { border-color: var(--accent-line); box-shadow: 0 4px 14px rgba(30,42,58,.05); }
+  .plan-avatar { width: 40px; height: 40px; border-radius: 99px; background: var(--accent-tint);
+    color: var(--accent); display: grid; place-items: center; font-family: var(--display);
+    font-weight: 600; font-size: 15px; flex-shrink: 0; }
+  .plan-row-name { font-weight: 600; color: var(--ink); font-size: 14.5px; }
+  .plan-row-sub { font-size: 12.5px; color: var(--ink-faint); margin-top: 2px; }
+  .plan-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px;
+    border-radius: 99px; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; }
+  .plan-chip.mint { background: var(--accent-tint); color: var(--accent); }
+  .plan-chip.warm { background: var(--warn-tint); color: var(--warn-ink); }
+  .plan-chip.grey { background: var(--bg); color: var(--ink-faint); }
+  .plan-chip.flag { background: var(--flag-tint); color: var(--flag); }
+
+  .plan-hero { display: flex; align-items: flex-start; gap: 16px; padding: 22px;
+    border-radius: 16px; background: var(--surface); border: 1px solid var(--line); margin-bottom: 16px; flex-wrap: wrap; }
+  .plan-hero-main { flex: 1; min-width: 220px; }
+  .plan-hero-name { font-family: var(--display); font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
+  .plan-hero-meta { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+
+  .goal-item { border: 1px solid var(--line); border-radius: 13px; padding: 16px; margin-bottom: 12px; background: var(--surface); }
+  .goal-item.done { background: var(--ok-tint); border-color: var(--ok-line); }
+  .goal-top { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+  .goal-area-dot { width: 30px; height: 30px; border-radius: 8px; background: var(--accent-tint);
+    color: var(--accent); display: grid; place-items: center; flex-shrink: 0; }
+  .goal-title-in { flex: 1; font-family: var(--body); font-weight: 700; font-size: 14.5px; color: var(--ink);
+    border: none; background: transparent; padding: 4px 0; width: 100%; }
+  .goal-title-in:focus { outline: none; border-bottom: 1px solid var(--accent-line); }
+  .goal-detail-in { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 10px; font-family: var(--body); font-size: 13px; color: var(--ink-soft); resize: vertical;
+    background: var(--cream); line-height: 1.5; margin-bottom: 10px; }
+  .goal-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .mini-select, .mini-date { padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line);
+    font-family: var(--body); font-size: 12.5px; color: var(--ink); background: var(--surface); }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .seg button { border: none; background: var(--surface); color: var(--ink-soft); font-size: 12px;
+    font-weight: 600; padding: 7px 11px; border-right: 1px solid var(--line); }
+  .seg button:last-child { border-right: none; }
+  .seg button.on-todo { background: var(--bg); color: var(--ink); }
+  .seg button.on-doing { background: var(--warn-tint); color: var(--warn-ink); }
+  .seg button.on-done { background: var(--ok); color: #fff; }
+
+  .plan-action-bar { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px; border-radius: 14px;
+    background: var(--cream); border: 1px solid var(--line); margin-top: 8px; }
+  .connect-card { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: 12px;
+    background: var(--accent-tint); border: 1px solid var(--accent-line); margin-bottom: 12px; }
+  .connect-ico { width: 38px; height: 38px; border-radius: 10px; background: var(--accent); color: #fff;
+    display: grid; place-items: center; flex-shrink: 0; }
+
+  .btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 9px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 600; font-size: 13px; }
+  .btn-ghost:hover { border-color: var(--accent-line); }
+
   /* icons (inline SVG via mask trick wouldn't work; we'll use unicode + small SVGs inline) */
   .icon { display: inline-flex; align-items: center; justify-content: center; }
 </style>
@@ -455,6 +511,12 @@ const ICONS = {
   shield: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
   edit: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
   save: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>',
+  compass: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>',
+  calendar: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  mail: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>',
+  share: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>',
+  flag: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
+  download: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
 };
 
 /* ===================== DATA ===================== */
@@ -474,6 +536,14 @@ const DAY = 86400000;
 /* All employee-facing text the admin can edit lives here. State.content holds
    the live copy; defaultContent() provides initial values & restore option. */
 function defaultContent() {
+  // If a published snapshot has been baked into this file (via the admin's
+  // "Publish updated form" button), use it as the baseline so every visitor
+  // — including people opening a shared GitHub link — sees the latest text.
+  try {
+    if (typeof window !== "undefined" && window.__EVP_PUBLISHED__ && window.__EVP_PUBLISHED__.content) {
+      return JSON.parse(JSON.stringify(window.__EVP_PUBLISHED__.content));
+    }
+  } catch (_) {}
   return {
     intro: {
       eyebrow: "Employee Value Proposition · 6-month check-in",
@@ -650,11 +720,11 @@ function seedState() {
   };
   return {
     people: [
-      { id: "p1", name: "Aarav Mehta",   role: "Senior Consultant", mentor: "Priya Nair",   email: "aarav.mehta@altudo.co",  cycleStart: now - 40*DAY },
-      { id: "p2", name: "Diya Sharma",   role: "Manager",           mentor: "Rohan Kapoor", email: "diya.sharma@altudo.co",   cycleStart: now - 30*DAY },
-      { id: "p3", name: "Kabir Singh",   role: "Architect",         mentor: "Priya Nair",   email: "kabir.singh@altudo.co",  cycleStart: now - 14*DAY },
-      { id: "p4", name: "Maya Iyer",     role: "Tech Lead",         mentor: "Sanjay Verma", email: "maya.iyer@altudo.co",   cycleStart: now - 7*DAY  },
-      { id: "p5", name: "Vikram Patel",  role: "Director",          mentor: "Anita Rao",    email: "vikram.patel@altudo.co", cycleStart: now - 20*DAY },
+      { id: "p1", name: "Aarav Mehta",   role: "Senior Consultant", mentor: "Priya Nair",   mentorEmail: "priya.nair@altudo.co",   managerName: "Rahul Menon",  managerEmail: "rahul.menon@altudo.co",  email: "aarav.mehta@altudo.co",  cycleStart: now - 40*DAY },
+      { id: "p2", name: "Diya Sharma",   role: "Manager",           mentor: "Rohan Kapoor", mentorEmail: "rohan.kapoor@altudo.co", managerName: "Rahul Menon",  managerEmail: "rahul.menon@altudo.co",  email: "diya.sharma@altudo.co",   cycleStart: now - 30*DAY },
+      { id: "p3", name: "Kabir Singh",   role: "Architect",         mentor: "Priya Nair",   mentorEmail: "priya.nair@altudo.co",   managerName: "Sneha Rao",    managerEmail: "sneha.rao@altudo.co",    email: "kabir.singh@altudo.co",  cycleStart: now - 14*DAY },
+      { id: "p4", name: "Maya Iyer",     role: "Tech Lead",         mentor: "Sanjay Verma", mentorEmail: "sanjay.verma@altudo.co", managerName: "Sneha Rao",    managerEmail: "sneha.rao@altudo.co",    email: "maya.iyer@altudo.co",   cycleStart: now - 7*DAY  },
+      { id: "p5", name: "Vikram Patel",  role: "Director",          mentor: "Anita Rao",    mentorEmail: "anita.rao@altudo.co",    managerName: "Leadership",   managerEmail: "",                       email: "vikram.patel@altudo.co", cycleStart: now - 20*DAY },
     ],
     submissions: [sub1, sub2, sub3],
     tasks: [
@@ -679,6 +749,27 @@ function seedState() {
         completedAt: now - 12*60*60*1000,
         adminCloseComment: "Closed — Aarav got the band positioning document and 1:1 walkthrough scheduled." },
     ],
+    plans: [
+      {
+        id: "plan_p1", personId: "p1", createdAt: now - 2*DAY, updatedAt: now - 6*60*60*1000,
+        summary: "Build a clear line of sight to the next promotion and rebuild confidence on rewards after a below-market cycle.",
+        focus: ["career", "rewards"],
+        goals: [
+          { id: "g1", area: "career", title: "Map the promotion framework for Senior → Lead",
+            detail: "Priya to walk Aarav through the competency ladder and agree the 2–3 gaps to close this cycle.",
+            owner: "mentor", due: now + 10*DAY, status: "doing" },
+          { id: "g2", area: "career", title: "Own a client workstream end-to-end",
+            detail: "Take the lead on the Contoso migration to build evidence for the leadership competency.",
+            owner: "mentee", due: now + 45*DAY, status: "todo" },
+          { id: "g3", area: "rewards", title: "Share band positioning + next-review timeline",
+            detail: "Comp lead already shared the band doc; manager to confirm the mid-year review date.",
+            owner: "manager", due: now + 20*DAY, status: "todo" },
+        ],
+        mentorNotes: "Aarav is ready for more scope — the gap is visibility, not capability. I'll anchor our first session on the framework and let him pick the stretch workstream.",
+        shared: true, sharedAt: now - 6*60*60*1000,
+        connect: { status: "scheduled", note: "First development conversation — bring the competency ladder.", meetingAt: now + 3*DAY, requestedAt: now - 1*DAY },
+      },
+    ],
     content: defaultContent(),
   };
 }
@@ -690,6 +781,7 @@ let activeUserId = "p3";
 let activeTagged = "Priya Nair";
 let adminTab = "dashboard";
 let openSubmissionId = null;
+let openPlanFor = null;      // personId whose development plan is open in the editor
 let taskFilter = "active";
 let tagFormFor = null;      // paramKey when tagging
 let adminAuthed = false;    // reset on every page load — must re-enter password
@@ -746,6 +838,24 @@ function loadState() {
       if (!Array.isArray(s.content.thanks.blocks)) s.content.thanks.blocks = [];
       s.content.admin = Object.assign({}, dc.admin, s.content.admin || {});
     }
+    // If a newer published snapshot is baked into the file, adopt it wholesale
+    // so returning visitors (not just first-timers) see the admin's latest text.
+    // User answers (submissions/people) are never touched here.
+    try {
+      const pub = (typeof window !== "undefined") && window.__EVP_PUBLISHED__;
+      if (pub && pub.content && (!s.content._publishedAt || (pub.publishedAt || 0) > s.content._publishedAt)) {
+        const fresh = JSON.parse(JSON.stringify(pub.content));
+        // Preserve this browser's own admin-only settings (password, read-back
+        // URL/key) which are intentionally never published.
+        fresh.admin = Object.assign({}, fresh.admin || {}, {
+          password: s.content?.admin?.password ?? fresh.admin?.password,
+          dashboardReadUrl: s.content?.admin?.dashboardReadUrl ?? fresh.admin?.dashboardReadUrl,
+          dashboardReadKey: s.content?.admin?.dashboardReadKey ?? fresh.admin?.dashboardReadKey,
+        });
+        fresh._publishedAt = pub.publishedAt || Date.now();
+        s.content = fresh;
+      }
+    } catch (_) {}
     // Migration: normalize emails on existing people
     if (Array.isArray(s.people)) {
       s.people.forEach(p => {
@@ -754,6 +864,16 @@ function loadState() {
         if (p.empId) delete p.empId;
       });
     }
+    // Migration: ensure a plans array exists and each plan is well-formed
+    if (!Array.isArray(s.plans)) s.plans = [];
+    s.plans.forEach(pl => {
+      if (!Array.isArray(pl.goals)) pl.goals = [];
+      if (!Array.isArray(pl.focus)) pl.focus = [];
+      if (typeof pl.summary !== "string") pl.summary = "";
+      if (typeof pl.mentorNotes !== "string") pl.mentorNotes = "";
+      if (typeof pl.shared !== "boolean") pl.shared = false;
+      if (!pl.connect || typeof pl.connect !== "object") pl.connect = { status: "none", note: "", meetingAt: null, requestedAt: null };
+    });
     // Migration: ensure every submission has a history array
     if (Array.isArray(s.submissions)) {
       s.submissions.forEach(sub => {
@@ -1404,6 +1524,9 @@ function sendSubmissionToPowerAutomate(submission, person) {
     name: (person && person.name) || "",
     role: (person && person.role) || "",
     mentor: (person && person.mentor) || "",
+    mentorEmail: (person && person.mentorEmail) || "",
+    manager: (person && person.managerName) || "",
+    managerEmail: (person && person.managerEmail) || "",
     ...paramPayload,
   };
   try {
@@ -1473,11 +1596,55 @@ function renderThanks() {
           </div>`;
         }).join("")}
       </div>
+      <div id="mentee-plan"></div>
       <div class="privacy-note">${ICONS.lock} ${esc(state.content.thanks.privacyNote)}</div>
       ${renderBlocksHtml(state.content.thanks.blocks)}
     </main>
   `;
   node.querySelector("#home-btn").addEventListener("click", () => { view = "landing"; render(); window.scrollTo({ top: 0 }); });
+
+  // If a mentor/People Ops has built and shared a development plan, show it here.
+  const plan = getPlan(activeUserId);
+  const slot = node.querySelector("#mentee-plan");
+  if (plan && plan.shared && slot) {
+    const goalsHtml = plan.goals.length ? plan.goals.map(g => {
+      const st = (PLAN_STATUS.find(s=>s.k===g.status)||{}).label;
+      const own = (PLAN_OWNERS.find(o=>o.k===g.owner)||{}).label;
+      const stColor = g.status==="done" ? "var(--ok-ink)" : g.status==="doing" ? "var(--warn-ink)" : "var(--ink-faint)";
+      return `<div style="padding:12px 0;border-top:1px solid var(--line)">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="width:26px;height:26px;border-radius:7px;background:var(--accent-tint);color:var(--accent);display:grid;place-items:center;flex-shrink:0">${areaIcon(g.area)}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;color:var(--ink);font-size:14px">${esc(g.title||"(goal)")}</div>
+            ${g.detail?`<div style="font-size:13px;color:var(--ink-soft);margin-top:2px;line-height:1.5">${esc(g.detail)}</div>`:""}
+            <div style="font-size:11.5px;color:var(--ink-faint);margin-top:6px">${esc(areaLabel(g.area))} · Owner: ${esc(own)}${g.due?` · by ${fmtDate(g.due)}`:""} · <span style="color:${stColor};font-weight:700">${esc(st)}</span></div>
+          </div>
+        </div>
+      </div>`;
+    }).join("") : `<div style="font-size:13px;color:var(--ink-faint);padding:10px 0">Goals will appear here as your mentor adds them.</div>`;
+
+    const connectState = plan.connect.status === "scheduled"
+      ? `<div class="privacy-note" style="background:var(--ok-tint);color:var(--ok-ink)">${ICONS.calendar} Session with ${esc(me.mentor||"your mentor")} scheduled for ${fmtDate(plan.connect.meetingAt)}.</div>`
+      : plan.connect.status === "requested"
+      ? `<div class="privacy-note" style="background:var(--warn-tint);color:var(--warn-ink)">${ICONS.clock} We've noted your request — People Ops will confirm a time with ${esc(me.mentor||"your mentor")}.</div>`
+      : `<button class="btn-primary-lg" id="mentee-connect" style="width:100%;justify-content:center;margin-top:4px">${ICONS.calendar} Request time with ${esc(me.mentor||"your mentor")}</button>`;
+
+    const card = el(`<div class="summary-box" style="border-color:var(--accent-line)">
+      <div style="display:flex;gap:11px;align-items:center;margin-bottom:6px">
+        <div style="width:32px;height:32px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center">${ICONS.compass}</div>
+        <div class="summary-title" style="margin:0">Your development plan</div>
+      </div>
+      ${plan.summary?`<p style="font-size:14px;color:var(--ink-soft);line-height:1.6;margin:6px 0 4px">${esc(plan.summary)}</p>`:""}
+      ${goalsHtml}
+      <div style="margin-top:16px">${connectState}</div>
+    </div>`);
+    const cbtn = card.querySelector("#mentee-connect");
+    if (cbtn) cbtn.addEventListener("click", () => {
+      plan.connect.status = "requested"; plan.connect.requestedAt = Date.now(); plan.updatedAt = Date.now();
+      saveState(); flash("Request sent to People Ops."); render(); window.scrollTo({top:0});
+    });
+    slot.appendChild(card);
+  }
   return node;
 }
 
@@ -1558,6 +1725,7 @@ function renderAdmin() {
         <button class="nav-btn ${adminTab==='dashboard'?'active':''}" data-tab="dashboard">${ICONS.chart} Dashboard</button>
         <button class="nav-btn ${adminTab==='submissions'?'active':''}" data-tab="submissions">${ICONS.file} Submissions <span class="nav-badge">${state.submissions.length}</span></button>
         <button class="nav-btn ${adminTab==='tasks'?'active':''}" data-tab="tasks">${ICONS.tag} Tasks <span class="nav-badge">${tasksTotal}</span></button>
+        <button class="nav-btn ${adminTab==='development'?'active':''}" data-tab="development">${ICONS.compass} Development${state.plans.length?` <span class="nav-badge">${state.plans.length}</span>`:''}</button>
         <button class="nav-btn ${adminTab==='people'?'active':''}" data-tab="people">${ICONS.users} People</button>
         <button class="nav-btn ${adminTab==='form'?'active':''}" data-tab="form">${ICONS.edit} Form Editor</button>
       </nav>
@@ -1565,7 +1733,7 @@ function renderAdmin() {
     <main class="admin-main" id="admin-main"></main>
   `;
   node.querySelectorAll("[data-tab]").forEach(b => {
-    b.addEventListener("click", () => { adminTab = b.dataset.tab; openSubmissionId = null; render(); window.scrollTo({ top: 0 }); });
+    b.addEventListener("click", () => { adminTab = b.dataset.tab; openSubmissionId = null; openPlanFor = null; render(); window.scrollTo({ top: 0 }); });
   });
   const main = node.querySelector("#admin-main");
 
@@ -1598,6 +1766,7 @@ function renderAdmin() {
   if (adminTab === "dashboard") main.appendChild(renderDashboard(stats));
   else if (adminTab === "submissions") main.appendChild(openSubmissionId ? renderSubmissionDetail() : renderSubmissionsList());
   else if (adminTab === "tasks") main.appendChild(renderTasks());
+  else if (adminTab === "development") main.appendChild(openPlanFor ? renderPlanDetail() : renderPlans());
   else if (adminTab === "people") main.appendChild(renderPeople());
   else if (adminTab === "form") main.appendChild(renderFormEditor());
   return node;
@@ -2554,7 +2723,7 @@ function renderTaskCard(task, mode) {
 
 /* ---------- People tab ---------- */
 function emptyState() {
-  return { people: [], submissions: [], tasks: [], content: defaultContent() };
+  return { people: [], submissions: [], tasks: [], plans: [], content: defaultContent() };
 }
 
 function parseCSV(text) {
@@ -2603,12 +2772,15 @@ function importPeopleFromText(text) {
     name: headers.findIndex(h => h === "name" || h === "full name"),
     role: headers.findIndex(h => h === "role" || h === "title"),
     mentor: headers.findIndex(h => h === "mentor"),
+    mentorEmail: headers.findIndex(h => h === "mentoremail" || h === "mentor email"),
+    manager: headers.findIndex(h => h === "manager" || h === "manager name"),
+    managerEmail: headers.findIndex(h => h === "manageremail" || h === "manager email"),
   };
   if (idx.email === -1) {
-    return { added: 0, skipped: 0, errors: ['Missing "email" column. Required columns: email, name. Optional: role, mentor.'] };
+    return { added: 0, skipped: 0, errors: ['Missing "email" column. Required columns: email, name. Optional: role, mentor, mentorEmail, manager, managerEmail.'] };
   }
   if (idx.name === -1) {
-    return { added: 0, skipped: 0, errors: ['Missing "name" column. Required columns: email, name. Optional: role, mentor.'] };
+    return { added: 0, skipped: 0, errors: ['Missing "name" column. Required columns: email, name. Optional: role, mentor, mentorEmail, manager, managerEmail.'] };
   }
 
   const existingEmails = new Set(state.people.map(p => normalizeEmail(p.email)).filter(Boolean));
@@ -2625,10 +2797,13 @@ function importPeopleFromText(text) {
     if (existingEmails.has(normEmail)) { errors.push(`Row ${lineNo}: email "${email}" already exists, skipped`); return; }
     const role = idx.role >= 0 ? (r[idx.role] || "").trim() : "";
     const mentor = idx.mentor >= 0 ? (r[idx.mentor] || "").trim() : "";
+    const mentorEmail = idx.mentorEmail >= 0 ? (r[idx.mentorEmail] || "").trim() : "";
+    const managerName = idx.manager >= 0 ? (r[idx.manager] || "").trim() : "";
+    const managerEmail = idx.managerEmail >= 0 ? (r[idx.managerEmail] || "").trim() : "";
     existingEmails.add(normEmail);
     newPeople.push({
       id: "p_" + Date.now() + "_" + i,
-      email: normEmail, name, role, mentor,
+      email: normEmail, name, role, mentor, mentorEmail, managerName, managerEmail,
       cycleStart: Date.now()
     });
   });
@@ -2636,15 +2811,70 @@ function importPeopleFromText(text) {
 }
 
 function downloadTemplateCSV() {
-  const csv = "email,name,role,mentor\n" +
-    "aarav.mehta@altudo.co,Aarav Mehta,Senior Consultant,Priya Nair\n" +
-    "diya.sharma@altudo.co,Diya Sharma,Manager,Rohan Kapoor\n";
+  const csv = "email,name,role,mentor,mentorEmail,manager,managerEmail\n" +
+    "aarav.mehta@altudo.co,Aarav Mehta,Senior Consultant,Priya Nair,priya.nair@altudo.co,Rahul Menon,rahul.menon@altudo.co\n" +
+    "diya.sharma@altudo.co,Diya Sharma,Manager,Rohan Kapoor,rohan.kapoor@altudo.co,Rahul Menon,rahul.menon@altudo.co\n";
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url; a.download = "evp_roster_template.csv";
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/*
+ * Publish: bake the admin's current content into a fresh copy of this very
+ * HTML file and download it as index.html. The admin then replaces the file
+ * in GitHub with this download, so the shared link serves the latest text to
+ * everyone. Only public-facing content travels — never the roster, the
+ * submissions, the admin password, or the dashboard read-back URL/key.
+ */
+async function publishUpdatedForm(statusEl) {
+  const setStatus = (msg, color) => {
+    if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || "var(--ink-faint)"; }
+  };
+  try {
+    setStatus("Packaging your current content…");
+    // Fetch this page's own HTML source (works when served over http/https,
+    // e.g. GitHub Pages; will fail for a file:// local file).
+    const res = await fetch(window.location.href, { cache: "no-store" });
+    if (!res.ok) throw new Error("couldn't read the page source (status " + res.status + ")");
+    let html = await res.text();
+
+    // Build the snapshot of public content, stripping anything private.
+    const content = JSON.parse(JSON.stringify(state.content || {}));
+    if (content.admin) {
+      delete content.admin.password;
+      delete content.admin.dashboardReadUrl;
+      delete content.admin.dashboardReadKey;
+    }
+    delete content._publishedAt;
+    const snapshot = { content, publishedAt: Date.now() };
+
+    // Escape "<" so the JSON can't prematurely close the <script> tag.
+    const json = JSON.stringify(snapshot).replace(/</g, "\\u003c");
+    const tag = '<script id="evp-published">window.__EVP_PUBLISHED__ = ' + json + ';</scr' + 'ipt>';
+
+    // Replace an existing published tag, or inject right after <body>.
+    const existing = /<script id="evp-published">[\s\S]*?<\/script>/;
+    if (existing.test(html)) {
+      html = html.replace(existing, tag);
+    } else if (/<body[^>]*>/i.test(html)) {
+      html = html.replace(/(<body[^>]*>)/i, '$1\n' + tag);
+    } else {
+      throw new Error("couldn't find where to insert the content");
+    }
+
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "index.html";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setStatus("Downloaded index.html. Now replace the file in your GitHub repo with this one, then hard-refresh (Ctrl+Shift+R).", "var(--ok)");
+  } catch (e) {
+    setStatus("Couldn't package the form: " + (e.message || "unknown error") + ". Make sure you opened this from your GitHub link (not as a local file on your computer).", "var(--flag)");
+  }
 }
 
 function renderPeople() {
@@ -2675,7 +2905,7 @@ function renderPeople() {
         <button class="btn-ghost-sm" id="template-btn">${ICONS.file} Download CSV template</button>
       </div>
       <p style="font-size: 13px; color: var(--ink-soft); margin: 0 0 14px; line-height: 1.5;">
-        Required columns: <strong>email</strong>, <strong>name</strong>. Optional columns: <strong>role</strong>, <strong>mentor</strong>.
+        Required columns: <strong>email</strong>, <strong>name</strong>. Optional columns: <strong>role</strong>, <strong>mentor</strong>, <strong>mentorEmail</strong>, <strong>manager</strong>, <strong>managerEmail</strong>.
         First row should be the header. Duplicates (same email) are automatically skipped.
       </p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
@@ -2685,7 +2915,7 @@ function renderPeople() {
         </div>
         <div>
           <label class="question-label" style="display: block; margin-bottom: 8px;">Option 2 — Paste CSV text</label>
-          <textarea class="ta" id="csv-text" style="min-height: 60px;" placeholder="email,name,role,mentor&#10;anjali.singh@altudo.co,Anjali Singh,Manager,Rohan Kapoor"></textarea>
+          <textarea class="ta" id="csv-text" style="min-height: 60px;" placeholder="email,name,role,mentor,mentorEmail,manager,managerEmail&#10;anjali.singh@altudo.co,Anjali Singh,Manager,Rohan Kapoor,rohan.kapoor@altudo.co,Rahul Menon,rahul.menon@altudo.co"></textarea>
         </div>
       </div>
       <div style="display: flex; gap: 10px; align-items: center;">
@@ -2697,11 +2927,14 @@ function renderPeople() {
 
     <div class="section">
       <div class="section-head"><h3 class="h3">Add one person</h3></div>
-      <div class="add-grid" style="grid-template-columns: 2fr 1.5fr 1.2fr 1.2fr auto;">
+      <div class="add-grid">
         <input class="input" id="add-email" placeholder="Email * (unique identifier)" type="email" />
         <input class="input" id="add-name" placeholder="Full name *" />
         <input class="input" id="add-role" placeholder="Role" />
-        <input class="input" id="add-mentor" placeholder="Mentor" />
+        <input class="input" id="add-mentor" placeholder="Mentor name" />
+        <input class="input" id="add-mentor-email" placeholder="Mentor email" type="email" />
+        <input class="input" id="add-manager" placeholder="Manager name" />
+        <input class="input" id="add-manager-email" placeholder="Manager email" type="email" />
         <button class="btn-primary-sm" id="add-btn">${ICONS.plus} Add</button>
       </div>
     </div>
@@ -2717,7 +2950,7 @@ function renderPeople() {
           <div style="flex:1.2">Role</div>
           <div style="flex:1.2">Mentor</div>
           <div style="flex:1.1">Status</div>
-          <div style="width:36px"></div>
+          <div style="width:64px"></div>
         </div>
         <div id="roster"></div>
       </div>
@@ -2784,7 +3017,10 @@ function renderPeople() {
     if (findPersonByEmail(email)) { flash("Someone with that email is already in the roster."); return; }
     const role = node.querySelector("#add-role").value.trim();
     const mentor = node.querySelector("#add-mentor").value.trim();
-    state.people.push({ id: "p_" + Date.now(), email: normalizeEmail(email), name, role, mentor, cycleStart: Date.now() });
+    const mentorEmail = node.querySelector("#add-mentor-email").value.trim();
+    const managerName = node.querySelector("#add-manager").value.trim();
+    const managerEmail = node.querySelector("#add-manager-email").value.trim();
+    state.people.push({ id: "p_" + Date.now(), email: normalizeEmail(email), name, role, mentor, mentorEmail, managerName, managerEmail, cycleStart: Date.now() });
     saveState();
     flash("Person added.");
     render();
@@ -2797,24 +3033,57 @@ function renderPeople() {
     state.people.forEach(p => {
       const submitted = state.submissions.find(s => s.personId === p.id);
       const isSelf = p.selfRegistered;
-      const row = el(`<div class="trow">
-        <div style="flex:2.2; text-align:left; font-family: monospace; font-size:12.5px; color:var(--ink); word-break:break-all">${esc(p.email || "—")}</div>
-        <div style="flex:1.6; text-align:left; font-weight:600; color:var(--ink)">${esc(p.name)}${isSelf?` <span class="tag-mute" style="font-size:10.5px;margin-left:6px">self-registered</span>`:""}</div>
-        <div style="flex:1.2; text-align:left; color:var(--ink-soft)">${esc(p.role||"")}</div>
-        <div style="flex:1.2; text-align:left; color:var(--ink-soft)">${esc(p.mentor||"")}</div>
-        <div style="flex:1.1; text-align:left">${submitted ? '<span class="tag-ok">Submitted</span>' : '<span class="tag-mute">Pending</span>'}</div>
-        <div style="width:36px"><button class="btn-icon" data-id="${p.id}" title="Remove">${ICONS.trash}</button></div>
+      const missingEmails = (p.mentor && !p.mentorEmail) || (p.managerName && !p.managerEmail);
+      const wrap = el(`<div class="roster-item" style="border-bottom:1px solid var(--line)">
+        <div class="trow" style="border-bottom:none">
+          <div style="flex:2.2; text-align:left; font-family: monospace; font-size:12.5px; color:var(--ink); word-break:break-all">${esc(p.email || "—")}</div>
+          <div style="flex:1.6; text-align:left; font-weight:600; color:var(--ink)">${esc(p.name)}${isSelf?` <span class="tag-mute" style="font-size:10.5px;margin-left:6px">self-registered</span>`:""}</div>
+          <div style="flex:1.2; text-align:left; color:var(--ink-soft)">${esc(p.role||"")}</div>
+          <div style="flex:1.2; text-align:left; color:var(--ink-soft)">
+            ${esc(p.mentor||"—")}
+            ${p.mentorEmail?`<div style="font-family:monospace;font-size:11px;color:var(--ink-faint);word-break:break-all">${esc(p.mentorEmail)}</div>`:(p.mentor?`<div style="font-size:11px;color:var(--flag)">no email</div>`:"")}
+          </div>
+          <div style="flex:1.1; text-align:left">${submitted ? '<span class="tag-ok">Submitted</span>' : '<span class="tag-mute">Pending</span>'}</div>
+          <div style="width:64px;display:flex;gap:4px;justify-content:flex-end">
+            <button class="btn-icon" data-edit title="Edit contacts"${missingEmails?' style="border-color:var(--flag-line);color:var(--flag)"':''}>${ICONS.edit}</button>
+            <button class="btn-icon" data-del title="Remove">${ICONS.trash}</button>
+          </div>
+        </div>
+        <div data-editor class="hidden" style="padding:0 14px 14px">
+          <div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin-bottom:8px">Contacts — these are sent to Power Automate on submission</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px">
+              <input class="input" data-f="role" placeholder="Role" value="${esc(p.role||'')}">
+              <input class="input" data-f="mentor" placeholder="Mentor name" value="${esc(p.mentor||'')}">
+              <input class="input" data-f="mentorEmail" placeholder="Mentor email" value="${esc(p.mentorEmail||'')}">
+              <input class="input" data-f="managerName" placeholder="Manager name" value="${esc(p.managerName||'')}">
+              <input class="input" data-f="managerEmail" placeholder="Manager email" value="${esc(p.managerEmail||'')}">
+            </div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="btn-primary-sm" data-save>${ICONS.save} Save contacts</button>
+              <button class="btn-ghost-sm" data-cancel>Cancel</button>
+            </div>
+          </div>
+        </div>
       </div>`);
-      row.querySelector("[data-id]").addEventListener("click", () => {
+      const editor = wrap.querySelector("[data-editor]");
+      wrap.querySelector("[data-edit]").addEventListener("click", () => editor.classList.toggle("hidden"));
+      wrap.querySelector("[data-cancel]").addEventListener("click", () => editor.classList.add("hidden"));
+      wrap.querySelector("[data-save]").addEventListener("click", () => {
+        editor.querySelectorAll("[data-f]").forEach(inp => { p[inp.dataset.f] = inp.value.trim(); });
+        saveState(); flash("Contacts saved."); render();
+      });
+      wrap.querySelector("[data-del]").addEventListener("click", () => {
         if (!confirm(`Remove ${p.name}? This will also delete their submission and tasks.`)) return;
         state.people = state.people.filter(x => x.id !== p.id);
         state.submissions = state.submissions.filter(s => s.personId !== p.id);
         state.tasks = state.tasks.filter(t => t.personId !== p.id);
+        state.plans = state.plans.filter(pl => pl.personId !== p.id);
         saveState();
         flash("Removed.");
         render();
       });
-      roster.appendChild(row);
+      roster.appendChild(wrap);
     });
   }
   return node;
@@ -3063,6 +3332,17 @@ function renderFormEditor() {
       </div>
     </div>
 
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Publish updated form</h3></div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 12px;line-height:1.5">
+        Your edits above are saved only in <strong>this browser</strong> — they don't reach the file on GitHub on their own. Click below to download a fresh <code>index.html</code> with your current wording baked in, then <strong>replace the file in your GitHub repo</strong> with it. Everyone opening the shared link will then see your latest version.
+      </p>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button type="button" class="btn-primary-sm" id="publish-btn">${ICONS.file || ""} Download updated index.html</button>
+        <span id="publish-status" style="font-size:12.5px;color:var(--ink-faint)"></span>
+      </div>
+    </div>
+
     <div style="font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:14px">Changes save the moment you click out of a field.</div>
   `;
 
@@ -3154,6 +3434,13 @@ function renderFormEditor() {
         paStatus.style.color = "var(--flag)";
       }
     });
+  }
+
+  // Publish button — bake current content into a downloadable index.html
+  const publishBtn = node.querySelector("#publish-btn");
+  const publishStatus = node.querySelector("#publish-status");
+  if (publishBtn) {
+    publishBtn.addEventListener("click", () => publishUpdatedForm(publishStatus));
   }
 
   // Render blocks (intro)
@@ -3389,14 +3676,78 @@ function renderTagged() {
     </main>
   `;
   const area = node.querySelector("#inbox-area");
-  if (myTasks.length === 0) {
-    area.innerHTML = '<div class="section"><div class="empty">No items have been tagged to you.</div></div>';
+
+  // Development plans where this mentor is named as the mentee's mentor.
+  const myPlans = state.plans
+    .map(pl => ({ pl, person: state.people.find(p => p.id === pl.personId) }))
+    .filter(x => x.person && x.person.mentor === activeTagged);
+
+  if (myTasks.length === 0 && myPlans.length === 0) {
+    area.innerHTML = '<div class="section"><div class="empty">Nothing here yet. Tagged follow-ups and development plans for your mentees will show up on this page.</div></div>';
     return node;
   }
   if (open.length) area.appendChild(inboxSection("Awaiting your response", open, "mentor"));
   if (responded.length) area.appendChild(inboxSection("With People Ops to close", responded, "view"));
+  if (myPlans.length) {
+    const sec = el(`<div class="section"><div class="section-head"><h3 class="h3">Your mentees' development plans (${myPlans.length})</h3></div><div data-plans></div></div>`);
+    const holder = sec.querySelector("[data-plans]");
+    myPlans.forEach(({ pl, person }) => holder.appendChild(renderMentorPlanCard(pl, person)));
+    area.appendChild(sec);
+  }
   if (closed.length) area.appendChild(inboxSection("Recently closed", closed.slice(0, 5), "view"));
   return node;
+}
+
+/* A mentor-facing view of a mentee's plan: read the focus, move goals along,
+ * and leave notes. Everything the mentor changes saves straight back. */
+function renderMentorPlanCard(plan, person) {
+  const prog = planProgress(plan);
+  const card = el(`<div class="goal-item" style="margin-bottom:14px">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+      <div class="plan-avatar">${esc(initials(person.name))}</div>
+      <div style="flex:1;min-width:0">
+        <div class="plan-row-name">${esc(person.name)}</div>
+        <div class="plan-row-sub">${esc(person.role||"")} · ${prog.done}/${prog.total} goals done${plan.connect.status==="scheduled"?` · session ${fmtDate(plan.connect.meetingAt)}`:""}</div>
+      </div>
+      ${plan.connect.status==="requested"?`<span class="plan-chip warm">${ICONS.calendar} Wants to connect</span>`:""}
+    </div>
+    ${plan.summary?`<p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin:0 0 10px">${esc(plan.summary)}</p>`:""}
+    <div data-goals></div>
+    <div style="margin-top:12px">
+      <div class="task-block-label" style="margin-bottom:6px">Mentor notes</div>
+      <textarea class="ta" data-notes placeholder="Add a note or coaching comment…">${esc(plan.mentorNotes||"")}</textarea>
+      <div style="margin-top:8px"><button class="btn-primary-sm" data-save-notes>${ICONS.save} Save notes</button></div>
+    </div>
+  </div>`);
+
+  const gh = card.querySelector("[data-goals]");
+  function draw() {
+    gh.innerHTML = "";
+    if (!plan.goals.length) { gh.innerHTML = `<div style="font-size:13px;color:var(--ink-faint)">No goals set yet.</div>`; return; }
+    plan.goals.forEach(g => {
+      const row = el(`<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)">
+        <div style="width:26px;height:26px;border-radius:7px;background:var(--accent-tint);color:var(--accent);display:grid;place-items:center;flex-shrink:0">${areaIcon(g.area)}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;color:var(--ink);font-size:14px">${esc(g.title||"(goal)")}</div>
+          ${g.detail?`<div style="font-size:12.5px;color:var(--ink-soft);margin-top:2px;line-height:1.5">${esc(g.detail)}</div>`:""}
+          <div style="font-size:11.5px;color:var(--ink-faint);margin-top:4px">Owner: ${esc((PLAN_OWNERS.find(o=>o.k===g.owner)||{}).label)}${g.due?` · by ${fmtDate(g.due)}`:""}</div>
+        </div>
+        <div class="seg" data-seg style="flex-shrink:0">
+          ${PLAN_STATUS.map(s=>`<button data-st="${s.k}" class="${g.status===s.k?'on-'+s.k:''}">${s.label}</button>`).join("")}
+        </div>
+      </div>`);
+      row.querySelectorAll("[data-seg] button").forEach(b => {
+        b.addEventListener("click", () => { g.status = b.dataset.st; plan.updatedAt = Date.now(); saveState(); draw(); });
+      });
+      gh.appendChild(row);
+    });
+  }
+  draw();
+  card.querySelector("[data-save-notes]").addEventListener("click", () => {
+    plan.mentorNotes = card.querySelector("[data-notes]").value; plan.updatedAt = Date.now();
+    saveState(); flash("Notes saved.");
+  });
+  return card;
 }
 function inboxSection(title, items, mode) {
   const wrap = el(`<div class="section">
@@ -3406,6 +3757,424 @@ function inboxSection(title, items, mode) {
   const list = wrap.querySelector("[data-list]");
   items.forEach(t => list.appendChild(renderTaskCard(t, mode)));
   return wrap;
+}
+
+/* ===================== DEVELOPMENT PLANS ===================== */
+const PLAN_OWNERS = [
+  { k: "mentee",  label: "Mentee" },
+  { k: "mentor",  label: "Mentor" },
+  { k: "manager", label: "Manager" },
+];
+const PLAN_STATUS = [
+  { k: "todo",  label: "To do" },
+  { k: "doing", label: "In progress" },
+  { k: "done",  label: "Done" },
+];
+
+function getPlan(personId) { return state.plans.find(p => p.personId === personId) || null; }
+function ensurePlan(personId) {
+  let pl = getPlan(personId);
+  if (pl) return pl;
+  const sub = state.submissions.find(s => s.personId === personId);
+  const focus = [];
+  if (sub) for (const p of PARAMS) { const r = sub.ranks[p.key], s = sub.sat[p.key]; if (r>=1&&r<=4&&s<=6) focus.push(p.key); }
+  pl = {
+    id: "plan_" + Date.now(), personId,
+    createdAt: Date.now(), updatedAt: Date.now(),
+    summary: "", focus, goals: [], mentorNotes: "",
+    shared: false, sharedAt: null,
+    connect: { status: "none", note: "", meetingAt: null, requestedAt: null },
+  };
+  state.plans.push(pl);
+  saveState();
+  return pl;
+}
+function planProgress(plan) {
+  const total = plan.goals.length;
+  const done = plan.goals.filter(g => g.status === "done").length;
+  return { done, total, pct: total ? Math.round((done/total)*100) : 0 };
+}
+function initials(name) {
+  return String(name||"?").trim().split(/\s+/).slice(0,2).map(w => w[0]||"").join("").toUpperCase() || "?";
+}
+function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString(undefined,{month:"short",day:"numeric"}) : ""; }
+function dateInputValue(ts) {
+  if (!ts) return "";
+  const d = new Date(ts); const p = n => String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+}
+function areaLabel(key) { const p = PARAMS.find(x => x.key === key); return p ? p.label : key; }
+function areaIcon(key) { const p = PARAMS.find(x => x.key === key); return p ? ICONS[p.icon] : ICONS.target; }
+
+/* Generic mailto handoff */
+function openMailto({ toEmail, subject, bodyLines }) {
+  const body = bodyLines.join("\n");
+  const url = `mailto:${encodeURIComponent(toEmail||"")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const a = document.createElement("a"); a.href = url; a.rel = "noopener";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+/* Plain-text summary of a person's filled check-in — used in the manager email body */
+function formSummaryText(sub, person) {
+  const lines = [];
+  lines.push(`EVP Check-in — ${person.name} (${person.role||""})`);
+  lines.push(`Submitted: ${new Date(sub.submittedAt).toLocaleString()}`);
+  lines.push("");
+  const ordered = [...PARAMS].sort((a,b)=>(sub.ranks[a.key]||9)-(sub.ranks[b.key]||9));
+  for (const p of ordered) {
+    const r = sub.ranks[p.key], s = sub.sat[p.key];
+    const flag = (r>=1&&r<=4&&s<=6) ? "  ⚑ needs attention" : "";
+    lines.push(`#${r} ${p.label} — satisfaction ${s}/10${flag}`);
+    if (sub.comments[p.key]) lines.push(`     "${sub.comments[p.key]}"`);
+  }
+  return lines.join("\n");
+}
+
+/* Downloadable, printable copy of the filled form — stands in for the PDF that
+ * Power Automate will attach to the manager email later. */
+function downloadFilledForm(person, sub) {
+  const ordered = [...PARAMS].sort((a,b)=>(sub.ranks[a.key]||9)-(sub.ranks[b.key]||9));
+  const rows = ordered.map(p => {
+    const r = sub.ranks[p.key], s = sub.sat[p.key];
+    const flag = (r>=1&&r<=4&&s<=6);
+    return `<tr style="${flag?'background:#f8ebe4':''}">
+      <td style="padding:8px 12px;border-bottom:1px solid #e8e1d4">#${r}</td>
+      <td style="padding:8px 12px;border-bottom:1px solid #e8e1d4;font-weight:600">${esc(p.label)}</td>
+      <td style="padding:8px 12px;border-bottom:1px solid #e8e1d4">${s}/10${flag?' ⚑':''}</td>
+      <td style="padding:8px 12px;border-bottom:1px solid #e8e1d4">${esc(sub.comments[p.key]||"—")}</td>
+    </tr>`;
+  }).join("");
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>EVP Check-in — ${esc(person.name)}</title></head>
+    <body style="font-family:Arial,Helvetica,sans-serif;color:#1e2a3a;max-width:720px;margin:32px auto;padding:0 20px">
+      <h1 style="font-size:22px">EVP Check-in — ${esc(person.name)}</h1>
+      <p style="color:#4a5363">${esc(person.role||"")} · ${esc(person.email||"")}<br>Mentor: ${esc(person.mentor||"—")}<br>Submitted: ${esc(new Date(sub.submittedAt).toLocaleString())}</p>
+      <table style="border-collapse:collapse;width:100%;font-size:13px;margin-top:16px">
+        <thead><tr style="background:#f5f1e8;text-align:left">
+          <th style="padding:8px 12px">Rank</th><th style="padding:8px 12px">Pillar</th><th style="padding:8px 12px">Satisfaction</th><th style="padding:8px 12px">Comment</th>
+        </tr></thead><tbody>${rows}</tbody>
+      </table>
+      <p style="color:#8a8f99;font-size:12px;margin-top:20px">⚑ marks a pillar the employee ranked important (top 4) and scored 6 or below.</p>
+    </body></html>`;
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = `EVP-checkin-${person.name.replace(/\s+/g,"-")}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+}
+
+/* ---------- Development plans: list ---------- */
+function renderPlans() {
+  const node = el('<div></div>');
+  const withPlans = state.plans
+    .map(pl => ({ pl, person: state.people.find(p => p.id === pl.personId) }))
+    .filter(x => x.person)
+    .sort((a,b) => (b.pl.updatedAt||0)-(a.pl.updatedAt||0));
+  const planIds = new Set(state.plans.map(p => p.personId));
+  // Suggested: people with at least one open concern and no plan yet
+  const suggested = state.submissions
+    .filter(s => countConcerns(s) > 0 && !planIds.has(s.personId))
+    .map(s => ({ sub: s, person: state.people.find(p => p.id === s.personId) }))
+    .filter(x => x.person)
+    .sort((a,b) => countConcerns(b.sub) - countConcerns(a.sub));
+
+  node.innerHTML = `
+    <div class="page-head">
+      <h1 class="page-title">Development plans</h1>
+      <p class="page-desc">Turn a check-in into action. Set focus goals, loop in the mentor, and share the plan with the mentee so they know exactly where to grow.</p>
+    </div>
+    <div id="plans-active"></div>
+    <div id="plans-suggested"></div>
+  `;
+
+  const activeWrap = node.querySelector("#plans-active");
+  if (withPlans.length) {
+    const sec = el(`<div class="section"><div class="section-head"><h3 class="h3">Active plans</h3></div><div data-rows></div></div>`);
+    const rows = sec.querySelector("[data-rows]");
+    withPlans.forEach(({ pl, person }) => {
+      const prog = planProgress(pl);
+      const connectChip = pl.connect.status === "scheduled"
+        ? `<span class="plan-chip mint">${ICONS.calendar} ${fmtDate(pl.connect.meetingAt)}</span>`
+        : pl.connect.status === "requested"
+        ? `<span class="plan-chip warm">${ICONS.calendar} Connect requested</span>` : "";
+      const shareChip = pl.shared
+        ? `<span class="plan-chip mint">${ICONS.check} Shared</span>`
+        : `<span class="plan-chip grey">Draft</span>`;
+      const row = el(`<button class="plan-person-row">
+        <div class="plan-avatar">${esc(initials(person.name))}</div>
+        <div style="flex:1;min-width:0">
+          <div class="plan-row-name">${esc(person.name)}</div>
+          <div class="plan-row-sub">${esc(person.role||"")} · Mentor ${esc(person.mentor||"—")} · ${prog.done}/${prog.total} goals done</div>
+        </div>
+        <div class="plan-chip-set" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${shareChip}${connectChip}</div>
+        <div style="color:var(--ink-faint);flex-shrink:0">${ICONS.arrow_right}</div>
+      </button>`);
+      row.addEventListener("click", () => { openPlanFor = person.id; render(); window.scrollTo({top:0}); });
+      rows.appendChild(row);
+    });
+    activeWrap.appendChild(sec);
+  }
+
+  const sugWrap = node.querySelector("#plans-suggested");
+  if (suggested.length) {
+    const sec = el(`<div class="section"><div class="section-head"><h3 class="h3">Suggested from this cycle</h3><span class="plan-chip grey">${suggested.length}</span></div>
+      <p style="font-size:13px;color:var(--ink-soft);margin:-6px 0 14px">These people flagged something important and below-par. Start a plan to help them close the gap.</p>
+      <div data-rows></div></div>`);
+    const rows = sec.querySelector("[data-rows]");
+    suggested.forEach(({ sub, person }) => {
+      const n = countConcerns(sub);
+      const row = el(`<div class="plan-person-row" style="cursor:default">
+        <div class="plan-avatar" style="background:var(--flag-tint);color:var(--flag)">${esc(initials(person.name))}</div>
+        <div style="flex:1;min-width:0">
+          <div class="plan-row-name">${esc(person.name)}</div>
+          <div class="plan-row-sub">${esc(person.role||"")} · ${n} flagged pillar${n>1?"s":""}</div>
+        </div>
+        <button class="btn-primary-sm" data-start>${ICONS.plus} Start a plan</button>
+      </div>`);
+      row.querySelector("[data-start]").addEventListener("click", () => {
+        ensurePlan(person.id); openPlanFor = person.id; flash("Plan started."); render(); window.scrollTo({top:0});
+      });
+      rows.appendChild(row);
+    });
+    sugWrap.appendChild(sec);
+  }
+
+  if (!withPlans.length && !suggested.length) {
+    node.querySelector("#plans-active").innerHTML =
+      `<div class="section"><div class="empty">No development plans yet. Once people submit check-ins, anyone who flags a concern will show up here ready for a plan.</div></div>`;
+  }
+  return node;
+}
+
+/* ---------- Development plans: editor ---------- */
+function renderPlanDetail() {
+  const person = state.people.find(p => p.id === openPlanFor);
+  if (!person) { openPlanFor = null; return renderPlans(); }
+  const plan = ensurePlan(person.id);
+  const sub = state.submissions.find(s => s.personId === person.id);
+  const flagged = [];
+  if (sub) for (const p of PARAMS) { const r=sub.ranks[p.key], s=sub.sat[p.key]; if (r>=1&&r<=4&&s<=6) flagged.push(p.key); }
+  const prog = planProgress(plan);
+
+  const node = el('<div></div>');
+  node.innerHTML = `
+    <button class="link-btn" id="back" style="margin-bottom:14px;padding-left:0">${ICONS.chevron_left} All plans</button>
+
+    <div class="plan-hero">
+      <div class="plan-avatar" style="width:52px;height:52px;font-size:18px">${esc(initials(person.name))}</div>
+      <div class="plan-hero-main">
+        <div class="plan-hero-name">${esc(person.name)}</div>
+        <div class="plan-hero-meta">${esc(person.role||"")} · ${esc(person.email||"")}</div>
+        <div class="plan-hero-meta" style="margin-top:2px">Mentor: <strong style="color:var(--ink)">${esc(person.mentor||"—")}</strong></div>
+        ${flagged.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">${flagged.map(k=>`<span class="plan-chip flag">${ICONS.flag} ${esc(areaLabel(k))}</span>`).join("")}</div>` : ""}
+      </div>
+      <div style="text-align:right;min-width:120px">
+        <div style="font-family:var(--display);font-size:26px;font-weight:600;color:var(--ink)">${prog.pct}%</div>
+        <div style="font-size:12px;color:var(--ink-faint)">${prog.done} of ${prog.total} goals</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Manager</h3></div>
+      <p style="font-size:13px;color:var(--ink-soft);margin:-6px 0 12px">Used when you notify the manager with a copy of the filled check-in.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <input class="input" id="mgr-name" placeholder="Manager name" value="${esc(person.managerName||"")}">
+        <input class="input" id="mgr-email" placeholder="manager@altudo.co" value="${esc(person.managerEmail||"")}">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Focus of this plan</h3></div>
+      <textarea class="ta" id="plan-summary" placeholder="One or two lines on what this plan is really about…">${esc(plan.summary||"")}</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Goals</h3><button class="btn-ghost" id="add-goal">${ICONS.plus} Add goal</button></div>
+      <div id="goals"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Mentor notes</h3></div>
+      <p style="font-size:13px;color:var(--ink-soft);margin:-6px 0 12px">Space for the mentor to add context and comments as the plan progresses.</p>
+      <textarea class="ta" id="mentor-notes" placeholder="Mentor's observations, coaching notes, next steps…">${esc(plan.mentorNotes||"")}</textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h3 class="h3">Connect mentee & mentor</h3></div>
+      <div id="connect-area"></div>
+    </div>
+
+    <div class="plan-action-bar">
+      <button class="btn-primary-sm" id="btn-share">${plan.shared?ICONS.check+' Shared with mentee':ICONS.share+' Share with mentee'}</button>
+      <button class="btn-ghost" id="btn-invite">${ICONS.calendar} Invite mentee to connect</button>
+      <button class="btn-ghost" id="btn-notify">${ICONS.mail} Notify manager</button>
+      ${sub?`<button class="btn-ghost" id="btn-download">${ICONS.download} Download filled form</button>`:""}
+      <button class="btn-ghost danger" id="btn-delete" style="margin-left:auto;color:var(--flag);border-color:var(--flag-line)">${ICONS.trash} Delete plan</button>
+    </div>
+  `;
+
+  node.querySelector("#back").addEventListener("click", () => { openPlanFor = null; render(); window.scrollTo({top:0}); });
+
+  const touch = () => { plan.updatedAt = Date.now(); saveState(); };
+  node.querySelector("#mgr-name").addEventListener("blur", e => { person.managerName = e.target.value.trim(); saveState(); });
+  node.querySelector("#mgr-email").addEventListener("blur", e => { person.managerEmail = e.target.value.trim(); saveState(); });
+  node.querySelector("#plan-summary").addEventListener("blur", e => { plan.summary = e.target.value; touch(); flash("Saved."); });
+  node.querySelector("#mentor-notes").addEventListener("blur", e => { plan.mentorNotes = e.target.value; touch(); flash("Saved."); });
+
+  /* ----- goals ----- */
+  const goalsArea = node.querySelector("#goals");
+  function drawGoals() {
+    goalsArea.innerHTML = "";
+    if (!plan.goals.length) {
+      goalsArea.innerHTML = `<div class="empty" style="padding:22px">No goals yet. Add the first thing this person should work on.</div>`;
+      return;
+    }
+    plan.goals.forEach((g, idx) => {
+      const item = el(`<div class="goal-item ${g.status==='done'?'done':''}">
+        <div class="goal-top">
+          <div class="goal-area-dot">${areaIcon(g.area)}</div>
+          <input class="goal-title-in" data-f="title" value="${esc(g.title||"")}" placeholder="What's the goal?">
+          <button class="btn-icon danger" data-rm title="Remove goal">${ICONS.trash}</button>
+        </div>
+        <textarea class="goal-detail-in" data-f="detail" placeholder="How will they get there? Who's helping?">${esc(g.detail||"")}</textarea>
+        <div class="goal-controls">
+          <select class="mini-select" data-f="area" title="Focus area">
+            ${PARAMS.map(p=>`<option value="${p.key}" ${g.area===p.key?"selected":""}>${esc(p.label)}</option>`).join("")}
+          </select>
+          <select class="mini-select" data-f="owner" title="Owner">
+            ${PLAN_OWNERS.map(o=>`<option value="${o.k}" ${g.owner===o.k?"selected":""}>${o.label}</option>`).join("")}
+          </select>
+          <input type="date" class="mini-date" data-f="due" value="${dateInputValue(g.due)}" title="Target date">
+          <div class="seg" data-seg>
+            ${PLAN_STATUS.map(s=>`<button data-st="${s.k}" class="${g.status===s.k?'on-'+s.k:''}">${s.label}</button>`).join("")}
+          </div>
+        </div>
+      </div>`);
+      item.querySelectorAll("[data-f]").forEach(inp => {
+        const ev = inp.tagName === "SELECT" || inp.type === "date" ? "change" : "blur";
+        inp.addEventListener(ev, e => {
+          const f = e.target.dataset.f;
+          if (f === "due") g.due = e.target.value ? new Date(e.target.value + "T00:00").getTime() : null;
+          else g[f] = e.target.value;
+          touch();
+          if (f === "area") drawGoals();
+          else flash("Saved.");
+        });
+      });
+      item.querySelectorAll("[data-seg] button").forEach(b => {
+        b.addEventListener("click", () => { g.status = b.dataset.st; touch(); drawGoals(); });
+      });
+      item.querySelector("[data-rm]").addEventListener("click", () => {
+        if (!confirm("Remove this goal?")) return;
+        plan.goals.splice(idx,1); touch(); drawGoals();
+        // refresh progress figure in hero
+        render();
+      });
+      goalsArea.appendChild(item);
+    });
+  }
+  drawGoals();
+  node.querySelector("#add-goal").addEventListener("click", () => {
+    const area = flagged[plan.goals.length % (flagged.length||1)] || flagged[0] || PARAMS[0].key;
+    plan.goals.push({ id:"g_"+Date.now(), area, title:"", detail:"", owner:"mentee", due:null, status:"todo" });
+    touch(); drawGoals();
+  });
+
+  /* ----- connect area ----- */
+  const connectArea = node.querySelector("#connect-area");
+  function drawConnect() {
+    connectArea.innerHTML = "";
+    const c = plan.connect;
+    if (c.status === "scheduled") {
+      const card = el(`<div class="connect-card">
+        <div class="connect-ico">${ICONS.calendar}</div>
+        <div style="flex:1">
+          <div style="font-weight:700;color:var(--ink);font-size:14px">Session scheduled · ${fmtDate(c.meetingAt)}</div>
+          <div style="font-size:12.5px;color:var(--ink-soft)">${esc(c.note||"Development conversation between "+person.name+" and "+(person.mentor||"their mentor")+".")}</div>
+        </div>
+        <button class="btn-ghost" data-clear>${ICONS.x} Clear</button>
+      </div>`);
+      card.querySelector("[data-clear]").addEventListener("click", () => {
+        c.status="none"; c.meetingAt=null; touch(); drawConnect();
+      });
+      connectArea.appendChild(card);
+    } else if (c.status === "requested") {
+      const card = el(`<div class="connect-card" style="background:var(--warn-tint);border-color:var(--warn)">
+        <div class="connect-ico" style="background:var(--warn-ink)">${ICONS.clock}</div>
+        <div style="flex:1">
+          <div style="font-weight:700;color:var(--warn-ink);font-size:14px">${esc(person.name)} asked to connect</div>
+          <div style="font-size:12.5px;color:var(--ink-soft)">Set a date to confirm the session.</div>
+        </div>
+      </div>`);
+      connectArea.appendChild(card);
+    }
+    const setter = el(`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:${c.status==='none'?'0':'4px'}">
+      <input type="date" class="mini-date" id="meet-date" value="${dateInputValue(c.meetingAt)}">
+      <input class="input" id="meet-note" style="flex:1;min-width:180px" placeholder="Note for the session (optional)" value="${esc(c.note||"")}">
+      <button class="btn-primary-sm" id="meet-save">${ICONS.check} Set date</button>
+    </div>`);
+    setter.querySelector("#meet-save").addEventListener("click", () => {
+      const d = setter.querySelector("#meet-date").value;
+      if (!d) { flash("Pick a date first."); return; }
+      c.meetingAt = new Date(d+"T00:00").getTime();
+      c.note = setter.querySelector("#meet-note").value.trim();
+      c.status = "scheduled"; touch(); drawConnect(); flash("Session scheduled.");
+    });
+    connectArea.appendChild(setter);
+  }
+  drawConnect();
+
+  /* ----- action bar ----- */
+  node.querySelector("#btn-share").addEventListener("click", () => {
+    plan.shared = !plan.shared; plan.sharedAt = plan.shared ? Date.now() : null; touch();
+    flash(plan.shared ? "Plan shared with mentee." : "Sharing turned off.");
+    render();
+  });
+  node.querySelector("#btn-invite").addEventListener("click", () => {
+    if (!person.email) { flash("Add the mentee's email on the People tab first."); return; }
+    plan.connect.status = plan.connect.status === "scheduled" ? "scheduled" : "requested";
+    plan.connect.requestedAt = Date.now(); touch();
+    openMailto({
+      toEmail: person.email,
+      subject: `Let's set up a development conversation`,
+      bodyLines: [
+        `Hi ${person.name.split(" ")[0]},`, ``,
+        `Following your recent EVP check-in, we'd like to set up a short development conversation with your mentor${person.mentor?` (${person.mentor})`:""}.`,
+        `We've drafted a development plan focused on the areas that matter most to you and would love to walk you through it.`,
+        ``, `When works for you over the next couple of weeks?`,
+        ``, `Thanks,`, `People Operations · Altudo`,
+      ],
+    });
+    render();
+  });
+  node.querySelector("#btn-notify").addEventListener("click", () => {
+    const to = person.managerEmail;
+    if (!to) { flash("Add the manager's email above first."); return; }
+    const bodyLines = [
+      `Hi ${person.managerName||"there"},`, ``,
+      `${person.name} recently completed their EVP check-in. Sharing a summary below so you're looped in on their development plan.`,
+      ``, `— — — Check-in summary — — —`,
+    ];
+    if (sub) bodyLines.push(formSummaryText(sub, person));
+    bodyLines.push("", `— — — Development focus — — —`);
+    bodyLines.push(plan.summary || "(focus to be finalised)");
+    if (plan.goals.length) {
+      bodyLines.push("", "Goals:");
+      plan.goals.forEach(g => bodyLines.push(`• [${(PLAN_STATUS.find(s=>s.k===g.status)||{}).label}] ${g.title||"(untitled)"} — owner: ${(PLAN_OWNERS.find(o=>o.k===g.owner)||{}).label}${g.due?`, by ${fmtDate(g.due)}`:""}`));
+    }
+    bodyLines.push("", `A copy of the filled check-in is available to download from the dashboard.`, ``, `Thanks,`, `People Operations · Altudo`);
+    openMailto({ toEmail: to, subject: `Development plan — ${person.name}`, bodyLines });
+    flash("Manager email drafted.");
+  });
+  const dl = node.querySelector("#btn-download");
+  if (dl) dl.addEventListener("click", () => { downloadFilledForm(person, sub); flash("Filled form downloaded — attach it to your email."); });
+  node.querySelector("#btn-delete").addEventListener("click", () => {
+    if (!confirm(`Delete ${person.name}'s development plan? This can't be undone.`)) return;
+    state.plans = state.plans.filter(p => p.id !== plan.id);
+    openPlanFor = null; saveState(); flash("Plan deleted."); render();
+  });
+
+  return node;
 }
 
 /* ===================== INIT ===================== */
